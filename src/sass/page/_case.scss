@@ -1,0 +1,305 @@
+/*--------------------------------------------------------------
+8. wpo-case-section
+--------------------------------------------------------------*/
+
+.service-single-section,
+.project-single-section {
+	.service-content > .img-holder {
+		margin-bottom: 45px;
+
+        img{
+            width: 100%;
+            max-height: 520px;
+            object-fit: cover;
+        }
+	}
+
+	h2 {
+		font-size: 30px;
+		font-size: calc-rem-value(30);
+		margin: 0 0 1em;
+
+		@include media-query(991px) {
+			font-size: 25px;
+			font-size: calc-rem-value(25);
+		}
+
+		@include media-query(767px) {
+			font-size: 22px;
+			font-size: calc-rem-value(22);
+		}
+	}
+
+	p {
+		margin-bottom: 1.2em;
+	}
+
+	.service-content > ul{
+		margin: 45px 0 65px;
+        list-style: none;
+	}
+
+	.service-content > ul li {
+		padding-left: 30px;
+		position: relative;
+
+		&:before {
+			content: "";
+			background: $theme-primary-color;
+			width: 12px;
+			height: 12px;
+			position: absolute;
+			left: 0;
+			top: 4px;
+			-webkit-transform: rotate(135deg);
+			transform: rotate(135deg);
+		}
+	}
+
+	.service-content > ul > li + li {
+		margin-top: 13px;
+	}
+
+    .wpo-case-single-sub-img{
+        margin-top: 50px;
+        margin-bottom: 40px;
+
+        img{
+            width: 100%;
+        }
+        ul{
+            display: flex;
+            list-style: none;
+        }
+
+        li{
+            padding-left: 10px;
+            padding-right: 10px;
+
+            &:last-child{
+                padding-left:10px;
+                padding-right: 0;
+            }
+            &:first-child{
+                padding-left:0px;
+            }
+        }
+    }
+
+	.img-with-text {
+		.img-holder {
+			width: 50%;
+			float: left;
+			margin-right: 25px;
+			padding-top: 10px;
+
+			@include media-query(767px) {
+				width: 100%;
+				float: none;
+				margin: 0 0 35px;
+			}
+
+		}
+	}
+
+    .wpo-benefits-section{
+        .MuiAccordionSummary-root{
+            padding: 15px 16px;
+        }
+
+        .accordion-item{
+            border: 0;
+            border: 1px solid #e1e1e1;
+            padding: 5px 20px;
+            margin-bottom: 20px;
+
+
+            .accordion-body{
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            button{
+                padding: 20px;
+                border:0;
+                border-radius: 0;
+                padding-left: 0;
+                padding-right: 0;
+                font-size: 18px;
+                color: $heading-color;
+                text-align: left;
+                font-family: $base-font;
+
+                &::after{
+                    background: none;
+                    font-family: "themify";
+                    content: "\e622";
+                    font-size: 15px;
+                    transform: rotate(0deg);
+                    font-weight: 700;
+                }
+
+                
+                &.collapsed{
+                    color: #373b3e;
+
+                    &::after{
+                        content: "\e61a";
+                    }
+                }
+                &:focus{
+                    box-shadow: none;
+                    outline: none;
+                    border-color: #e1e1e1;
+                    
+                }
+
+                
+            }
+
+            .accordion-collapse{
+                border: 0;
+            }
+        }
+
+        .accordion-button{
+            background: transparent;
+        }
+    }
+
+	.pagi {
+		padding-top: 50px;
+
+		@include media-query(767px) {
+			padding-top: 30px;
+		}
+	}
+
+	.pagi ul {
+		overflow: hidden;
+        list-style: none;
+
+		li {
+			width: 50%;
+			float: left;
+			text-align: center;
+			border: 1px solid #d7d7d7;
+		}
+
+		> li:last-child {
+			margin-left: -1px;
+		}
+
+		a {
+			display: block;
+			padding: 15px;
+			color: $text-color;
+		}
+
+		a:hover {
+			background-color: #fff7eb;
+			color: $theme-primary-color;
+		}
+	}
+}
+
+/*--------------------------------
+	service sidebar
+-------------------------------*/
+.service-sidebar {
+	@include widther(1200px) {
+		padding-left: 30px;
+	}
+
+	@include media-query(991px) {
+		margin-top: 80px;
+		max-width: 300px;
+	}
+
+	> .widget + .widget {
+		margin-top: 55px;
+	}
+
+	.widget h3 {
+		font-size: 24px;
+		font-size: calc-rem-value(24);
+		font-weight: bold;
+		margin: 0 0 1em;
+		padding-bottom: 17px;
+		text-transform: capitalize;
+		position: relative;
+
+		@include media-query(767px) {
+			font-size: 22px;
+			font-size: calc-rem-value(22);
+		}
+
+		&:after {
+			content: "";
+            background: $theme-primary-color;
+			width: 100px;
+			height: 4px;
+			position: absolute;
+			left: 0;
+			bottom: 0;
+            content: "";
+		}
+	}
+}
+
+/*** all-services ***/
+.all-services {
+    background-color: #38160a;
+    padding: 60px 30px;
+
+    @include media-query(767px) {
+        padding: 40px 20px;
+    }
+
+    ul a {
+        margin-top: 15px;
+        padding-bottom: 15px;
+        display: block;
+        border-bottom: 1px solid #e1e1e1;
+        color: $text-color;
+    }
+
+    ul a:hover,
+    ul li.current a  {
+        color: $theme-primary-color;
+    }
+
+    ul > li:last-child a {
+        border: 0;
+        padding: 0;
+    }
+}
+
+
+
+/*** case-info-widget ***/
+.case-info-widget {
+    background-color: #f5f5f7;
+    padding: 60px 30px;
+
+    @include media-query(767px) {
+        padding: 40px 20px;
+    }
+
+    ul{
+        list-style: none;
+    }
+
+    ul li {
+        line-height: 1.7em;
+    }
+
+    ul > li + li {
+        margin-top: 15px;
+    }
+
+    ul li span {
+        font-weight: 600;
+        color: $heading-color;
+    }
+}

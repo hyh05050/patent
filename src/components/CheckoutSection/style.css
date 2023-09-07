@@ -1,0 +1,178 @@
+.checkoutWrapper .checkoutCard {
+  margin-bottom: 20px;
+}
+
+.checkoutWrapper .checkoutCard button.collapseBtn {
+  color: #272424;
+  height: 50px;
+  font-size: 13px;
+  letter-spacing: 0;
+  display: block;
+  text-align: left;
+  text-transform: capitalize;
+  font-weight: 600;
+  border: 1px solid #dedddd;
+  border-radius: 0;
+  background: #fff;
+  -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.03);
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.03);
+  padding: 0 15px;
+}
+
+.checkoutWrapper .checkoutCard button.collapseBtn i {
+  float: right;
+  margin-top: 4px;
+  color: #8e8d8a;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody {
+  padding: 15px;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody .formSelect div {
+  background: transparent;
+  height: 27px;
+  padding: 0;
+  line-height: 30px;
+  text-transform: capitalize;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #555;
+  font-size: 13px;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody .checkBox span {
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody .note > div {
+  margin-top: 30px;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody .note textarea {
+  height: 100px !important;
+  padding: 0;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody .paymentMethod {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody .paymentMethod label span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody label {
+  font-size: 14px;
+  letter-spacing: 0;
+  font-weight: 500;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+.checkoutWrapper .checkoutCard .chCardBody input,
+.checkoutWrapper .checkoutCard .chCardBody textarea {
+  height: 25px;
+  background: transparent;
+  padding-left: 10px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #444444;
+  font-size: 13px;
+}
+
+.checkoutWrapper .checkoutCard .chCardBody p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555555;
+}
+
+.checkoutWrapper .cuponWrap .cuponForm {
+  margin-top: 10px;
+}
+
+.checkoutWrapper .cuponWrap .cuponForm button {
+  margin-top: 10px;
+}
+
+.checkoutWrapper .cardType {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 -5px 20px;
+}
+
+.checkoutWrapper .cardType .cardItem {
+  margin: 5px;
+  -ms-flex-preferred-size: calc(100% * (1 / 4) - 10px);
+      flex-basis: calc(100% * (1 / 4) - 10px);
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 18px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+}
+
+.checkoutWrapper .cardType .cardItem.active {
+  background: #f9f9f9;
+}
+
+.cuponWrapper,
+.cartTotals {
+  padding: 30px;
+  -webkit-box-shadow: 0px 5px 15px 0px rgba(62, 65, 159, 0.1);
+          box-shadow: 0px 5px 15px 0px rgba(62, 65, 159, 0.1);
+  margin-right: 20px;
+}
+
+.cuponWrapper h4,
+.cartTotals h4 {
+  font-weight: 700;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.cuponWrapper table tr td,
+.cartTotals table tr td {
+  border-color: #f3f3f3;
+}
+
+.cuponWrapper table tr:last-child td,
+.cartTotals table tr:last-child td {
+  border-bottom: 0;
+}
+
+.cBtn.cBtnBlack {
+  padding: 6px 20px;
+  background: #e3b576;
+}
+
+.cBtn.cBtnBlack:hover {
+  background: #dfaa61;
+}
+
+.cBtn.cBtnBlack.mt-20 {
+  margin-top: 20px;
+}
+/*# sourceMappingURL=style.css.map */
