@@ -1,89 +1,105 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-
+const priceList = [
+  {
+    title: "Free",
+    price: "0",
+    priceUnit: "원",
+    priceBefore: "50,000",
+    list: ["출원번호 확인", "정규출원 마감일 관리", "무료 상담 정보 안내"],
+    etc: "",
+    link: "/pricing",
+  },
+  {
+    title: "Basic",
+    price: "250,000",
+    priceUnit: "원",
+    priceBefore: "300,000",
+    list: ["Free 서비스+", "변리사 직접 상담 1회", "임시출원 1건"],
+    etc: "",
+    link: "/pricing",
+  },
+  {
+    title: "Standard",
+    price: "350,000",
+    priceUnit: "원",
+    priceBefore: "550,000",
+    list: ["Basic 서비스+", "기술문서 사전 검토 서비스", "맞춤형 IP 지원사업 안내 서비스"],
+    etc: "",
+    link: "/pricing",
+  },
+  {
+    title: "Standard Pro",
+    price: "175",
+    priceUnit: "만원",
+    priceBefore: "2,200,000",
+    list: ["Standard 서비스+", "임시출원 2건", "정규출원 1건", "ㅤ"],
+    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
+    link: "/pricing",
+  },
+  {
+    title: "Premium",
+    price: "300",
+    priceUnit: "만원",
+    priceBefore: "3,750,000",
+    list: ["Standard Pro 서비스+", "임시출원 5건", "정규출원 1건", "우선심사 신청 (정규 출원 이후 6개월 이내 등록)"],
+    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
+    link: "/pricing",
+  },
+];
 
 const Pricing = (props) => {
+  const [activeGrid, setActiveGrid] = useState(null);
 
-    return (
-        <section className="wpo-pricing-section section-padding">
-            <div className="container">
-                <div className="row align-items-center justify-content-center">
-                    <div className="col-lg-5">
-                        <div className="wpo-section-title">
-                            <h2>Choose Your Pricing Plan</h2>
-                        </div>
-                    </div>
-                </div>
-                <div className="pricing-grids clearfix">
-                    <div className="grid">
-                        <div className="type">
-                            <h5>Basic</h5>
-                        </div>
-                        <div className="pricing-header">
-                            <div>
-                                <h3 className="price">$50</h3>
-                                <p>Per Month</p>
-                            </div>
-                        </div>
-                        <div className="pricing-body">
-                            <ul>
-                                <li>Strategy &amp; Research</li>
-                                <li>Business &amp; Finance Analysing</li>
-                                <li>SEO Optimization</li>
-                                <li>Managment &amp; Marketing</li>
-                                <li>24/7 Customer Support</li>
-                            </ul>
-                            <Link to="/pricing" className="get-started">Get Started</Link>
-                        </div>
-                    </div>
-                    <div className="grid">
-                        <div className="type">
-                            <h5>ULTRA</h5>
-                        </div>
-                        <div className="pricing-header">
-                            <div>
-                                <h3 className="price">$68</h3>
-                                <p>Per Month</p>
-                            </div>
-                        </div>
-                        <div className="pricing-body">
-                            <ul>
-                                <li>Strategy &amp; Research</li>
-                                <li>Business &amp; Finance Analysing</li>
-                                <li>SEO Optimization</li>
-                                <li>Managment &amp; Marketing</li>
-                                <li>Website Design &amp; Development</li>
-                                <li>24/7 Customer Support</li>
-                            </ul>
-                            <Link to="/pricing" className="get-started">Get Started</Link>
-                        </div>
-                    </div>
-                    <div className="grid">
-                        <div className="type">
-                            <h5>Pro</h5>
-                        </div>
-                        <div className="pricing-header">
-                            <div>
-                                <h3 className="price">$75</h3>
-                                <p>Per Month</p>
-                            </div>
-                        </div>
-                        <div className="pricing-body">
-                            <ul>
-                                <li>Strategy &amp; Research</li>
-                                <li>Business &amp; Finance Analysing</li>
-                                <li>SEO Optimization</li>
-                                <li>Managment &amp; Marketing</li>
-                                <li>24/7 Customer Support</li>
-                            </ul>
-                            <Link to="/pricing" className="get-started">Get Started</Link>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <section className="wpo-pricing-section section-padding">
+      <div className="container">
+        <div className="row align-items-center justify-content-center">
+          <div className="col-lg-5">
+            <div className="wpo-section-title">
+              <h2>인디프로 서비스 비용 안내</h2>
             </div>
-        </section>
-    )
-}
+          </div>
+        </div>
+        <div className="pricing-grids clearfix">
+          <p className="pricing-etc">(VAT별도)</p>
+          {priceList.map((value, index) => (
+            <div
+              key={index}
+              className={`grid ${activeGrid === index ? "active" : ""}`}
+              onMouseEnter={() => setActiveGrid(index)}
+              onMouseLeave={() => setActiveGrid(null)}
+            >
+              <div className="type">
+                <h5>{value.title}</h5>
+              </div>
+              <div className="pricing-header">
+                <div>
+                  <h3 className="price">
+                    {value.price}
+                    <span>{value.priceUnit}</span>
+                  </h3>
+                  <p>{value.priceBefore}</p>
+                </div>
+              </div>
+              <div className="pricing-body">
+                <ul>
+                  {value.list.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+                {value.etc && <p dangerouslySetInnerHTML={{ __html: value.etc }}></p>}
+                <Link to={value.link} className="get-started">
+                  Get Started
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default Pricing;

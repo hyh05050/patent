@@ -49,7 +49,7 @@ export default class Header extends Component {
                     </button>
                     <ul className="nav navbar-nav mb-2 mb-lg-0">
                       <li>
-                        <Link onClick={ClickHandler} to="/contact">
+                        <Link onClick={ClickHandler} to="/pricing">
                           비용안내
                         </Link>
                       </li>
