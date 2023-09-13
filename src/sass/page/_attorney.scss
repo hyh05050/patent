@@ -2,26 +2,26 @@
 6. wpo-Attorney-single
 ===========================================*/
 
-.attorney-pg-area{
+.attorney-pg-area {
     max-width: 1080px;
     margin: 0 auto;
 }
 
 .attorney-info-img {
     padding: 25px;
-    box-shadow: 0px 6px 20px 4px rgba(176, 191, 238,.12);
+    box-shadow: 0px 6px 20px 4px rgba(176, 191, 238, 0.12);
 
-    @media(max-width:991px){
+    @media (max-width: 991px) {
         margin-bottom: 40px;
-     }
+    }
 
-    img{
+    img {
         width: 100%;
         height: 465px;
         object-fit: cover;
 
-        @media(max-width:991px){
-           height: 100%;
+        @media (max-width: 991px) {
+            height: 100%;
         }
     }
 }
@@ -36,44 +36,43 @@
 }
 
 .attorney-info-text {
-    box-shadow: 0px 6px 20px 4px rgba(176, 191, 238, .12);
+    box-shadow: 0px 6px 20px 4px rgba(176, 191, 238, 0.12);
     padding: 58px 50px;
 
-    ul{
-        li{
+    ul {
+        li {
             font-size: 17px;
             color: #1d2327;
             font-weight: 700;
             margin-bottom: 22px;
             list-style: none;
 
-            &:last-child{
+            &:last-child {
                 padding-bottom: 0;
             }
 
-            span{
+            span {
                 font-size: 16px;
                 color: #8c8c8c;
                 display: inline-block;
                 position: relative;
                 padding-left: 5px;
             }
-            &:last-child{
+            &:last-child {
                 margin-bottom: 0;
             }
         }
     }
 }
 
-.at-progress{
+.at-progress {
     box-shadow: 0px 5px 15px 0px rgba(62, 65, 159, 0.1);
     padding: 40px 0;
 
-    @media(max-width:991px){
+    @media (max-width: 991px) {
         padding-bottom: 0;
     }
 }
-
 
 .attorney-info-text {
     h2 {
@@ -121,7 +120,7 @@
     left: 0;
 }
 
-.progress>span {
+.progress > span {
     width: 50%;
     height: 100%;
     overflow: hidden;
@@ -179,16 +178,13 @@
     position: absolute;
     top: -5%;
     left: 5%;
-    font-family: 'Playfair Display', serif;
+    font-family: "Playfair Display", serif;
     font-weight: 700;
 }
-
-
 
 .progress .progress-bar {
     border-color: $theme-primary-color;
 }
-
 
 .progress-name {
     position: absolute;
@@ -298,11 +294,10 @@
     border-radius: 50%;
 }
 
-
 .education-area {
     max-width: 600px;
 }
-.education-area ul{
+.education-area ul {
     list-style: none;
 }
 .education-area ul li {
@@ -338,20 +333,20 @@
     margin-left: -10px;
 }
 
-.wpo-contact-area .quote-form .form-control{
+.wpo-contact-area .quote-form .form-control {
     height: 55px;
     border: 1px solid #ebebeb;
     margin-bottom: 20px;
     padding: 15px;
 
-    &:focus{
+    &:focus {
         outline: none;
         box-shadow: none;
         border-color: $theme-primary-color;
     }
 }
 
-.wpo-contact-area .quote-form textarea.form-control{
+.wpo-contact-area .quote-form textarea.form-control {
     height: 125px;
 }
 
@@ -369,7 +364,7 @@
     padding-top: 60px;
 }
 
-@media(max-width: 767px) {
+@media (max-width: 767px) {
     .attorney-info-text {
         padding: 70px 20px;
     }
@@ -377,7 +372,7 @@
     .attorney-info-img {
         padding: 50px;
 
-        img{
+        img {
             width: 100%;
         }
     }
@@ -390,10 +385,9 @@
     .exprience-area {
         padding-top: 30px;
     }
-
 }
 
-@media(max-width: 575px) {
+@media (max-width: 575px) {
     .half-col {
         float: none;
         width: 100%;
@@ -404,22 +398,21 @@
     }
 }
 
-@media(max-width: 375px) {
+@media (max-width: 375px) {
     .custom-grid {
         float: none;
         width: 100%;
     }
 }
 
-.service-sidebar{
-    
-    .wpo-contact-widget{
+.service-sidebar {
+    .wpo-contact-widget {
         border: 0;
         background: url(../../images/bg-2.jpg) no-repeat center center;
         position: relative;
         background-size: cover;
         z-index: 1;
-        &:before{
+        &:before {
             position: absolute;
             left: 0;
             top: 0;
@@ -428,28 +421,27 @@
             background: rgba(22, 57, 103, 0.9);
             content: "";
             z-index: -1;
-         }
-    
-        h2{
+        }
+
+        h2 {
             font-size: 36px;
             font-weight: 700;
             text-align: left;
             color: $white;
             margin-bottom: 20px;
-    
-            &::before{
-                background:$white;
+
+            &::before {
+                background: $white;
             }
         }
-    
-        p{
+
+        p {
             color: $white;
             font-size: 18px;
         }
-    
-    
-        a{
-            display:inline-block;
+
+        a {
+            display: inline-block;
             padding: 10px 20px;
             border: 1px solid $white;
             font-size: 18px;
@@ -457,8 +449,8 @@
             padding-right: 90px;
             position: relative;
             margin-top: 10px;
-    
-            &::before{
+
+            &::before {
                 font-family: "themify";
                 content: "\e628";
                 font-size: 18px;
@@ -469,5 +461,146 @@
                 transform: translateY(-50%);
             }
         }
+    }
+}
+
+.timeline-area {
+    $color: #678de0;
+    $lineColor: #29395b;
+    $fontColor: white;
+    $bgColor1: #222;
+    $bgColor2: #444;
+    $yearBgColor: #29395b;
+
+    $breakpoint: 700px;
+
+    h2 {
+        margin-bottom: 30px;
+    }
+
+    .timeline {
+        position: relative;
+        padding: 1rem;
+        margin: 0 auto;
+        max-width: 1300px;
+
+        &:before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            border: 1px solid $lineColor;
+            right: 40px;
+            top: 0;
+        }
+
+        &:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        @media screen and (min-width: $breakpoint) {
+            padding: 2rem;
+            &:before {
+                left: calc(50% - 1px);
+                right: auto;
+            }
+        }
+    }
+
+    .timeline__item {
+        padding: 1rem 1rem;
+        border: 2px solid $lineColor;
+        border-image: linear-gradient(to right, $color 0%, $lineColor 100%);
+        border-image-slice: 1;
+        position: relative;
+        margin: 1rem 3rem 1rem 1rem;
+        clear: both;
+
+        &:after,
+        &:before {
+            content: "";
+            position: absolute;
+        }
+
+        &:before {
+            right: -10px;
+            top: calc(50% - 5px);
+            border-style: solid;
+            border-color: $lineColor $lineColor transparent transparent;
+            border-width: 10px;
+            transform: rotate(45deg);
+        }
+
+        @media screen and (min-width: $breakpoint) {
+            width: 44%;
+            margin: 1rem;
+
+            &:nth-of-type(2n) {
+                float: right;
+                margin: 1rem;
+                border-image: linear-gradient(to right, $lineColor 0%, $color 100%);
+                border-image-slice: 1;
+
+                &:before {
+                    right: auto;
+                    left: -10px;
+                    border-color: transparent transparent $lineColor $lineColor;
+                }
+            }
+        }
+    }
+
+    .timeline__item--year {
+        text-align: center;
+        max-width: 150px;
+        margin: 0 48px 0 auto;
+        font-size: 1.8rem;
+        color: $fontColor;
+        background-color: $yearBgColor;
+        line-height: 1;
+        border-image: none;
+        padding: 0.5rem 1rem 1rem;
+
+        &:before {
+            display: none;
+        }
+
+        @media screen and (min-width: $breakpoint) {
+            text-align: center;
+            margin: 0 auto;
+
+            &:nth-of-type(2n) {
+                float: none;
+                margin: 0 auto;
+                border-image: none;
+
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .timeline__title {
+        font-family: "Muli";
+        margin: 0;
+        font-size: 1.2em;
+        color: #687693;
+        word-break: keep-all;
+
+        p {
+            // font-family: "Cormorant Garamond", serif;
+            font-size: 1em;
+            margin: 0;
+            padding: 0;
+            margin-top: -5px;
+        }
+    }
+
+    .timeline__blurb {
+        line-height: 1.5;
+        font-size: 1rem;
+        margin: 0.5rem 0 0;
     }
 }

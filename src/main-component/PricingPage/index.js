@@ -7,14 +7,17 @@ import Pricing from "../../components/Pricing";
 import Logo from "../../images/logo.svg";
 
 const PricingPage = () => {
-  return (
-    <Fragment>
-      <Navbar Logo={Logo} />
-      <PageTitle pageTitle={"비용안내"} pagesub={"비용안내"} />
-      <Pricing />
-      <Footer />
-      <Scrollbar />
-    </Fragment>
-  );
+    return (
+        <Fragment>
+            <Navbar Logo={Logo} />
+            <PageTitle
+                pageTitle={"당신의 아이디어를 더 빛나게 해 줄 단 하나의 특허출원 솔루션, 인디프로"}
+                pagesub={"비용안내"}
+            />
+            <Pricing />
+            <Footer />
+            <Scrollbar />
+        </Fragment>
+    );
 };
 export default PricingPage;

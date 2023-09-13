@@ -31,41 +31,42 @@ import SignUpPage from "../SignUpPage";
 import ForgotPassword from "../ForgotPassword";
 
 const AllRoute = () => {
-  return (
-    <div className="App">
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Homepage} />
-          <Route path="/home" component={Homepage} />
-          <Route path="/contact" component={ContactPage} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/attorneys" component={AttorneysPage} />
-          <Route path="/pricing" component={PricingPage} />
-          <Route path="/practice" component={PracticePage} />
-          <Route path="/practice-s2" component={PracticePageS2} />
-          <Route path="/practice-single/:id" component={PracticeSinglePage} />
-          <Route path="/case" component={CasePage} />
-          <Route path="/case-single/:id" component={caseSinglePage} />
-          <Route path="/attorneys-single/:id" component={AttorneySinglePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route path="/shop-single/:id" component={ShopSinglePage} />
-          <Route path="/cart" component={CartPage} />
-          <Route path="/checkout" component={CheckoutPage} />
-          <Route path="/blog-single/:id" component={BlogDetails} />
-          <Route path="/blog-single-left-sidebar/:id" component={BlogDetailsLeftSiide} />
-          <Route path="/blog-single-fullwidth/:id" component={BlogDetailsFull} />
-          <Route path="/blog" component={BlogPage} />
-          <Route path="/blog-left-sidebar" component={BlogPageLeft} />
-          <Route path="/blog-fullwidth" component={BlogPageFullwidth} />
-          <Route path="/faq" component={FaqPage} />
-          <Route path="/404" component={ErrorPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/register" component={SignUpPage} />
-          <Route path="/forgot-password" component={ForgotPassword} />
-        </Switch>
-      </Router>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Router>
+                <Switch>
+                    <Route exact path="/" component={Homepage} />
+                    <Route path="/home" component={Homepage} />
+                    <Route path="/contact" component={ContactPage} />
+                    <Route path="/qna" component={ContactPage} />
+                    <Route path="/about" component={AboutPage} />
+                    <Route path="/attorneys" component={AttorneysPage} />
+                    <Route path="/pricing" component={PricingPage} />
+                    <Route path="/practice" component={PracticePage} />
+                    <Route path="/practice-s2" component={PracticePageS2} />
+                    <Route path="/practice-single/:id" component={PracticeSinglePage} />
+                    <Route path="/case" component={CasePage} />
+                    <Route path="/case-single/:id" component={caseSinglePage} />
+                    <Route path="/attorneys-single/:id" component={AttorneySinglePage} />
+                    <Route path="/shop" component={ShopPage} />
+                    <Route path="/shop-single/:id" component={ShopSinglePage} />
+                    <Route path="/cart" component={CartPage} />
+                    <Route path="/checkout" component={CheckoutPage} />
+                    <Route path="/blog-single/:id" component={BlogDetails} />
+                    <Route path="/blog-single-left-sidebar/:id" component={BlogDetailsLeftSiide} />
+                    <Route path="/blog-single-fullwidth/:id" component={BlogDetailsFull} />
+                    <Route path="/blog" component={BlogPage} />
+                    <Route path="/blog-left-sidebar" component={BlogPageLeft} />
+                    <Route path="/blog-fullwidth" component={BlogPageFullwidth} />
+                    <Route path="/faq" component={FaqPage} />
+                    <Route path="/404" component={ErrorPage} />
+                    <Route path="/login" component={LoginPage} />
+                    <Route path="/register" component={SignUpPage} />
+                    <Route path="/forgot-password" component={ForgotPassword} />
+                </Switch>
+            </Router>
+        </div>
+    );
 };
 
 export default AllRoute;
