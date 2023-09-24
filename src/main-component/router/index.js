@@ -33,7 +33,7 @@ import ForgotPassword from "../ForgotPassword";
 const AllRoute = () => {
     return (
         <div className="App">
-            <Router>
+            <Router basename="/patent">
                 <Switch>
                     <Route exact path="/" component={Homepage} />
                     <Route path="/home" component={Homepage} />
