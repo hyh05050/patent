@@ -1,19 +1,18 @@
 import React, { Fragment } from "react";
 import Navbar from "../../components/Navbar";
-import BlogList from "../../components/BlogList";
 import Footer from "../../components/footer";
 import Scrollbar from "../../components/scrollbar";
 import Logo from "../../images/logo.svg";
 import Contents from "./Contents";
 
 const MyPage = () => {
-  return (
-    <Fragment>
-      <Navbar Logo={Logo} />
-      <Contents />
-      <Footer />
-      <Scrollbar />
-    </Fragment>
-  );
+    return (
+        <Fragment>
+            <Navbar Logo={Logo} />
+            <Contents blLeft={"order-md-1"} blRight={"order-md-2"} />
+            <Footer />
+            <Scrollbar />
+        </Fragment>
+    );
 };
 export default MyPage;
