@@ -11,7 +11,6 @@ const SignUpPage = (props) => {
         email: "",
         full_name: "",
         password: "",
-        confirm_password: "",
     });
 
     const changeHandler = (e) => {
@@ -35,7 +34,6 @@ const SignUpPage = (props) => {
                 email: "",
                 full_name: "",
                 password: "",
-                confirm_password: "",
             });
             validator.hideMessages();
             toast.success("회원가입이 완료되었습니다.");
@@ -115,7 +113,7 @@ const SignUpPage = (props) => {
                                 </Button>
                             </Grid> */}
                             <p className="noteHelp">
-                                Already have an account? <Link to="/login">Return to Sign In</Link>
+                                이미 가입한 계정이 있나요? <Link to="/login">로그인하러 가기</Link>
                             </p>
                         </Grid>
                     </Grid>

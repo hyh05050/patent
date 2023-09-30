@@ -5,14 +5,14 @@ import Scrollbar from "../../components/scrollbar";
 import Logo from "../../images/logo.svg";
 import Contents from "./contents";
 
-const MyPage = () => {
+const PatentApply = () => {
     return (
         <Fragment>
             <Navbar Logo={Logo} />
-            <Contents blLeft={"order-md-1"} blRight={"order-md-2"} />
+            <Contents />
             <Footer />
             <Scrollbar />
         </Fragment>
     );
 };
-export default MyPage;
+export default PatentApply;

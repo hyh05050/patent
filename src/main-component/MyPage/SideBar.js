@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import about from "../../images/blog/about-widget.jpg";
 import { removeCookie } from "../../common/cookie";
 
-const SideBar = (props) => {
+const Sidebar = (props) => {
     const SubmitHandler = (e) => {
         e.preventDefault();
     };
@@ -51,4 +51,4 @@ const SideBar = (props) => {
     );
 };
 
-export default SideBar;
+export default Sidebar;

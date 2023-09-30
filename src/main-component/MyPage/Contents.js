@@ -1,5 +1,5 @@
 import React from "react";
-import SideBar from "./SideBar";
+import SideBar from "./sidebar";
 
 const items = [
     {
@@ -113,7 +113,9 @@ const Contents = (props) => {
                                                 <td>
                                                     <ul>
                                                         <li>
-                                                            <i className="fi fa fa-trash"></i>
+                                                            <a className="download-btn" href="/about">
+                                                                다운로드
+                                                            </a>
                                                         </li>
                                                     </ul>
                                                 </td>
