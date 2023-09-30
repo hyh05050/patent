@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/patent/static/css/main.0ce0568d.css",
-    "main.js": "/patent/static/js/main.888daa28.js",
+    "main.css": "/patent/static/css/main.9696f748.css",
+    "main.js": "/patent/static/js/main.6fc73cc2.js",
     "static/media/fontawesome-webfont.svg?v=4.7.0": "/patent/static/media/fontawesome-webfont.3b270ae3f01b143951b0.svg",
     "static/media/flaticon.svg?": "/patent/static/media/flaticon.ad50d114df0d364a77ac.svg",
     "static/media/themify.svg?-fvbane": "/patent/static/media/themify.c4292f34297f1004471a.svg",
@@ -25,7 +25,6 @@
     "static/media/bg-2.jpg": "/patent/static/media/bg-2.d298a4a6dd0ae4d39c1c.jpg",
     "static/media/page-title.jpg": "/patent/static/media/page-title.a295a8bd41cc24575e8c.jpg",
     "static/media/testimonial.jpg": "/patent/static/media/testimonial.74f2019e0be3206dca38.jpg",
-    "static/media/shape-2.png": "/patent/static/media/shape-2.aa8d3c7ee95baef5f71c.png",
     "static/media/logo.svg": "/patent/static/media/logo.e359dbf6801c2c7c064b2d8c3212c1ce.svg",
     "static/media/logo-2.svg": "/patent/static/media/logo-2.44ae80a2af7c6a988733487316d04751.svg",
     "static/media/flaticon.woff?": "/patent/static/media/flaticon.c39e0c392cafd1de967a.woff",
@@ -35,11 +34,11 @@
     "static/media/slick.ttf": "/patent/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/patent/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/patent/index.html",
-    "main.0ce0568d.css.map": "/patent/static/css/main.0ce0568d.css.map",
-    "main.888daa28.js.map": "/patent/static/js/main.888daa28.js.map"
+    "main.9696f748.css.map": "/patent/static/css/main.9696f748.css.map",
+    "main.6fc73cc2.js.map": "/patent/static/js/main.6fc73cc2.js.map"
   },
   "entrypoints": [
-    "static/css/main.0ce0568d.css",
-    "static/js/main.888daa28.js"
+    "static/css/main.9696f748.css",
+    "static/js/main.6fc73cc2.js"
   ]
 }
