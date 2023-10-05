@@ -1,19 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import about from "../../images/blog/about-widget.jpg";
-import { removeCookie } from "../../common/cookie";
+import { removeLoginInfo } from "../../common/loginInfo";
 
 const Sidebar = (props) => {
-    const SubmitHandler = (e) => {
-        e.preventDefault();
-    };
-
-    const ClickHandler = () => {
+    const onClickHandler = () => {
         window.scrollTo(10, 0);
     };
 
-    const ClickHandler2 = () => {
-        removeCookie("isLogin");
+    const onClickLogout = () => {
+        removeLoginInfo();
         window.location.href = "/";
     };
 
@@ -33,7 +29,7 @@ const Sidebar = (props) => {
                     <ul style={{ cursor: "pointer" }}>
                         <li>출원 리스트</li>
                         <li>내정보 수정</li>
-                        <li onClick={ClickHandler2}>로그아웃</li>
+                        <li onClick={onClickLogout}>로그아웃</li>
                     </ul>
                 </div>
 
@@ -42,7 +38,7 @@ const Sidebar = (props) => {
                         How We Can <br /> Help You!
                     </h2>
                     <p></p>
-                    <Link onClick={ClickHandler} to="/qna">
+                    <Link onClick={onClickHandler} to="/qna">
                         Contact Us
                     </Link>
                 </div>

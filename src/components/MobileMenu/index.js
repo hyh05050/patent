@@ -3,6 +3,7 @@ import { Collapse, CardBody, Card } from "reactstrap";
 import { Link } from "react-router-dom";
 import { getCookie } from "../../common/cookie";
 import "./style.css";
+import { getLoginInfo } from "../../common/loginInfo";
 
 const menus = [
     {
@@ -40,7 +41,7 @@ export default class MobileMenu extends Component {
     state = {
         isMenuShow: false,
         isOpen: 0,
-        isLogin: getCookie("isLogin"),
+        isLogin: getLoginInfo()?.isLogin,
     };
 
     menuHandler = () => {

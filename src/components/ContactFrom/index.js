@@ -1,142 +1,96 @@
 import React, { Component } from "react";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
+import { getContact } from "../../api/axios/common";
 
 const ContactForm = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [subject, setSubject] = useState("디자인");
-    const [phone, setPhone] = useState("");
-    const [notes, setNotes] = useState("");
-    const [error, setError] = useState({});
+    const {
+        register,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+    } = useForm();
 
-    const sendMail = useMutation((data) => {
-        return fetch("http://localhost:3000/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then((res) => {
-                console.log(res);
-                if (!res.ok) {
-                    toast.error("문의 메일 전송에 실패하였습니다.");
-                } else {
+    const mutation = useMutation(
+        async (data) => {
+            return await getContact(getValues());
+        },
+        {
+            enabled: false,
+            onSuccess: (res) => {
+                if (res.status === "success") {
                     toast.success("문의 메일 전송에 성공하였습니다.");
+                } else {
+                    toast.error("문의 메일 전송에 실패하였습니다.");
                 }
-                return res.json();
-            })
-            .catch((err) => {
+            },
+            onError: () => {
                 toast.error("문의 메일 전송에 실패하였습니다.");
-            });
-    });
-
-    const changeHandler = (e) => {
-        const newError = { ...error };
-        newError[e.target.name] = "";
-        setError(newError);
-
-        // Update state based on input
-        switch (e.target.name) {
-            case "name":
-                setName(e.target.value);
-                break;
-            case "email":
-                setEmail(e.target.value);
-                break;
-            case "subject":
-                setSubject(e.target.value);
-                break;
-            case "phone":
-                setPhone(e.target.value);
-                break;
-            case "notes":
-                setNotes(e.target.value);
-                break;
-            default:
-                break;
+            },
         }
-    };
+    );
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-
-        const newError = {};
-
-        if (!name) {
-            newError.name = "이름을 입력해 주세요.";
-        }
-        if (!email) {
-            newError.email = "이메일을 입력해 주세요.";
-        }
-        if (!subject) {
-            newError.subject = "주제를 선택해 주세요.";
-        }
-        if (!phone) {
-            newError.phone = "전화번호를 입력해 주세요.";
-        }
-        if (!notes) {
-            newError.notes = "내용을 입력해 주세요.";
-        }
-
-        if (Object.keys(newError).length > 0) {
-            setError(newError);
-        } else {
-            sendMail.mutate({
-                name: name,
-                email: email,
-                phone: phone,
-                message: notes,
-                subject: subject,
-            });
-
-            // Reset form
-            setName("");
-            setEmail("");
-            setSubject("특허");
-            setPhone("");
-            setNotes("");
-            setError({});
-        }
+    const onSubmit = (data) => {
+        mutation.mutate(data);
     };
 
     return (
-        <form onSubmit={submitHandler} className="form">
+        <form onSubmit={handleSubmit(onSubmit)} className="form">
             <div className="row justify-content-center">
                 <div className="col-lg-6 col-md-6 col-12">
                     <div className="form-field">
-                        <input value={name} onChange={changeHandler} type="text" name="name" placeholder="이름" />
-                        <p>{error.name ? error.name : ""}</p>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="이름"
+                            {...register("name", {
+                                required: "이름은 필수 입력 항목입니다.",
+                            })}
+                        />
+                        <p>{errors.name ? errors.name.message : ""}</p>
                     </div>
                 </div>
                 <div className="col-lg-6 col-md-6 col-12">
                     <div className="form-field">
-                        <input onChange={changeHandler} value={email} type="email" name="email" placeholder="이메일" />
-                        <p>{error.email ? error.email : ""}</p>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="이메일"
+                            {...register("email", {
+                                required: "이메일은 필수 입력 항목입니다.",
+                            })}
+                        />
+                        <p>{errors.email ? errors.email.message : ""}</p>
                     </div>
                 </div>
                 <div className="col-lg-6 col-md-6 col-12">
                     <div className="form-field">
-                        <input value={phone} onChange={changeHandler} type="text" name="phone" placeholder="전화번호" />
-                        <p>{error.phone ? error.phone : ""}</p>
+                        <input
+                            type="text"
+                            name="phone"
+                            placeholder="전화번호"
+                            {...register("phone", {
+                                required: "전화번호는 필수 입력 항목입니다.",
+                            })}
+                        />
+                        <p>{errors.phone ? errors.phone.message : ""}</p>
                     </div>
                 </div>
                 <div className="col-lg-6 col-md-6 col-12">
                     <div className="form-field">
                         <select
                             className="form-control"
-                            onChange={changeHandler}
-                            value={subject}
-                            type="text"
                             name="subject"
-                            selected={subject}
+                            {...register("subject", {
+                                required: "주제를 선택해주세요.", // 필수 입력 항목임을 설정
+                            })}
                         >
+                            <option value="">주제 선택</option> {/* 기본 선택 옵션 */}
                             <option value={"특허"}>특허</option>
                             <option value={"디자인"}>디자인</option>
                         </select>
-                        <p>{error.subject ? error.subject : ""}</p>
+                        <p>{errors.subject ? errors.subject.message : ""}</p>
                     </div>
                 </div>
                 <div className="col-lg-12">
@@ -144,16 +98,17 @@ const ContactForm = () => {
                         <textarea
                             name="notes"
                             placeholder="내용을 입력해 주세요"
-                            value={notes}
-                            onChange={changeHandler}
+                            {...register("notes", {
+                                required: "내용은 필수 입력 항목입니다.",
+                            })}
                         ></textarea>
-                        <p>{error.notes ? error.notes : ""}</p>
+                        <p>{errors.notes ? errors.notes.message : ""}</p>
                     </div>
                 </div>
                 <div className="col-lg-12">
                     <div className="form-submit">
                         <button type="submit" className="theme-btn">
-                            Send Message
+                            문의하기
                         </button>
                     </div>
                 </div>

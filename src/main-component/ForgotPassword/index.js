@@ -1,68 +1,80 @@
-import React, { useState } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
-import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Link, withRouter } from "react-router-dom";
+import { Controller, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { getForgotPassword } from "../../api/axios/common";
 
 const ForgotPassword = (props) => {
-    const [value, setValue] = useState({
-        email: "",
-    });
+    const {
+        register,
+        handleSubmit,
+        control,
+        getValues,
+        formState: { errors },
+    } = useForm();
 
-    const changeHandler = (e) => {
-        setValue({ ...value, [e.target.name]: e.target.value });
-        validator.showMessages();
-    };
-
-    const [validator] = React.useState(
-        new SimpleReactValidator({
-            className: "errorMessage",
-            messages: {
-                email: "이메일 형식이 올바르지 않습니다.",
-                required: "필수 입력항목입니다.",
+    const mutation = useMutation(
+        async (data) => {
+            console.log(data);
+            return await getForgotPassword(getValues());
+        },
+        {
+            enabled: false,
+            onSuccess: (res) => {
+                if (res.status === "success") {
+                    toast.success("이메일로 임시 비밀번호를 보내드렸습니다.");
+                    props.history.push("/login");
+                } else {
+                    toast.success("로그인에 실패하였습니다.");
+                }
             },
-        })
+            onError: () => {},
+        }
     );
 
-    const submitForm = (e) => {
-        e.preventDefault();
-        if (validator.allValid()) {
-            setValue({
-                email: "",
-            });
-            validator.hideMessages();
-            toast.success("이메일로 비밀번호 재설정 링크를 보내드렸습니다.");
-            props.history.push("/login");
-        } else {
-            validator.showMessages();
-            toast.error("이메일을 입력해 주세요");
-        }
+    const onSubmit = async (data) => {
+        mutation.mutate(data);
     };
+
     return (
         <Grid className="loginWrapper">
             <Grid className="loginForm">
                 <h2>비밀번호 찾기</h2>
                 <p>Reset your account password</p>
-                <form onSubmit={submitForm}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
-                            <TextField
-                                className="inputOutline"
-                                fullWidth
-                                placeholder="이메일"
-                                value={value.email}
-                                variant="outlined"
+                            <Controller
                                 name="email"
-                                label="이메일"
-                                InputLabelProps={{
-                                    shrink: true,
+                                control={control}
+                                defaultValue=""
+                                rules={{
+                                    required: "이메일은 필수 입력 항목입니다.",
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                        message: "유효한 이메일 주소를 입력하세요.",
+                                    },
                                 }}
-                                onBlur={(e) => changeHandler(e)}
-                                onChange={(e) => changeHandler(e)}
+                                render={({ field }) => (
+                                    <TextField
+                                        className="inputOutline"
+                                        fullWidth
+                                        placeholder="이메일"
+                                        variant="outlined"
+                                        label="이메일"
+                                        name="email"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        {...field}
+                                    />
+                                )}
                             />
-                            {validator.message("email", value.email, "required|email")}
+                            {errors?.email && <span>{errors.email.message}</span>}
                         </Grid>
                         <Grid item xs={12}>
                             <Grid className="formFooter">

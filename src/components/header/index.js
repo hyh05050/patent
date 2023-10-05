@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import MobileMenu from "../../components/MobileMenu";
-import { getCookie } from "../../common/cookie";
+import { getLoginInfo } from "../../common/loginInfo";
 
 export default class Header extends Component {
     state = {
         isSearchShow: false,
         isCartShow: false,
-        isLogin: getCookie("isLogin"),
+        isLogin: getLoginInfo()?.isLogin,
     };
 
     searchHandler = () => {
