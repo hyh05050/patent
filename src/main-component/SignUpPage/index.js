@@ -1,129 +1,158 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Link, withRouter } from "react-router-dom";
+import { getJoin } from "../../api/axios/common";
+import { useMutation } from "react-query";
+import { Controller, useForm } from "react-hook-form";
 
 const SignUpPage = (props) => {
-    const [value, setValue] = useState({
-        email: "",
-        full_name: "",
-        password: "",
-    });
+  const {
+    register,
+    handleSubmit,
+    control,
+    getValues,
+    formState: { errors },
+  } = useForm();
 
-    const changeHandler = (e) => {
-        setValue({ ...value, [e.target.name]: e.target.value });
-        validator.showMessages();
-    };
-
-    const [validator] = React.useState(
-        new SimpleReactValidator({
-            className: "errorMessage",
-            messages: {
-                required: "필수 입력항목입니다.",
-            },
-        })
-    );
-
-    const submitForm = (e) => {
-        e.preventDefault();
-        if (validator.allValid()) {
-            setValue({
-                email: "",
-                full_name: "",
-                password: "",
-            });
-            validator.hideMessages();
-            toast.success("회원가입이 완료되었습니다.");
-            props.history.push("/login");
+  const mutation = useMutation(
+    async (data) => {
+      console.log(data);
+      return await getJoin(getValues());
+    },
+    {
+      enabled: false,
+      onSuccess: (res) => {
+        if (res.status === "success") {
+          toast.success("회원가입이 되었습니다.");
+          props.history.push("/login");
         } else {
-            validator.showMessages();
-            toast.error("회원가입에 필요한 항목을 입력하세요");
+          toast.success("로그인에 실패하였습니다.");
         }
-    };
-    return (
-        <Grid className="loginWrapper">
-            <Grid className="loginForm">
-                <h2>회원가입</h2>
-                <p>Signup your account</p>
-                <form onSubmit={submitForm}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <TextField
-                                className="inputOutline"
-                                fullWidth
-                                placeholder="이름"
-                                value={value.full_name}
-                                variant="outlined"
-                                name="full_name"
-                                label="이름"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                onBlur={(e) => changeHandler(e)}
-                                onChange={(e) => changeHandler(e)}
-                            />
-                            {validator.message("full name", value.full_name, "required|alpha")}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                className="inputOutline"
-                                fullWidth
-                                placeholder="이메일"
-                                value={value.email}
-                                variant="outlined"
-                                name="email"
-                                label="이메일"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                onBlur={(e) => changeHandler(e)}
-                                onChange={(e) => changeHandler(e)}
-                            />
-                            {validator.message("email", value.email, "required|email")}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                className="inputOutline"
-                                fullWidth
-                                placeholder="비밀번호"
-                                value={value.password}
-                                variant="outlined"
-                                name="password"
-                                label="비밀번호"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                onBlur={(e) => changeHandler(e)}
-                                onChange={(e) => changeHandler(e)}
-                            />
-                            {validator.message("password", value.password, "required")}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid className="formFooter">
-                                <Button fullWidth className="cBtn cBtnLarge cBtnTheme" type="submit">
-                                    회원가입
-                                </Button>
-                            </Grid>
-                            {/* <Grid className="loginWithSocial">
+      },
+      onError: () => {},
+    },
+  );
+
+  const onSubmit = (data) => {
+    mutation.mutate(data);
+  };
+  return (
+    <Grid className="loginWrapper">
+      <Grid className="loginForm">
+        <h2>회원가입</h2>
+        <p>Signup your account</p>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Controller
+                name="name"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "이름은 필수 입력 항목입니다.",
+                }}
+                render={({ field }) => (
+                  <TextField
+                    className="inputOutline"
+                    fullWidth
+                    placeholder="이름"
+                    variant="outlined"
+                    name="name"
+                    label="이름"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    {...field}
+                  />
+                )}
+              />
+              {errors?.name && <span>{errors.name.message}</span>}
+            </Grid>
+            <Grid item xs={12}>
+              <Controller
+                name="email"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "이메일은 필수 입력 항목입니다.",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "유효한 이메일 주소를 입력하세요.",
+                  },
+                }}
+                render={({ field }) => (
+                  <TextField
+                    className="inputOutline"
+                    fullWidth
+                    placeholder="이메일"
+                    variant="outlined"
+                    name="email"
+                    label="이메일"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    {...field}
+                  />
+                )}
+              />
+              {errors?.email && <span>{errors.email.message}</span>}
+            </Grid>
+            <Grid item xs={12}>
+              <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "비밀번호는 필수 입력 항목입니다.",
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&+-^])[A-Za-z\d@$!%*#?&+-^]{8,}$/,
+                    message: "영문, 숫자, 특수문자 조합 및 최소 8자 이상이어야 합니다.",
+                  },
+                }}
+                render={({ field }) => (
+                  <TextField
+                    className="inputOutline"
+                    fullWidth
+                    placeholder="비밀번호"
+                    variant="outlined"
+                    name="password"
+                    type="password"
+                    label="비밀번호"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    {...field}
+                  />
+                )}
+              />
+              {errors?.password && <span>{errors.password.message}</span>}
+            </Grid>
+            <Grid item xs={12}>
+              <Grid className="formFooter">
+                <Button fullWidth className="cBtn cBtnLarge cBtnTheme" type="submit">
+                  회원가입
+                </Button>
+              </Grid>
+              {/* <Grid className="loginWithSocial">
                                 <Button className="google">
                                     <i className="fa fa-google"></i>
                                 </Button>
                             </Grid> */}
-                            <p className="noteHelp">
-                                이미 가입한 계정이 있나요? <Link to="/login">로그인하러 가기</Link>
-                            </p>
-                        </Grid>
-                    </Grid>
-                </form>
-                <div className="shape-img">
-                    <i className="fi flaticon-honeycomb"></i>
-                </div>
+              <p className="noteHelp">
+                이미 가입한 계정이 있나요? <Link to="/login">로그인하러 가기</Link>
+              </p>
             </Grid>
-        </Grid>
-    );
+          </Grid>
+        </form>
+        <div className="shape-img">
+          <i className="fi flaticon-honeycomb"></i>
+        </div>
+      </Grid>
+    </Grid>
+  );
 };
 
 export default withRouter(SignUpPage);
