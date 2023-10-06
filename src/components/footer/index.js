@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../images/logo-2.svg";
-import Services2 from "../../api/service2";
+import Services3 from "../../api/service3";
 
 import ins1 from "../../images/ft-icon/1.png";
 import ins2 from "../../images/ft-icon/2.png";
@@ -32,7 +32,7 @@ const Footer = (props) => {
                   <h3>Our Services </h3>
                 </div>
                 <ul>
-                  {Services2.slice(0, 4).map((service, Sitem) => (
+                  {Services3.slice(0, 4).map((service, Sitem) => (
                     <li key={Sitem}>{service.sTitle}</li>
                   ))}
                 </ul>

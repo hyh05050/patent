@@ -90,9 +90,9 @@ const Pricing = (props) => {
                   ))}
                 </ul>
                 {value.etc && <p dangerouslySetInnerHTML={{ __html: value.etc }}></p>}
-                <Link to={value.link} className="get-started">
+                {/* <Link to={value.link} className="get-started">
                   Get Started
-                </Link>
+                </Link> */}
               </div>
             </div>
           ))}

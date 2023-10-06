@@ -1,0 +1,116 @@
+.patent-modal {
+  .contents-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-title {
+      width: calc(100% - 32px);
+      font-size: 30px;
+      font-weight: 600;
+      color: #333;
+      text-align: center;
+    }
+
+    .header-close {
+      font-size: 20px;
+      cursor: pointer;
+
+      button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+
+        .ti-close {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .contents-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 25px;
+  }
+
+  .contents-box {
+    padding: 20px;
+    background-color: #cdcdcd;
+
+    p.contents-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    p.contents-info {
+      font-size: 15px;
+      font-weight: 400;
+      margin-left: 17px;
+    }
+
+    ul {
+      line-height: 1.8;
+      padding-left: 20px;
+      li {
+        list-style-type: square;
+      }
+    }
+  }
+}
+
+.myinfo-modal {
+  .contents-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-title {
+      width: calc(100% - 32px);
+      font-size: 30px;
+      font-weight: 600;
+      color: #333;
+      text-align: center;
+    }
+
+    .header-close {
+      font-size: 20px;
+      cursor: pointer;
+
+      button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+
+        .ti-close {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .contents-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 25px;
+  }
+
+  .pwd-change-btn {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #1c193f;
+    background: #f3f3f3;
+    font-size: 20px;
+    font-weight: 600;
+
+    &:hover {
+      background: #e3b576;
+      color: #fff;
+    }
+  }
+}

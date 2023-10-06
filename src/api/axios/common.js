@@ -3,91 +3,105 @@ import AccountAPI from "./account";
 const isDev = true;
 
 const dummyData = {
-    login: {
-        status: "success",
-    },
-    join: {
-        status: "success",
-    },
-    forgotPassword: {
-        status: "success",
-    },
-    contact: {
-        status: "success",
-    },
-    patentApply: {
-        status: "success",
-    },
+  login: {
+    status: "success",
+  },
+  join: {
+    status: "success",
+  },
+  forgotPassword: {
+    status: "success",
+  },
+  contact: {
+    status: "success",
+  },
+  patentApply: {
+    status: "success",
+  },
+  changePassword: {
+    status: "success",
+  },
 };
 
 const dummyAPI = (data) => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(dummyData[data]);
-        }, 1000);
-    });
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(dummyData[data]);
+    }, 1000);
+  });
 };
 
 export const getLogin = async (data) => {
-    if (isDev) {
-        return dummyAPI("login");
-    }
+  if (isDev) {
+    return dummyAPI("login");
+  }
 
-    const params = {
-        accountKey: data.email,
-        password: data.password,
-    };
-    return AccountAPI.login(params);
+  const params = {
+    accountKey: data.email,
+    password: data.password,
+  };
+  return AccountAPI.login(params);
 };
 
 export const getJoin = async (data) => {
-    if (isDev) {
-        return dummyAPI("join");
-    }
+  if (isDev) {
+    return dummyAPI("join");
+  }
 
-    const params = {
-        accountKey: data.email,
-        password: data.password,
-        name: data.name,
-    };
-    return AccountAPI.join(params);
+  const params = {
+    accountKey: data.email,
+    password: data.password,
+    name: data.name,
+  };
+  return AccountAPI.join(params);
 };
 
 export const getForgotPassword = async (data) => {
-    if (isDev) {
-        return dummyAPI("forgotPassword");
-    }
+  if (isDev) {
+    return dummyAPI("forgotPassword");
+  }
 
-    const params = {
-        accountKey: data.email,
-    };
-    return AccountAPI.forgotPassword(params);
+  const params = {
+    accountKey: data.email,
+  };
+  return AccountAPI.forgotPassword(params);
 };
 
 export const getContact = async (data) => {
-    if (isDev) {
-        return dummyAPI("contact");
-    }
+  if (isDev) {
+    return dummyAPI("contact");
+  }
 
-    const params = {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        message: data.message,
-    };
-    return AccountAPI.contact(params);
+  const params = {
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    message: data.message,
+  };
+  return AccountAPI.contact(params);
 };
 
 export const getPatentApply = async (data) => {
-    if (isDev) {
-        return dummyAPI("patentApply");
-    }
+  if (isDev) {
+    return dummyAPI("patentApply");
+  }
 
-    const params = {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        message: data.message,
-    };
-    return AccountAPI.patentApply(params);
+  const params = {
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    message: data.message,
+  };
+  return AccountAPI.patentApply(params);
+};
+
+export const getChangePassword = async (data) => {
+  if (isDev) {
+    return dummyAPI("changePassword");
+  }
+
+  const params = {
+    password: data.password,
+  };
+  return AccountAPI.changePassword(params);
 };
