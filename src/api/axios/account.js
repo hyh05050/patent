@@ -17,7 +17,7 @@ export default {
   async join(params) {
     /* OK */
     try {
-      return await axios.post(`api/account/join`, params);
+      return await axios.post(`api/account`, params);
     } catch (error) {
       console.log(error);
       return {

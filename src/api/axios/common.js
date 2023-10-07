@@ -1,6 +1,6 @@
 import AccountAPI from "./account";
 
-const isDev = true;
+const isDev = false;
 
 const dummyData = {
   login: {
@@ -50,8 +50,9 @@ export const getJoin = async (data) => {
 
   const params = {
     accountKey: data.email,
+    email: data.email,
     password: data.password,
-    name: data.name,
+    humanName: data.name,
   };
   return AccountAPI.join(params);
 };
