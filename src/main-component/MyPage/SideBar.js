@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import about from "../../images/blog/about-widget.jpg";
-import { getLoginInfo, removeLoginInfo } from "../../common/loginInfo";
+import { getAccount, removeAccount } from "../../common/loginInfo";
 import { useRecoilState } from "recoil";
 import { myInfoModalAtom } from "../../model/Modal";
 
@@ -20,7 +19,7 @@ const Sidebar = (props) => {
     };
 
     const onClickLogout = () => {
-        removeLoginInfo();
+        removeAccount();
         window.location.href = "/";
     };
 
@@ -31,8 +30,8 @@ const Sidebar = (props) => {
                     {/* <div className="img-holder">
                         <img src={about} alt="" />
                     </div> */}
-                    <h4>{getLoginInfo().humanName}</h4>
-                    <p>{getLoginInfo().accountKey}</p>
+                    <h4>{getAccount().humanName}</h4>
+                    <p>{getAccount().accountKey}</p>
                     <div className="aw-shape"></div>
                 </div>
                 <div className="widget category-widget d-none d-sm-block">

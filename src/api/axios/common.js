@@ -1,6 +1,6 @@
 import AccountAPI from "./account";
 import PatentAPI from "./patent";
-import { getLoginInfo } from "./../../common/loginInfo";
+import { getAccount, setAccessToken } from "./../../common/loginInfo";
 
 const isDev = false;
 
@@ -44,10 +44,16 @@ const dummyAPI = (data) => {
     });
 };
 
+export const objectToQueryString = (obj) => {
+    return Object.keys(obj)
+        .map((key) => key + "=" + obj[key])
+        .join("&");
+};
+
 export const getLogin = async (data) => {
-    // if (isDev) {
-    //     return dummyAPI("login");
-    // }
+    if (isDev) {
+        return dummyAPI("login");
+    }
 
     return dummyAPI("login");
 
@@ -55,7 +61,9 @@ export const getLogin = async (data) => {
     //     accountKey: data.email,
     //     password: data.password,
     // };
-    // return AccountAPI.login(params);
+    // const result = AccountAPI.login(params);
+    // setAccessToken(result["X-AUTH-TOKEN"]);
+    // return result;
 };
 
 export const getJoin = async (data) => {
@@ -104,12 +112,11 @@ export const getPatentApply = async (data) => {
 
     const params = {
         ...data,
-        registerId: 2,
+        registerId: getAccount().accountId || 2,
         inventorSocialNo: `${data.inventor_social_no_first}-${data.inventor_social_no_last}`,
         proposerSocialNo: `${data.proposer_social_no_first}-${data.proposer_social_no_last}`,
-        proposerAddress: `${data.proposer_address_postcode} ${data.proposer_address} ${data.proposer_address_detail}`,
-        inventorAddress: `${data.inventor_address_postcode} ${data.inventor_address} ${data.inventor_address_detail}`,
         patentName: data.keyword,
+        status: "R",
     };
     return PatentAPI.patentApply(params);
 };
@@ -120,7 +127,7 @@ export const getMyPatentList = async (data) => {
     }
 
     const params = {
-        registerId: getLoginInfo().accountId || 2,
+        registerId: getAccount().accountId || 2,
     };
     const queryStr = objectToQueryString(params);
     return PatentAPI.myPatentList(queryStr);
@@ -146,10 +153,4 @@ export const getChangePassword = async (data) => {
         password: data.password,
     };
     return AccountAPI.changePassword(params);
-};
-
-export const objectToQueryString = (obj) => {
-    return Object.keys(obj)
-        .map((key) => key + "=" + obj[key])
-        .join("&");
 };

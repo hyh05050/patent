@@ -4771,7 +4771,7 @@ img {
 3.6 wpo-testimonials-section
 --------------------------------------------------------------*/
 .wpo-testimonials-section {
-    background: url(../../images/testimonial.jpg) no-repeat center center;
+    background: url(../../images/testimonial-bg.jpg) no-repeat center center;
     position: relative;
     background-size: cover;
     z-index: 1;

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import MobileMenu from "../../components/MobileMenu";
-import { getLoginInfo } from "../../common/loginInfo";
+import { getAccount } from "../../common/loginInfo";
 
 export default class Header extends Component {
     state = {
         isSearchShow: false,
         isCartShow: false,
-        isLogin: getLoginInfo()?.isLogin,
+        isLogin: getAccount()?.isLogin,
     };
 
     searchHandler = () => {

@@ -5,42 +5,8 @@ import { patentModalAtom, patentFinishModalAtom } from "../../model/Modal";
 import { getMyPatentList } from "../../api/axios/common";
 import { useQuery } from "react-query";
 
-const items = [
-    {
-        id: 1,
-        title: "임시출원 준비중",
-        count: 0,
-    },
-    {
-        id: 2,
-        title: "임시출원 완료",
-        count: 0,
-    },
-];
-
-const patents2 = [
-    {
-        id: 1,
-        title: "정규출원 완료",
-        apply_day: "2020-11-02",
-        apply_success_day: "2021-05-17",
-        apply_success_no: "10-2021-0000001",
-        invent_title: "욕실용 발 받침대",
-        applicant: "김영수",
-    },
-    {
-        id: 2,
-        title: "정규출원 미진행",
-        apply_day: "2021-10-10",
-        apply_success_day: "2022-10-10",
-        apply_success_no: "10-2021-0000000",
-        invent_title: " AI 기반의 온라인 임시출원 시스템",
-        applicant: "이상철",
-    },
-];
-
 const Contents = (props) => {
-    const [activeId, setActiveId] = React.useState(1);
+    const [activeStatus, setActiveStatus] = React.useState("R");
     const [patentModal, setPatentModal] = useRecoilState(patentModalAtom);
     const [patentFinishModal, setPatentFinishModal] = useRecoilState(patentFinishModalAtom);
 
@@ -52,16 +18,14 @@ const Contents = (props) => {
         {
             enabled: true,
             onSuccess: (res) => {
-                if (res.status === "success") {
-                    console.log(res.data);
-                }
+                // console.log(res.data);
             },
             onError: () => {},
         }
     );
 
-    const onClickMenu = (itemId) => {
-        setActiveId(itemId);
+    const onClickMenu = (status) => {
+        setActiveStatus(status);
     };
 
     const onClickPatentModal = (e, modalType, patentData) => {
@@ -99,24 +63,31 @@ const Contents = (props) => {
                     <div className={`col col-lg-8 col-12 ${props.blRight}`}>
                         <div className="wpo-blog-content">
                             <div className="row apply-info">
-                                {items.map((item) => (
-                                    <div
-                                        className={`col apply-info-box ${item.id === activeId ? "active" : ""}`}
-                                        key={item.id}
-                                        onClick={() => onClickMenu(item.id)}
-                                    >
-                                        <p>{item.title}</p>
-                                        <h3 className="apply-count">
-                                            {patents?.data?.length}
-                                            <span>건</span>
-                                        </h3>
-                                    </div>
-                                ))}
+                                <div
+                                    className={`col apply-info-box ${activeStatus === "R" ? "active" : ""}`}
+                                    onClick={() => onClickMenu("R")}
+                                >
+                                    <p>임시출원 준비중</p>
+                                    <h3 className="apply-count">
+                                        {patents?.data?.filter((item) => item.status === "R").length}
+                                        <span>건</span>
+                                    </h3>
+                                </div>
+                                <div
+                                    className={`col apply-info-box ${activeStatus === "F" ? "active" : ""}`}
+                                    onClick={() => onClickMenu("F")}
+                                >
+                                    <p>임시출원 완료</p>
+                                    <h3 className="apply-count">
+                                        {patents?.data?.filter((item) => item.status === "F").length}
+                                        <span>건</span>
+                                    </h3>
+                                </div>
                                 <div className="col d-none d-sm-block"></div>
                                 <div className="col d-none d-sm-block"></div>
                             </div>
 
-                            <div className={`row mt-5 ${1 === activeId ? "d-none d-md-block" : "d-none"} `}>
+                            <div className={`row mt-5 ${"R" === activeStatus ? "d-none d-md-block" : "d-none"} `}>
                                 <table className="table-responsive apply-list-temp">
                                     <thead>
                                         <tr>
@@ -129,72 +100,78 @@ const Contents = (props) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {console.log(patents)}
-                                        {patents?.data?.map((patent, index) => (
-                                            <tr
-                                                className="item"
-                                                key={patent.patentId}
-                                                onClick={(e) => onClickPatentModal(e, "temp", patent)}
-                                            >
-                                                <td>{index + 1}</td>
-                                                <td>{patent.updatedAt}</td>
-                                                <td>{patent.keyword}</td>
-                                                <td>{patent.proposerNameKr}</td>
-                                                <td>{patent.inventorNameKr}</td>
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        className="download-btn"
-                                                        onClick={() => onClickDownload(patent.document.fileUrl)}
-                                                    >
-                                                        다운로드
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {patents?.data
+                                            ?.filter((patent) => patent.status === "R")
+                                            .map((patent, index) => (
+                                                <tr
+                                                    className="item"
+                                                    key={patent.patentId}
+                                                    onClick={(e) => onClickPatentModal(e, "temp", patent)}
+                                                >
+                                                    <td>{index + 1}</td>
+                                                    <td>{patent.updatedAt}</td>
+                                                    <td>{patent.keyword}</td>
+                                                    <td>{patent.proposerNameKr}</td>
+                                                    <td>{patent.inventorNameKr}</td>
+                                                    <td>
+                                                        <button
+                                                            type="button"
+                                                            className="download-btn"
+                                                            onClick={() => onClickDownload(patent.document.fileUrl)}
+                                                        >
+                                                            다운로드
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                     </tbody>
                                 </table>
                             </div>
 
                             <div
                                 className={`row mt-5 align-items-center  ${
-                                    1 === activeId ? "d-flex d-md-none" : "d-none"
+                                    "R" === activeStatus ? "d-flex d-md-none" : "d-none"
                                 }`}
                             >
-                                {patents?.data?.map((patent, index) => (
-                                    <div className="apply-list-temp col-lg-6" key={patent.patentId}>
-                                        <div className="apply-list-box" onClick={(e) => onClickPatentModal(e, "temp")}>
-                                            <h2>{items[0].title}</h2>
-                                            <ul>
-                                                <li>
-                                                    신청일: <span>{patent.apply_day}</span>
-                                                </li>
-                                                <li>
-                                                    키워드: <span>{patent.keyword}</span>
-                                                </li>
-                                                <li>
-                                                    출원인: <span>{patent.applicant}</span>
-                                                </li>
-                                                <li>
-                                                    발명자: <span>{patent.inventor}</span>
-                                                </li>
-                                                <li>
-                                                    기술문서:{" "}
-                                                    <button
-                                                        type="button"
-                                                        className="download-btn"
-                                                        onClick={() => onClickDownload(patent.document.fileUrl)}
-                                                    >
-                                                        다운로드
-                                                    </button>
-                                                </li>
-                                            </ul>
+                                {patents?.data
+                                    ?.filter((patent) => patent.status === "R")
+                                    .map((patent, index) => (
+                                        <div className="apply-list-temp col-lg-6" key={patent.patentId}>
+                                            <div
+                                                className="apply-list-box"
+                                                onClick={(e) => onClickPatentModal(e, "temp", patent)}
+                                            >
+                                                <h2>임시출원 준비중</h2>
+                                                <ul>
+                                                    <li>
+                                                        신청일: <span>{patent.updatedAt}</span>
+                                                    </li>
+                                                    <li>
+                                                        키워드: <span>{patent.keyword}</span>
+                                                    </li>
+                                                    <li>
+                                                        출원인: <span>{patent.proposerNameKr}</span>
+                                                    </li>
+                                                    <li>
+                                                        발명자: <span>{patent.inventorNameKr}</span>
+                                                    </li>
+                                                    <li>
+                                                        기술문서:{" "}
+                                                        <button
+                                                            type="button"
+                                                            className="download-btn"
+                                                            onClick={() => onClickDownload(patent.document.fileUrl)}
+                                                        >
+                                                            다운로드
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
 
-                            <div className={`row mt-5 ${2 === activeId ? "d-none d-md-block" : "d-none"} `}>
+                            <div className={`row mt-5 ${"F" === activeStatus ? "d-none d-md-block" : "d-none"} `}>
                                 <table className="table-responsive apply-list-success">
                                     <thead>
                                         <tr>
@@ -207,71 +184,75 @@ const Contents = (props) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {patents2.map((patent, index) => (
-                                            <tr
-                                                className="item"
-                                                key={index}
-                                                onClick={(e) => onClickPatentModal(e, "finish")}
-                                            >
-                                                <td>{index + 1}</td>
-                                                <td>{patent.apply_day}</td>
-                                                <td>{patent.apply_success_no}</td>
-                                                <td>{patent.invent_title}</td>
-                                                <td>{patent.applicant}</td>
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        className="download-btn"
-                                                        onClick={() => onClickDownload()}
-                                                    >
-                                                        다운로드
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {patents?.data
+                                            ?.filter((patent) => patent.status === "F")
+                                            .map((patent, index) => (
+                                                <tr
+                                                    className="item"
+                                                    key={patent.patentId}
+                                                    onClick={(e) => onClickPatentModal(e, "finish", patent)}
+                                                >
+                                                    <td>{index + 1}</td>
+                                                    <td>{patent.preProposeDate}</td>
+                                                    <td>{patent.preProposeNo}</td>
+                                                    <td>{patent.patentName}</td>
+                                                    <td>{patent.proposerNameKr}</td>
+                                                    <td>
+                                                        <button
+                                                            type="button"
+                                                            className="download-btn"
+                                                            onClick={() => onClickDownload(patent.document.fileUrl)}
+                                                        >
+                                                            다운로드
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                     </tbody>
                                 </table>
                             </div>
 
                             <div
                                 className={`row mt-5 align-items-center ${
-                                    2 === activeId ? "d-flex d-md-none" : "d-none"
+                                    "F" === activeStatus ? "d-flex d-md-none" : "d-none"
                                 }`}
                             >
-                                {patents2.map((patent, index) => (
-                                    <div className="apply-list-success col-lg-6" key={patent.id}>
-                                        <div
-                                            className="apply-list-box"
-                                            onClick={(e) => onClickPatentModal(e, "finish")}
-                                        >
-                                            <h2>{patent.title}</h2>
-                                            <ul>
-                                                <li>
-                                                    임시출원일: <span>{patent.apply_day}</span>
-                                                </li>
-                                                <li>
-                                                    임시출원번호 : <span>{patent.apply_success_day}</span>
-                                                </li>
-                                                <li>
-                                                    발명의 명칭: <span>{patent.invent_title}</span>
-                                                </li>
-                                                <li>
-                                                    출원인: <span>{patent.applicant}</span>
-                                                </li>
-                                                <li>
-                                                    문서보기:{" "}
-                                                    <button
-                                                        type="button"
-                                                        className="download-btn"
-                                                        onClick={() => onClickDownload()}
-                                                    >
-                                                        다운로드
-                                                    </button>
-                                                </li>
-                                            </ul>
+                                {patents?.data
+                                    ?.filter((patent) => patent.status === "F")
+                                    .map((patent, index) => (
+                                        <div className="apply-list-success col-lg-6" key={patent.patentId}>
+                                            <div
+                                                className="apply-list-box"
+                                                onClick={(e) => onClickPatentModal(e, "finish", patent)}
+                                            >
+                                                <h2>임시출원 완료</h2>
+                                                <ul>
+                                                    <li>
+                                                        임시출원일: <span>{patent.preProposeDate}</span>
+                                                    </li>
+                                                    <li>
+                                                        임시출원번호 : <span>{patent.preProposeNo}</span>
+                                                    </li>
+                                                    <li>
+                                                        발명의 명칭: <span>{patent.patentName}</span>
+                                                    </li>
+                                                    <li>
+                                                        출원인: <span>{patent.proposerNameKr}</span>
+                                                    </li>
+                                                    <li>
+                                                        문서보기:{" "}
+                                                        <button
+                                                            type="button"
+                                                            className="download-btn"
+                                                            onClick={() => onClickDownload(patent.document.fileUrl)}
+                                                        >
+                                                            다운로드
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
                         </div>
                     </div>

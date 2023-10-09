@@ -300,20 +300,20 @@ const Contents = () => {
                                             <Controller
                                                 name="openFlag"
                                                 control={control}
-                                                defaultValue={true} // 기본 선택값을 설정합니다.
+                                                defaultValue={"true"} // 기본 선택값을 설정합니다.
                                                 render={({ field }) => (
                                                     <RadioGroup
                                                         className="paymentMethod"
                                                         {...field}
-                                                        onChange={(e) => field.onChange(parseInt(e.target.value))}
+                                                        onChange={(e) => field.onChange(e.target.value)}
                                                     >
                                                         <FormControlLabel
-                                                            value={true}
+                                                            value="true"
                                                             control={<Radio color="primary" />}
                                                             label="예"
                                                         />
                                                         <FormControlLabel
-                                                            value={false}
+                                                            value="false"
                                                             control={<Radio color="primary" />}
                                                             label="아니요"
                                                         />
@@ -347,20 +347,20 @@ const Contents = () => {
                                             <Controller
                                                 name="foreignFlag"
                                                 control={control}
-                                                defaultValue={true} // 기본 선택값을 설정합니다.
+                                                defaultValue="true" // 기본 선택값을 설정합니다.
                                                 render={({ field }) => (
                                                     <RadioGroup
                                                         className="paymentMethod"
                                                         {...field}
-                                                        onChange={(e) => field.onChange(parseInt(e.target.value))}
+                                                        onChange={(e) => field.onChange(e.target.value)}
                                                     >
                                                         <FormControlLabel
-                                                            value={true}
+                                                            value="true"
                                                             control={<Radio color="primary" />}
                                                             label="예"
                                                         />
                                                         <FormControlLabel
-                                                            value={false}
+                                                            value="false"
                                                             control={<Radio color="primary" />}
                                                             label="아니요"
                                                         />
@@ -506,6 +506,11 @@ const Contents = () => {
                                                                     }}
                                                                     className="formInput radiusNone"
                                                                     placeholder="주민등록번호 앞자리"
+                                                                    InputProps={{
+                                                                        maxLength: 6,
+                                                                        inputMode: "numeric",
+                                                                        pattern: "[0-9]*",
+                                                                    }}
                                                                 />
                                                             )}
                                                         />
@@ -532,7 +537,7 @@ const Contents = () => {
                                                     </Grid>
                                                     <Grid item md={4} xs={12}>
                                                         <Controller
-                                                            name="proposer_address_postcode"
+                                                            name="proposerPostcode"
                                                             control={control}
                                                             defaultValue=""
                                                             render={({ field }) => (
@@ -552,7 +557,7 @@ const Contents = () => {
                                                     </Grid>
                                                     <Grid item xs={12}>
                                                         <Controller
-                                                            name="proposer_address"
+                                                            name="proposerAddress1"
                                                             control={control}
                                                             defaultValue=""
                                                             render={({ field }) => (
@@ -572,7 +577,7 @@ const Contents = () => {
                                                     </Grid>
                                                     <Grid item xs={12}>
                                                         <Controller
-                                                            name="proposer_address_detail"
+                                                            name="proposerAddress2"
                                                             control={control}
                                                             defaultValue=""
                                                             render={({ field }) => (
@@ -746,7 +751,7 @@ const Contents = () => {
                                                     </Grid>
                                                     <Grid item md={4} xs={12}>
                                                         <Controller
-                                                            name="inventor_address_postcode"
+                                                            name="inventorPostcode"
                                                             control={control}
                                                             defaultValue=""
                                                             render={({ field }) => (
@@ -766,7 +771,7 @@ const Contents = () => {
                                                     </Grid>
                                                     <Grid item xs={12}>
                                                         <Controller
-                                                            name="inventor_address"
+                                                            name="inventorAddress1"
                                                             control={control}
                                                             defaultValue=""
                                                             render={({ field }) => (
@@ -786,7 +791,7 @@ const Contents = () => {
                                                     </Grid>
                                                     <Grid item xs={12}>
                                                         <Controller
-                                                            name="inventor_address_detail"
+                                                            name="inventorAddress2"
                                                             control={control}
                                                             defaultValue=""
                                                             render={({ field }) => (

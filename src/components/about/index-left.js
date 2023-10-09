@@ -1,9 +1,7 @@
 import React from "react";
-import abimg from "../../images/about.jpg";
-import sign from "../../images/signeture.png";
+import mainImg from "../../images/main-img02.jpg";
 import { styled } from "styled-components";
 import kakaoBtn from "../../images/consult_kakao.png";
-import { useEffect } from "react";
 
 const Highlight = styled.span`
     font-size: 1.2rem;
@@ -49,7 +47,7 @@ const AboutLeft = (props) => {
                     <div className="row align-items-center">
                         <div className="col-lg-5 col-md-12 col-12">
                             <div className="wpo-about-img">
-                                <img src={abimg} alt="" />
+                                <img src={mainImg} alt="" />
                             </div>
                         </div>
                         <div className="col-lg-7 col-md-12 col-12">

@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { useResetRecoilState, useRecoilValue } from "recoil";
 import { patentModalAtom } from "../../model/Modal";
-import { getMyPatentInfo, getPatentApply } from "../../api/axios/common";
-import { useQuery } from "react-query";
 
 const PatentModal = () => {
     const modal = useRecoilValue(patentModalAtom);
@@ -117,7 +115,9 @@ const PatentModal = () => {
                                     {modal.modalData?.proposerSocialNo}
                                 </li>
                                 <li>
-                                    <span>주소 :</span> {modal.modalData?.proposerAddress}
+                                    <span>주소 : </span>
+                                    {modal.modalData?.proposerPostcode} {modal.modalData?.inventorAddress1}{" "}
+                                    {modal.modalData?.inventorAddress2}
                                 </li>
                                 <li>
                                     <span>도장&amp;서명 이미지 :</span>
@@ -145,11 +145,13 @@ const PatentModal = () => {
                                 {modal.modalData?.inventorNameKr}({modal.modalData?.inventorNameKr})
                             </li>
                             <li>
-                                <span>주민등록번호 :</span> {modal.modalData?.inventorSocialNo}
+                                <span>주민등록번호 : </span>
+                                {modal.modalData?.inventorSocialNo}
                             </li>
                             <li>
                                 <span>주소 : </span>
-                                {modal.modalData?.inventorAddress}
+                                {modal.modalData?.inventorPostcode} {modal.modalData?.inventorAddress1}{" "}
+                                {modal.modalData?.inventorAddress2}
                             </li>
                         </ul>
                     </div>
@@ -161,16 +163,20 @@ const PatentModal = () => {
                 <div className="contents-box">
                     <ul>
                         <li>
-                            <span>담당자 이름 :</span> {modal.modalData?.managerName}
+                            <span>담당자 이름 : </span>
+                            {modal.modalData?.managerName}
                         </li>
                         <li>
-                            <span>휴대전화번호 :</span> {modal.modalData?.managerPhone}
+                            <span>휴대전화번호 : </span>
+                            {modal.modalData?.managerPhone}
                         </li>
                         <li>
-                            <span>이메일주소 :</span> {modal.modalData?.managerEmail}
+                            <span>이메일주소 : </span>
+                            {modal.modalData?.managerEmail}
                         </li>
                         <li>
-                            <span>메모 : </span> {modal.modalData?.memo}
+                            <span>메모 : </span>
+                            {modal.modalData?.memo}
                         </li>
                     </ul>
                 </div>

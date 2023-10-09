@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
 
 import "./style.scss";
-import { setLoginInfo } from "../../common/loginInfo";
+import { setAccount } from "../../common/loginInfo";
 import { getLogin } from "../../api/axios/common";
 import { useMutation } from "react-query";
 
@@ -33,7 +33,7 @@ const LoginPage = (props) => {
                 if (res.status === "success") {
                     toast.success("로그인 되었습니다.");
                     const isKeepLogin = getValues().remember;
-                    setLoginInfo(
+                    setAccount(
                         {
                             isLogin: true,
                             accountId: res.data.accountId,
