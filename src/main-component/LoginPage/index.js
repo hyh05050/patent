@@ -33,7 +33,15 @@ const LoginPage = (props) => {
                 if (res.status === "success") {
                     toast.success("로그인 되었습니다.");
                     const isKeepLogin = getValues().remember;
-                    setLoginInfo({ isLogin: true }, isKeepLogin);
+                    setLoginInfo(
+                        {
+                            isLogin: true,
+                            accountId: res.data.accountId,
+                            accountKey: res.data.accountKey,
+                            humanName: res.data.humanName,
+                        },
+                        isKeepLogin
+                    );
                     props.history.push("/home");
                 } else {
                     toast.success("로그인에 실패하였습니다.");
