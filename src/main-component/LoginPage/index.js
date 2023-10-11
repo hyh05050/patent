@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -13,7 +13,7 @@ import "./style.scss";
 import { setAccount } from "../../common/loginInfo";
 import { getLogin } from "../../api/axios/common";
 import { useMutation } from "react-query";
-import { useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 
 const LoginPage = (props) => {
@@ -27,6 +27,7 @@ const LoginPage = (props) => {
 
   const mutation = useMutation(
     async (data) => {
+      console.log(data);
       return await getLogin(data);
     },
     {
@@ -58,6 +59,7 @@ const LoginPage = (props) => {
   };
 
   const onGoogleLoginSuccess = (res) => {
+    console.log(res);
     const userData = jwt_decode(res.credential);
     mutation.mutate({
       email: userData.email,
@@ -70,6 +72,7 @@ const LoginPage = (props) => {
   const googleLogin = useGoogleLogin({
     onSuccess: (res) => onGoogleLoginSuccess(res),
     onFailure: (error) => console.log(error),
+    flow: "auth-code",
   });
 
   return (
@@ -148,7 +151,7 @@ const LoginPage = (props) => {
                 </Button>
               </Grid>
               <Grid className="loginWithSocial">
-                <button
+                {/* <button
                   onClick={() => googleLogin()}
                   style={{
                     backgroundColor: "#4285F4",
@@ -161,7 +164,16 @@ const LoginPage = (props) => {
                 >
                   <i className="fa fa-google"></i>
                   <span style={{ marginLeft: "10px", fontWeight: "bold" }}>Google 계정으로 로그인</span>
-                </button>
+                </button> */}
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    onGoogleLoginSuccess(credentialResponse);
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                  width={100}
+                />
               </Grid>
               <p className="noteHelp">
                 계정이 없나요? <Link to="/register">회원가입</Link>
