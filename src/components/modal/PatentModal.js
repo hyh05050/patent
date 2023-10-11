@@ -163,14 +163,6 @@ const PatentModal = () => {
                     </span>
                   </li>
                   <li>
-                    <span>법인 인감이미지 : </span>
-                    <span>
-                      <a href="#" onClick={() => onClickDownload(modal.modalData?.corporationStamp?.fileUrl)}>
-                        다운로드 링크
-                      </a>
-                    </span>
-                  </li>
-                  <li>
                     <span>법인 사업자등록증 : </span>
                     <span>
                       <a href="#" onClick={() => onClickDownload(modal.modalData?.bizCertificate?.fileUrl)}>
