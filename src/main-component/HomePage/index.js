@@ -11,7 +11,7 @@ import Consultinencey from "../../components/Consultinencey";
 import BlogSection from "../../components/BlogSection";
 import Footer from "../../components/footer";
 import Scrollbar from "../../components/scrollbar";
-import Logo from "../../images/logo.svg";
+import Logo from "../../images/main-logo.png";
 import PracticeS2 from "../../components/PracticeS2";
 import Features2 from "../../components/Features2";
 import About from "../../components/about";

@@ -2,221 +2,227 @@
 13. wpo-pricing-page
 --------------------------------------------------------------*/
 .wpo-pricing-section {
+  @include media-query(991px) {
+    padding-bottom: 75px;
+  }
+
+  @include media-query(767px) {
+    padding-bottom: 65px;
+  }
+
+  .pricing-grids {
+    margin: 0 -15px;
+    padding-top: 50px;
+  }
+
+  .pricing-grids > .pricing-etc {
+    text-align: right;
+    width: 100%;
+    padding-right: 30px;
+  }
+
+  .pricing-grids .grid {
+    width: calc(33.33% - 30px);
+    float: left;
+    margin: 0 15px 30px;
+    text-align: center;
+    padding: 0 45px 55px;
+    border: 1px solid #f9deba;
+    border-radius: 5px;
+    box-shadow: 0px 7px 13.5px 1.5px rgba(0, 0, 0, 0.05);
+    height: 100%;
+
+    @include media-query(1199px) {
+      padding: 0 15px 55px;
+    }
+
     @include media-query(991px) {
-        padding-bottom: 75px;
+      width: calc(50% - 30px);
+      margin: 0 15px 30px;
     }
 
-    @include media-query(767px) {
-        padding-bottom: 65px;
+    @include media-query(650px) {
+      width: calc(100% - 30px);
+      float: none;
+    }
+  }
+
+  .grid .type {
+    background-color: #f3f3f3;
+    display: inline-block;
+    padding: 12px 60px;
+    margin-top: 40px;
+    border-radius: 30px;
+
+    @include media-query(991px) {
+      padding: 10px 40px;
     }
 
-    .pricing-grids {
-        margin: 0 -15px;
-        padding-top: 50px;
+    h5 {
+      font-size: 20px;
+      font-size: calc-rem-value(20);
+      margin: 0;
+      text-transform: uppercase;
+
+      @include media-query(991px) {
+        font-size: 16px;
+        font-size: calc-rem-value(16);
+      }
+    }
+  }
+
+  .pricing-header {
+    background: #fff;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin: 30px auto;
+    display: table;
+    box-shadow: 0px 5px 15px 0px rgba(62, 65, 159, 0.1);
+
+    @include media-query(991px) {
+      width: 140px;
+      height: 140px;
     }
 
-    .pricing-grids > .pricing-etc {
-        text-align: right;
-        width: 100%;
-        padding-right: 30px;
+    > div {
+      display: table-cell;
+      vertical-align: middle;
     }
 
-    .pricing-grids .grid {
-        width: calc(33.33% - 30px);
-        float: left;
-        margin: 0 15px 30px;
-        text-align: center;
-        padding: 0 45px 55px;
-        border: 1px solid #f9deba;
-        border-radius: 5px;
-        box-shadow: 0px 7px 13.5px 1.5px rgba(0, 0, 0, 0.05);
+    h3 {
+      font-size: 50px;
+      font-size: calc-rem-value(50);
+      margin: 0;
 
-        @include media-query(1199px) {
-            padding: 0 15px 55px;
-        }
-
-        @include media-query(991px) {
-            width: calc(50% - 30px);
-            margin: 0 15px 30px;
-        }
-
-        @include media-query(650px) {
-            width: calc(100% - 30px);
-            float: none;
-        }
+      @include media-query(991px) {
+        font-size: 40px;
+        font-size: calc-rem-value(40);
+      }
     }
 
-    .grid .type {
-        background-color: #f3f3f3;
-        display: inline-block;
-        padding: 12px 60px;
-        margin-top: 40px;
-        border-radius: 30px;
+    p {
+      font-size: 18px;
+      font-size: calc-rem-value(18);
+      color: $theme-primary-color;
+      margin: 0;
+      text-decoration: line-through;
 
-        @include media-query(991px) {
-            padding: 10px 40px;
-        }
+      @include media-query(991px) {
+        font-size: 14px;
+        font-size: calc-rem-value(14);
+      }
+    }
 
-        h5 {
-            font-size: 20px;
-            font-size: calc-rem-value(20);
-            margin: 0;
-            text-transform: uppercase;
+    span {
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
 
-            @include media-query(991px) {
-                font-size: 16px;
-                font-size: calc-rem-value(16);
-            }
-        }
+  .pricing-body ul {
+    margin-bottom: 50px;
+    list-style: none;
+
+    @include media-query(991px) {
+      margin-bottom: 40px;
+    }
+
+    li {
+      font-size: 1.333rem;
+
+      @include media-query(1440px) {
+        font-size: 1.1rem;
+      }
+
+      @include media-query(1199px) {
+        font-size: 14px;
+        font-size: calc-rem-value(14);
+      }
+
+      @include media-query(650px) {
+        font-size: 1.333rem;
+      }
+    }
+  }
+
+  .pricing-body ul > li + li {
+    margin-top: 12px;
+  }
+
+  .pricing-body p {
+    font-size: 12px;
+  }
+
+  .grid .get-started {
+    display: block;
+    padding: 13px 0;
+    border: 1px solid #f9deba;
+    border-radius: 5px;
+    color: $theme-primary-color;
+    font-weight: 500;
+
+    @include media-query(1199px) {
+      padding: 10px 0;
+      margin: 0 25px;
+    }
+  }
+
+  .grid .get-started:hover {
+    background: $theme-primary-color;
+    color: $white;
+  }
+
+  .pricing-grids > .grid.active {
+    background: url(../../images/pricing-bg.jpg) no-repeat center center;
+    background-size: 100% 100% !important;
+    position: relative;
+    background-size: cover;
+    z-index: 1;
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(22, 57, 103, 0.9);
+      content: "";
+      z-index: -1;
+      border-radius: 5px;
+    }
+
+    ul {
+      li {
+        color: #ddd;
+      }
+    }
+
+    .type {
+      background-color: #062650;
+
+      h5 {
+        color: $white;
+      }
     }
 
     .pricing-header {
-        background: #fff;
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        margin: 30px auto;
-        display: table;
-        box-shadow: 0px 5px 15px 0px rgba(62, 65, 159, 0.1);
-
-        @include media-query(991px) {
-            width: 140px;
-            height: 140px;
-        }
-
-        > div {
-            display: table-cell;
-            vertical-align: middle;
-        }
-
-        h3 {
-            font-size: 50px;
-            font-size: calc-rem-value(50);
-            margin: 0;
-
-            @include media-query(991px) {
-                font-size: 40px;
-                font-size: calc-rem-value(40);
-            }
-        }
-
-        p {
-            font-size: 18px;
-            font-size: calc-rem-value(18);
-            color: $theme-primary-color;
-            margin: 0;
-            text-decoration: line-through;
-
-            @include media-query(991px) {
-                font-size: 14px;
-                font-size: calc-rem-value(14);
-            }
-        }
-
-        span {
-            font-size: 18px;
-            font-weight: 700;
-        }
-    }
-
-    .pricing-body ul {
-        margin-bottom: 50px;
-        list-style: none;
-
-        @include media-query(991px) {
-            margin-bottom: 40px;
-        }
-
-        li {
-            @include media-query(1199px) {
-                font-size: 14px;
-                font-size: calc-rem-value(14);
-            }
-        }
-    }
-
-    .pricing-body ul > li + li {
-        margin-top: 12px;
+      background: #062650;
+      .price {
+        color: $white;
+      }
     }
 
     .pricing-body p {
-        font-size: 12px;
+      color: #ddd;
     }
 
-    .grid .get-started {
-        display: block;
-        padding: 13px 0;
-        border: 1px solid #f9deba;
-        border-radius: 5px;
-        color: $theme-primary-color;
-        font-weight: 500;
-
-        @include media-query(1199px) {
-            padding: 10px 0;
-            margin: 0 25px;
-        }
+    .get-started {
+      background: $theme-primary-color;
+      color: $white;
     }
-
-    .grid .get-started:hover {
-        background: $theme-primary-color;
-        color: $white;
+    .get-started:hover {
+      background: darken($theme-primary-color, 8%);
+      color: $white;
     }
-
-    .pricing-grids > .grid.active {
-        background: url(../../images/pricing-bg.jpg) no-repeat center center;
-        background-size: 100% 100% !important;
-        position: relative;
-        background-size: cover;
-        z-index: 1;
-        &:before {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(22, 57, 103, 0.9);
-            content: "";
-            z-index: -1;
-            border-radius: 5px;
-        }
-
-        @include widther(1200px) {
-            margin-top: -30px;
-            margin-bottom: 60px;
-        }
-
-        ul {
-            li {
-                color: #ddd;
-            }
-        }
-
-        .type {
-            background-color: #062650;
-
-            h5 {
-                color: $white;
-            }
-        }
-
-        .pricing-header {
-            background: #062650;
-            .price {
-                color: $white;
-            }
-        }
-
-        .pricing-body p {
-            color: #ddd;
-        }
-
-        .get-started {
-            background: $theme-primary-color;
-            color: $white;
-        }
-        .get-started:hover {
-            background: darken($theme-primary-color, 8%);
-            color: $white;
-        }
-    }
+  }
 }

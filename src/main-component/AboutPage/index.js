@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar";
 import PageTitle from "../../components/pagetitle";
 import Footer from "../../components/footer";
 import Scrollbar from "../../components/scrollbar";
-import Logo from "../../images/logo.svg";
+import Logo from "../../images/main-logo.png";
 import Attorneys from "../../api/attorneys";
 import elps_logo from "../../images/elps_logo.png";
 
@@ -14,51 +14,24 @@ const AboutPage = () => {
     <Fragment>
       <Navbar Logo={Logo} />
       <PageTitle
-        pageTitle={"당신의 아이디어를 더 빛나게 해 줄 단 하나의 특허출원 솔루션, 인디프로"}
-        pagesub={"회사소개"}
+        pageTitle={"인디프로(Indieipro)"}
+        pageSubTitle={"당신의 아이디어를 더 빛나게 해 줄 단 하나의 특허출원 솔루션"}
       />
       <section className="about-wrap-layout1">
         <div className="attorney-pg-area section-padding">
           <div className="container">
             <div className="attorney-info-wrap">
               <div className="row align-items-center">
-                <div className="col-lg-6">
-                  <div className="attorney-info-img">
+                <div className="col col-lg-6 col-sm-12 mx-auto">
+                  <div className="attorney-info-img text-center">
                     <img src={AttorneysDetails.AtImg} alt="" />
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="attorney-info-text">
-                    <h2>{AttorneysDetails.name}</h2>
-                    <ul>
-                      <li>
-                        Position: <span>인디프로 법무법인 대표 변호사</span>
-                      </li>
-                      <li>
-                        Area:<span>{AttorneysDetails.title}</span>
-                      </li>
-                      <li>
-                        Experience:<span>12 년</span>
-                      </li>
-                      <li>
-                        Address:<span>주소</span>
-                      </li>
-                      <li>
-                        Phone:<span>+010 1234 5678</span>
-                      </li>
-                      <li>
-                        Email:<span>youremail@gmail.com</span>
-                      </li>
-                      <li>
-                        Fax:<span>02 1234 5678</span>
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </div>
             </div>
             <div className="exprience-area">
               <div className="row">
+                <h2>손보남 대표</h2>
                 <div className="col-lg-12">
                   <div className="education-area ex-wiget">
                     <h2>학력</h2>
@@ -66,7 +39,9 @@ const AboutPage = () => {
                       <li>서울과학고등학교 조기졸업</li>
                       <li>연세대학교 전기전자공학부</li>
                       <li>
-                        연세대학교 법무대학원 지식재산권법무 수석졸업 (논문: 특허권 실시료 산정에 대한 국내외 사례 연구)
+                        연세대학교 법무대학원 지식재산권법무 수석졸업
+                        <br />
+                        (논문: 특허권 실시료 산정에 대한 국내외 사례 연구)
                       </li>
                     </ul>
                   </div>
@@ -75,7 +50,7 @@ const AboutPage = () => {
                     <h2>경력</h2>
                     <ul>
                       <li>(現) 인디프 대표</li>
-                      <li>(現) 특허법률사무소 동행(엘프스로 사명 변경 예정) 파트너 변리사</li>
+                      <li>(現) 특허법률사무소 동행 파트너 변리사</li>
                       <li>(現) 국민은행 기술평가 심사역</li>
                       <li>(現) 삼성전자 특허 전담 대리인</li>
                       <li>(現) LG전자 특허 전담 대리인</li>

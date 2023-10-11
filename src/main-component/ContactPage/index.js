@@ -4,20 +4,20 @@ import PageTitle from "../../components/pagetitle";
 import Contactpage from "../../components/Contactpage";
 import Footer from "../../components/footer";
 import Scrollbar from "../../components/scrollbar";
-import Logo from "../../images/logo.svg";
+import Logo from "../../images/main-logo.png";
 
 const ContactPage = () => {
-    return (
-        <Fragment>
-            <Navbar Logo={Logo} />
-            <PageTitle
-                pageTitle={"당신의 아이디어를 더 빛나게 해 줄 단 하나의 특허출원 솔루션, 인디프로"}
-                pagesub={"QnA"}
-            />
-            <Contactpage />
-            <Footer />
-            <Scrollbar />
-        </Fragment>
-    );
+  return (
+    <Fragment>
+      <Navbar Logo={Logo} />
+      <PageTitle
+        pageTitle={"인디프로(Indieipro)"}
+        pageSubTitle={"당신의 아이디어를 더 빛나게 해 줄 단 하나의 특허출원 솔루션"}
+      />
+      <Contactpage />
+      <Footer />
+      <Scrollbar />
+    </Fragment>
+  );
 };
 export default ContactPage;

@@ -8,6 +8,7 @@ import ModalProvider from "../../common/provider/ModalProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 import "../../sass/style.scss";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -17,7 +18,9 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <ModalProvider />
           <MainProvider>
-            <AllRoute />
+            <GoogleOAuthProvider clientId="1009040634997-4h545h3htq3csa2bqmn09oo3b43d3q22.apps.googleusercontent.com">
+              <AllRoute />
+            </GoogleOAuthProvider>
           </MainProvider>
           <ToastContainer />
         </QueryClientProvider>

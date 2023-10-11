@@ -6,43 +6,41 @@ import "slick-carousel/slick/slick-theme.css";
 import hero1 from "../../images/main-img01.jpg";
 
 class Hero extends Component {
-    render() {
-        var settings = {
-            dots: false,
-            arrows: true,
-            speed: 1200,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2500,
-            fade: true,
-        };
+  render() {
+    var settings = {
+      dots: false,
+      arrows: true,
+      speed: 1200,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 2500,
+      fade: true,
+    };
 
-        return (
-            <section className={`wpo-hero-slider ${this.props.heroClass}`}>
-                <div className="hero-container">
-                    <div className="hero-wrapper">
-                        <Slider {...settings}>
-                            <div className="hero-slide">
-                                <div
-                                    className="slide-inner slide-bg-image"
-                                    style={{ backgroundImage: `url(${hero1})` }}
-                                >
-                                    <div className="container-fluid">
-                                        <div className="slide-content">
-                                            <div className="slide-title">
-                                                <h2>인디프로 (Indieipro)</h2>
-                                            </div>
-                                            <div className="slide-text">
-                                                <p>당신의 아이디어를 더 빛나게 해 줄 단 하나의 특허출원 솔루션.</p>
-                                            </div>
-                                            <div className="clearfix"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    return (
+      <section className={`wpo-hero-slider ${this.props.heroClass}`}>
+        <div className="hero-container">
+          <div className="hero-wrapper">
+            <Slider {...settings}>
+              <div className="hero-slide">
+                <div className="slide-inner slide-bg-image" style={{ backgroundImage: `url(${hero1})` }}>
+                  <div className="container-fluid">
+                    <div className="slide-content">
+                      <div className="slide-text">
+                        <p>당신의 아이디어를 더 빛나게 해 줄 단 하나의 특허출원 솔루션.</p>
+                      </div>
+                      <div className="slide-title">
+                        <img src={require("../../images/main-slider-logo.png")} alt="" />
+                      </div>
 
-                            {/* <div className="hero-slide">
+                      <div className="clearfix"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* <div className="hero-slide">
                 <div className="slide-inner slide-bg-image" style={{ backgroundImage: `url(${hero2})` }}>
                   <div className="container-fluid">
                     <div className="slide-content">
@@ -65,12 +63,12 @@ class Hero extends Component {
                   </div>
                 </div>
               </div> */}
-                        </Slider>
-                    </div>
-                </div>
-            </section>
-        );
-    }
+            </Slider>
+          </div>
+        </div>
+      </section>
+    );
+  }
 }
 
 export default Hero;

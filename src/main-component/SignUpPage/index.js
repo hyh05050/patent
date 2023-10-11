@@ -28,7 +28,7 @@ const SignUpPage = (props) => {
         if (res.status === "success") {
           toast.success("회원가입이 되었습니다.");
           console.log(res);
-          // props.history.push("/login");
+          props.history.push("/login");
         } else {
           toast.success("로그인에 실패하였습니다.");
         }
