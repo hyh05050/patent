@@ -99,6 +99,8 @@ export const getContact = async (data) => {
     return dummyAPI("contact");
   }
 
+  return dummyAPI("contact");
+  /*
   const params = {
     name: data.name,
     email: data.email,
@@ -106,6 +108,7 @@ export const getContact = async (data) => {
     message: data.message,
   };
   return AccountAPI.contact(params);
+  */
 };
 
 export const getPatentApply = async (data) => {

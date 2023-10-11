@@ -4,7 +4,7 @@ import PageTitle from "../../components/pagetitle";
 import Footer from "../../components/footer";
 import Scrollbar from "../../components/scrollbar";
 import Pricing from "../../components/Pricing";
-import Logo from "../../images/main-logo.png";
+import Logo from "../../images/header-logo.png";
 
 const PricingPage = () => {
   return (

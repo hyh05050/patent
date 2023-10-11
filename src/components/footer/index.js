@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../images/main-logo2.png";
+import Logo from "../../images/footer-logo.png";
 import Services3 from "../../api/service3";
 
 import ins1 from "../../images/ft-icon/1.png";

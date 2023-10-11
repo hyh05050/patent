@@ -10,7 +10,7 @@ import Radio from "@material-ui/core/Radio";
 
 import "./style.scss";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 import { getPatentApply } from "../../api/axios/common";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
@@ -30,12 +30,14 @@ const Contents = () => {
     handleSubmit,
     control,
     setError,
+    setValue,
     formState: { errors },
   } = useForm({
     shouldFocusError: true,
   });
 
   const [step, setStep] = useState([true, false, false, false]);
+  const [proposerKind, setProposerKind] = useState("개인");
   const [taxOrCash, setTaxOrCash] = useState("tax");
   const [document, setDocument] = useState(null);
   const [userCertificate, setUserCertificate] = useState(null);
@@ -86,6 +88,24 @@ const Contents = () => {
 
     setExpanded(tags);
   }
+
+  const onChangeProposerKind = (value) => {
+    setValue("proposerKind", "");
+    setValue("proposerNameKr", "");
+    setValue("proposerNameEn", "");
+    setValue("proposer_social_no_first", "");
+    setValue("proposer_social_no_last", "");
+    setValue("proposerPostcode", "");
+    setValue("proposerAddress1", "");
+    setValue("proposerAddress2", "");
+    setValue("companyNameKr", "");
+    setValue("companyNameEn", "");
+    setValue("proposerCeoName", "");
+    setValue("proposerCeoPhone", "");
+    setValue("proposerCeoEmail", "");
+
+    setProposerKind(value);
+  };
 
   const onClickButton = (form) => {
     if (step.includes(false)) {
@@ -198,11 +218,15 @@ const Contents = () => {
                           defaultValue={""}
                           render={({ field }) => (
                             <TextField
+                              {...field}
                               fullWidth
                               type="text"
+                              name="keyword"
                               className="formInput radiusNone"
                               placeholder="키워드를 입력해 주세요"
-                              {...field}
+                              inputProps={{
+                                maxLength: 100,
+                              }}
                             />
                           )}
                         />
@@ -231,8 +255,9 @@ const Contents = () => {
                             control={control}
                             render={({ field }) => (
                               <input
-                                type="file"
                                 {...field}
+                                type="file"
+                                name="patent_file"
                                 className="formInput radiusNone"
                                 onChange={(e) => onChangeFile(e)}
                                 accept=".PDF, .DOC, .DOCX, .PPT, .PPTX, .HWP, .JPG, .TIF"
@@ -276,8 +301,9 @@ const Contents = () => {
                         defaultValue={"true"} // 기본 선택값을 설정합니다.
                         render={({ field }) => (
                           <RadioGroup
-                            className="paymentMethod"
                             {...field}
+                            name="openFlag"
+                            className="paymentMethod"
                             onChange={(e) => field.onChange(e.target.value)}
                           >
                             <FormControlLabel value="true" control={<Radio color="primary" />} label="예" />
@@ -307,8 +333,9 @@ const Contents = () => {
                         defaultValue="true" // 기본 선택값을 설정합니다.
                         render={({ field }) => (
                           <RadioGroup
-                            className="paymentMethod"
                             {...field}
+                            name="foreignFlag"
+                            className="paymentMethod"
                             onChange={(e) => field.onChange(e.target.value)}
                           >
                             <FormControlLabel value="true" control={<Radio color="primary" />} label="예" />
@@ -340,9 +367,13 @@ const Contents = () => {
                         defaultValue="개인" // 기본 선택값을 설정합니다.
                         render={({ field }) => (
                           <RadioGroup
-                            className="paymentMethod"
                             {...field}
-                            onChange={(e) => field.onChange(e.target.value)}
+                            name="proposerKind"
+                            className="paymentMethod"
+                            onChange={(e) => {
+                              onChangeProposerKind(e.target.value);
+                              field.onChange(e.target.value);
+                            }}
                           >
                             <FormControlLabel value="개인" control={<Radio color="primary" />} label="개인" />
                             <FormControlLabel value="법인" control={<Radio color="primary" />} label="법인" />
@@ -355,10 +386,10 @@ const Contents = () => {
                 </Grid>
                 <Grid className="cuponWrap checkoutCard">
                   <Button className="collapseBtn" fullWidth onClick={() => onClickTab("applicant")}>
-                    2. 출원인 정보 입력(개인)
+                    2. 출원인 정보 입력({proposerKind})
                     <span>{tabs.applicant ? <i className="fa fa-minus"></i> : <i className="fa fa-plus"></i>} </span>
                   </Button>
-                  <Collapse in={tabs.applicant} timeout="auto" unmountOnExit>
+                  <Collapse in={tabs.applicant && proposerKind == "개인"} timeout="auto" unmountOnExit>
                     <Grid className="chCardBody">
                       <div className="cuponForm">
                         <Grid container spacing={3}>
@@ -369,14 +400,18 @@ const Contents = () => {
                               defaultValue="" // 기본값을 설정할 수 있습니다.
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="한글이름"
                                   {...field}
+                                  fullWidth
+                                  name="proposerNameKr"
+                                  className="formInput radiusNone"
+                                  placeholder="한글 이름"
+                                  label="한글이름"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="한글 이름"
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
                                 />
                               )}
                             />
@@ -386,14 +421,13 @@ const Contents = () => {
                               name="proposerNameEn"
                               control={control}
                               defaultValue="" // 기본값을 설정할 수 있습니다.
-                              rules={{ required: "영문 이름를 입력해 주세요." }}
+                              rules={{ required: proposerKind == "개인" ? "영문 이름을 입력해 주세요." : false }}
                               render={({ field }) => (
                                 <TextField
+                                  {...field}
                                   fullWidth
                                   type="text"
-                                  InputLabelProps={{
-                                    shrink: true,
-                                  }}
+                                  name="proposerNameEn"
                                   className="formInput radiusNone"
                                   placeholder="영문 이름"
                                   label={
@@ -402,6 +436,12 @@ const Contents = () => {
                                       <span className="required-field m-1">*</span>
                                     </>
                                   }
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
                                 />
                               )}
                             />
@@ -417,16 +457,17 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="주민등록번호"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="proposer_social_no_first"
+                                  className="formInput radiusNone"
+                                  placeholder="주민등록번호 앞자리"
+                                  label="주민등록번호"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="주민등록번호 앞자리"
-                                  InputProps={{
+                                  inputProps={{
                                     maxLength: 6,
                                     inputMode: "numeric",
                                     pattern: "[0-9]*",
@@ -442,75 +483,97 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label=" "
                                   {...field}
+                                  fullWidth
                                   type="text"
-                                  InputLabelProps={{
-                                    shrink: true,
-                                  }}
+                                  name="proposer_social_no_last"
                                   className="formInput radiusNone"
                                   placeholder="주민등록번호 뒷자리"
-                                />
-                              )}
-                            />
-                          </Grid>
-                          <Grid item md={4} xs={12}>
-                            <Controller
-                              name="proposerPostcode"
-                              control={control}
-                              defaultValue=""
-                              render={({ field }) => (
-                                <TextField
-                                  fullWidth
-                                  label="우편번호"
-                                  {...field}
-                                  type="text"
+                                  label=" "
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="우편번호"
+                                  inputProps={{
+                                    maxLength: 7,
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                  }}
                                 />
                               )}
                             />
                           </Grid>
                           <Grid item xs={12}>
+                            <Grid item xs={4}>
+                              <Controller
+                                name="proposerPostcode"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                  <TextField
+                                    {...field}
+                                    fullWidth
+                                    type="text"
+                                    name="proposerPostcode"
+                                    className="formInput radiusNone"
+                                    placeholder="우편번호"
+                                    label="우편번호"
+                                    InputLabelProps={{
+                                      shrink: true,
+                                    }}
+                                    inputProps={{
+                                      maxLength: 5,
+                                      inputMode: "numeric",
+                                      pattern: "[0-9]*",
+                                    }}
+                                  />
+                                )}
+                              />
+                            </Grid>
+                          </Grid>
+                          <Grid item md={6} xs={12}>
                             <Controller
                               name="proposerAddress1"
                               control={control}
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="주소"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="proposerAddress1"
+                                  className="formInput radiusNone"
+                                  placeholder="주소"
+                                  label="주소"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="주소"
+                                  inputProps={{
+                                    maxLength: 50,
+                                  }}
                                 />
                               )}
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid item md={6} xs={12}>
                             <Controller
                               name="proposerAddress2"
                               control={control}
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="상세주소"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="proposerAddress2"
+                                  className="formInput radiusNone"
+                                  placeholder="상세주소"
+                                  label="상세주소"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="상세주소"
+                                  inputProps={{
+                                    maxLength: 50,
+                                  }}
                                 />
                               )}
                             />
@@ -526,16 +589,246 @@ const Contents = () => {
                             control={control}
                             render={({ field }) => (
                               <input
-                                type="file"
                                 {...field}
+                                type="file"
+                                name="sign_file"
                                 className="formInput radiusNone"
                                 onChange={(e) => onChangeFile(e)}
-                                accept=".jpg, .png"
                               />
                             )}
                           />
                         </div>
                         <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                      </div>
+                    </Grid>
+                  </Collapse>
+
+                  <Collapse in={tabs.applicant && proposerKind != "개인"} timeout="auto" unmountOnExit>
+                    <Grid className="chCardBody">
+                      <div className="cuponForm">
+                        <Grid container spacing={3}>
+                          <Grid item sm={6} xs={12}>
+                            <Controller
+                              name="companyNameKr"
+                              control={control}
+                              defaultValue="" // 기본값을 설정할 수 있습니다.
+                              rules={{ required: proposerKind != "개인" ? "법인 한글 이름을 입력해 주세요." : false }}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  type="text"
+                                  name="companyNameKr"
+                                  className="formInput radiusNone"
+                                  placeholder="법인 한글 이름"
+                                  label={
+                                    <>
+                                      법인 한글이름
+                                      <span className="required-field m-1">*</span>
+                                    </>
+                                  }
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
+                                />
+                              )}
+                            />
+
+                            <p className="required-field">{errors.companyNameKr ? errors.companyNameKr.message : ""}</p>
+                          </Grid>
+                          <Grid item sm={6} xs={12}>
+                            <Controller
+                              name="companyNameEn"
+                              control={control}
+                              defaultValue="" // 기본값을 설정할 수 있습니다.
+                              rules={{ required: proposerKind != "개인" ? "법인 영문 이름을 입력해 주세요." : false }}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  type="text"
+                                  name="companyNameEn"
+                                  className="formInput radiusNone"
+                                  placeholder="법인 영문 이름"
+                                  label={
+                                    <>
+                                      법인 영문이름
+                                      <span className="required-field m-1">*</span>
+                                    </>
+                                  }
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
+                                />
+                              )}
+                            />
+
+                            <p className="required-field">{errors.companyNameEn ? errors.companyNameEn.message : ""}</p>
+                          </Grid>
+                          <Grid item sm={6} xs={12}>
+                            <Controller
+                              name="proposerCeoName"
+                              control={control}
+                              defaultValue="" // 기본값을 설정할 수 있습니다.
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  name="proposerCeoName"
+                                  className="formInput radiusNone"
+                                  placeholder="대표자 이름"
+                                  label="대표자 이름"
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
+                                />
+                              )}
+                            />
+                          </Grid>
+                          <Grid item sm={6} xs={12}>
+                            <Controller
+                              name="proposerCeoPhone"
+                              control={control}
+                              defaultValue="" // 기본값을 설정할 수 있습니다.
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  name="proposerCeoPhone"
+                                  className="formInput radiusNone"
+                                  placeholder="대표자 전화번호"
+                                  label="대표자 전화번호"
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
+                                />
+                              )}
+                            />
+                          </Grid>
+                          <Grid item sm={6} xs={12}>
+                            <Controller
+                              name="proposerCeoEmail"
+                              control={control}
+                              defaultValue="" // 기본값을 설정할 수 있습니다.
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  name="proposerCeoEmail"
+                                  className="formInput radiusNone"
+                                  placeholder="대표자 이메일"
+                                  label="대표자 이메일"
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  inputProps={{
+                                    maxLength: 50,
+                                  }}
+                                />
+                              )}
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <p className="mt-5">
+                              법인 인감이미지 업로드 <span className="required-field m-1">*</span>
+                            </p>
+                            <div className="cuponForm">
+                              <div className="file-box">
+                                <Controller
+                                  name="sign_file"
+                                  control={control}
+                                  render={({ field }) => (
+                                    <input
+                                      {...field}
+                                      type="file"
+                                      name="sign_file"
+                                      className="formInput radiusNone"
+                                      onChange={(e) => onChangeFile(e)}
+                                    />
+                                  )}
+                                />
+                              </div>
+                              <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                            </div>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <p className="mt-5">
+                              법인 사업자등록증 업로드 <span className="required-field m-1">*</span>
+                            </p>
+                            <div className="cuponForm">
+                              <div className="file-box">
+                                <Controller
+                                  name="sign_file"
+                                  control={control}
+                                  render={({ field }) => (
+                                    <input
+                                      {...field}
+                                      type="file"
+                                      name="sign_file"
+                                      className="formInput radiusNone"
+                                      onChange={(e) => onChangeFile(e)}
+                                    />
+                                  )}
+                                />
+                              </div>
+                              <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                            </div>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <p className="mt-5">법인 인감증명서 업로드</p>
+                            <div className="cuponForm">
+                              <div className="file-box">
+                                <Controller
+                                  name="sign_file"
+                                  control={control}
+                                  render={({ field }) => (
+                                    <input
+                                      {...field}
+                                      type="file"
+                                      name="sign_file"
+                                      className="formInput radiusNone"
+                                      onChange={(e) => onChangeFile(e)}
+                                    />
+                                  )}
+                                />
+                              </div>
+                              <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                            </div>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <p className="mt-5">법인 중소기업확인서 업로드</p>
+                            <div className="cuponForm">
+                              <div className="file-box">
+                                <Controller
+                                  name="sign_file"
+                                  control={control}
+                                  render={({ field }) => (
+                                    <input
+                                      {...field}
+                                      type="file"
+                                      name="sign_file"
+                                      className="formInput radiusNone"
+                                      onChange={(e) => onChangeFile(e)}
+                                    />
+                                  )}
+                                />
+                              </div>
+                              <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                            </div>
+                          </Grid>
+                        </Grid>
                       </div>
                     </Grid>
                   </Collapse>
@@ -586,15 +879,19 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="발명자 한글이름"
                                   {...field}
+                                  fullWidth
+                                  name="inventorNameKr"
+                                  className="formInput radiusNone"
+                                  placeholder="한글 이름"
+                                  label="발명자 한글이름"
                                   type="text"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="한글 이름"
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
                                 />
                               )}
                             />
@@ -606,15 +903,19 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="발명자 영문이름"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="inventorNameEn"
+                                  className="formInput radiusNone"
+                                  placeholder="영문 이름"
+                                  label="발명자 영문이름"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="영문 이름"
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
                                 />
                               )}
                             />
@@ -626,15 +927,21 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="발명자 주민등록번호"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="inventor_social_no_first"
+                                  className="formInput radiusNone"
+                                  placeholder="주민등록번호 앞자리"
+                                  label="발명자 주민등록번호"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="주민등록번호 앞자리"
+                                  inputProps={{
+                                    maxLength: 6,
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                  }}
                                 />
                               )}
                             />
@@ -646,15 +953,21 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label=" "
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="inventor_social_no_last"
+                                  className="formInput radiusNone"
+                                  placeholder="주민등록번호 뒷자리"
+                                  label=" "
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="주민등록번호 뒷자리"
+                                  inputProps={{
+                                    maxLength: 7,
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                  }}
                                 />
                               )}
                             />
@@ -666,15 +979,21 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="우편번호"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="inventorPostcode"
+                                  className="formInput radiusNone"
+                                  placeholder="우편번호"
+                                  label="우편번호"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="우편번호"
+                                  inputProps={{
+                                    maxLength: 5,
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                  }}
                                 />
                               )}
                             />
@@ -686,15 +1005,19 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="주소"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="inventorAddress1"
+                                  className="formInput radiusNone"
+                                  placeholder="주소"
+                                  label="주소"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="주소"
+                                  inputProps={{
+                                    maxLength: 50,
+                                  }}
                                 />
                               )}
                             />
@@ -706,15 +1029,19 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="상세주소"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="inventorAddress2"
+                                  className="formInput radiusNone"
+                                  placeholder="상세주소"
+                                  label="상세주소"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="상세주소"
+                                  inputProps={{
+                                    maxLength: 50,
+                                  }}
                                 />
                               )}
                             />
@@ -754,20 +1081,24 @@ const Contents = () => {
                               rules={{ required: "담당자 이름을 입력해 주세요." }}
                               render={({ field }) => (
                                 <TextField
+                                  {...field}
                                   fullWidth
+                                  type="text"
+                                  name="managerName"
+                                  className="formInput radiusNone"
+                                  placeholder="담당자 이름"
                                   label={
                                     <>
                                       담당자 이름
                                       <span className="required-field m-1">*</span>
                                     </>
                                   }
-                                  {...field}
-                                  type="text"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="담당자 이름"
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
                                 />
                               )}
                             />
@@ -781,20 +1112,24 @@ const Contents = () => {
                               rules={{ required: "전화번호를 입력해 주세요." }}
                               render={({ field }) => (
                                 <TextField
+                                  {...field}
                                   fullWidth
+                                  type="text"
+                                  name="managerPhone"
+                                  className="formInput radiusNone"
+                                  placeholder="휴대전화번호"
                                   label={
                                     <>
                                       휴대전화번호
                                       <span className="required-field m-1">*</span>
                                     </>
                                   }
-                                  {...field}
-                                  type="text"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="휴대전화번호"
+                                  inputProps={{
+                                    maxLength: 20,
+                                  }}
                                 />
                               )}
                             />
@@ -808,20 +1143,24 @@ const Contents = () => {
                               rules={{ required: "이메일 주소를 입력해 주세요." }}
                               render={({ field }) => (
                                 <TextField
+                                  {...field}
                                   fullWidth
+                                  type="text"
+                                  name="managerEmail"
+                                  className="formInput radiusNone"
+                                  placeholder="이메일 주소"
                                   label={
                                     <>
                                       이메일 주소
                                       <span className="required-field m-1">*</span>
                                     </>
                                   }
-                                  {...field}
-                                  type="text"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="이메일 주소"
+                                  inputProps={{
+                                    maxLength: 50,
+                                  }}
                                 />
                               )}
                             />
@@ -834,15 +1173,19 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
-                                  fullWidth
-                                  label="직책"
                                   {...field}
+                                  fullWidth
                                   type="text"
+                                  name="managerPosition"
+                                  className="formInput radiusNone"
+                                  placeholder="직책"
+                                  label="직책"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone"
-                                  placeholder="직책"
+                                  inputProps={{
+                                    maxLength: 15,
+                                  }}
                                 />
                               )}
                             />
@@ -854,16 +1197,20 @@ const Contents = () => {
                               defaultValue=""
                               render={({ field }) => (
                                 <TextField
+                                  {...field}
                                   fullWidth
                                   multiline
-                                  label="메모"
-                                  {...field}
-                                  placeholder="전달하실 내용을 적어주세요"
                                   type="text"
+                                  name="memo"
+                                  className="formInput radiusNone note"
+                                  placeholder="전달하실 내용을 적어주세요"
+                                  label="메모"
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
-                                  className="formInput radiusNone note"
+                                  inputProps={{
+                                    maxLength: 150,
+                                  }}
                                 />
                               )}
                             />
@@ -1003,24 +1350,21 @@ const Contents = () => {
                   <Collapse in={tabs.etc} timeout="auto" unmountOnExit>
                     <Grid className="chCardBody">
                       <p className="mt-3">
-                        1. 업로드하신 도장(서명)이미지를 기반으로 아래 내용들이 포함된 표준 위임장이 파트너 특허법인을
-                        통해 제출됩니다.
+                        1. 업로드하신 도장(서명)이미지를 기반으로 아래 내용들이 포함된 표준 위임장이 파트너
+                        특허사무소/특허법인을 통해 제출됩니다.
                       </p>
                       <div className="policy-field">
-                        <p>- 특허등록출원에 관란 모든 절차</p>
+                        <p>- 특허등록출원에 관한 모든 절차</p>
                         <p>- 특허권 등록에 관한 모든 절차</p>
-                        <p>- 특허등록출원의 포기</p>
-                        <p>- 특허등록출원의 취하</p>
-                        <p>- 특허등록출원에 관한 청구의 취하</p>
-                        <p>- 특허등록출원에 관한 신청의 취하</p>
-                        <p>- 출원인정보변경에 대한 모든 절차</p>
+                        <p>- 특허출원, 특허등록의 포기, 취하, 청구 및 신청에 대한 취하</p>
+                        <p>- 출원인 정보 변경에 대한 모든 절차</p>
                         <p>- 등록명의인 표시 통합관리 신청에 관한 모든 절차</p>
                       </div>
                       <p className="mt-5">2. 임시출원에 관한 아래 유의사항을 확인하였습니다.</p>
                       <div className="policy-field">
                         <p>
-                          - 비긴과 파트너 특허법인을 통해 진행되는 임시출원은 2020.3.30 특허청에서 시행된 '임시명세서'
-                          방식에 의한 출원입니다.
+                          - 인디프로와 파트너 특허사무소/특허법인을 통해 진행되는 임시출원은 2020.3.30 특허청에서 시행된
+                          '임시명세서' 방식에 의한 출원입니다.
                         </p>
                         <p>
                           - 임시출원일로부터 1년 내에 정규출원을 진행하지 않는 경우 임시출원은 출원일로부터 1년 2개월 후
@@ -1055,7 +1399,7 @@ const Contents = () => {
                           render={({ field }) => (
                             <FormControlLabel
                               className="checkBox"
-                              control={<Checkbox {...field} color="primary" />}
+                              control={<Checkbox {...field} name="entrust_flag" color="primary" />}
                               label="위임 및 유의사항에 동의합니다."
                             />
                           )}
