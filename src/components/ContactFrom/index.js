@@ -14,7 +14,7 @@ const ContactForm = () => {
 
   const mutation = useMutation(
     async (data) => {
-      return await getContact(getValues());
+      return await getContact(data);
     },
     {
       enabled: false,

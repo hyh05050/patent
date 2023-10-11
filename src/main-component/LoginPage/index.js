@@ -27,7 +27,6 @@ const LoginPage = (props) => {
 
   const mutation = useMutation(
     async (data) => {
-      console.log(data);
       return await getLogin(data);
     },
     {
@@ -42,12 +41,13 @@ const LoginPage = (props) => {
               accountId: res.data.accountId,
               accountKey: res.data.accountKey,
               humanName: res.data.humanName,
+              joinType: res.data.joinType,
             },
             isKeepLogin,
           );
           props.history.push("/home");
         } else {
-          toast.success("로그인에 실패하였습니다.");
+          toast.warning(res.message);
         }
       },
       onError: () => {},
@@ -59,12 +59,11 @@ const LoginPage = (props) => {
   };
 
   const onGoogleLoginSuccess = (res) => {
-    console.log(res);
     const userData = jwt_decode(res.credential);
     mutation.mutate({
       email: userData.email,
       password: userData.sub,
-      name: userData.name,
+      humanName: userData.name,
       joinType: "google",
     });
   };
@@ -72,7 +71,6 @@ const LoginPage = (props) => {
   const googleLogin = useGoogleLogin({
     onSuccess: (res) => onGoogleLoginSuccess(res),
     onFailure: (error) => console.log(error),
-    flow: "auth-code",
   });
 
   return (

@@ -55,17 +55,18 @@ export const getLogin = async (data) => {
     return dummyAPI("login");
   }
 
-  return dummyAPI("login");
+  // return dummyAPI("login");
 
-  //   const params = {
-  //     accountKey: data.email,
-  //     password: data.password,
-  //     email: data.email,
-  //     joinType: data.joinType,
-  //   };
-  //   const result = AccountAPI.login(params);
-  //   setAccessToken(result["X-AUTH-TOKEN"]);
-  //   return result;
+  const params = {
+    accountKey: data.email,
+    password: data.password,
+    email: data.email,
+    joinType: data.joinType,
+    humanName: data.humanName,
+  };
+  const result = AccountAPI.login(params);
+  setAccessToken(result["X-AUTH-TOKEN"]);
+  return result;
 };
 
 export const getJoin = async (data) => {
@@ -99,16 +100,14 @@ export const getContact = async (data) => {
     return dummyAPI("contact");
   }
 
-  return dummyAPI("contact");
-  /*
   const params = {
-    name: data.name,
+    humanName: data.name,
     email: data.email,
     phone: data.phone,
-    message: data.message,
+    subject: data.subject,
+    memo: data.notes,
   };
   return AccountAPI.contact(params);
-  */
 };
 
 export const getPatentApply = async (data) => {
@@ -118,12 +117,19 @@ export const getPatentApply = async (data) => {
 
   const params = {
     ...data,
-    registerId: getAccount().accountId || 2,
-    inventorSocialNo: `${data.inventor_social_no_first}-${data.inventor_social_no_last}`,
-    proposerSocialNo: `${data.proposer_social_no_first}-${data.proposer_social_no_last}`,
+    registerId: getAccount().accountId || 0,
+    inventorSocialNo:
+      data.inventor_social_no_first && data.inventor_social_no_last
+        ? `${data.inventor_social_no_first}-${data.inventor_social_no_last}`
+        : "",
+    proposerSocialNo:
+      data.proposer_social_no_first && data.proposer_social_no_last
+        ? `${data.proposer_social_no_first}-${data.proposer_social_no_last}`
+        : "",
     patentName: data.keyword,
     status: "R",
   };
+  console.log(params);
   return PatentAPI.patentApply(params);
 };
 
@@ -133,7 +139,7 @@ export const getMyPatentList = async (data) => {
   }
 
   const params = {
-    registerId: getAccount().accountId || 2,
+    registerId: getAccount().accountId || 0,
   };
   const queryStr = objectToQueryString(params);
   return PatentAPI.myPatentList(queryStr);

@@ -40,8 +40,11 @@ const Contents = () => {
   const [proposerKind, setProposerKind] = useState("개인");
   const [taxOrCash, setTaxOrCash] = useState("tax");
   const [document, setDocument] = useState(null);
-  const [userCertificate, setUserCertificate] = useState(null);
+  const [proposerStamp, setProposerStamp] = useState(null);
+  const [corporationStamp, setCorporationStamp] = useState(null);
   const [bizCertificate, setBizCertificate] = useState(null);
+  const [corporationCertificate, setCorporationCertificate] = useState(null);
+  const [smallMediumConfirm, setSmallMediumConfirm] = useState(null);
 
   const mutation = useMutation(
     async (data) => {
@@ -98,11 +101,16 @@ const Contents = () => {
     setValue("proposerPostcode", "");
     setValue("proposerAddress1", "");
     setValue("proposerAddress2", "");
-    setValue("companyNameKr", "");
-    setValue("companyNameEn", "");
+    setValue("proposerCompanyNameKr", "");
+    setValue("proposerCompanyNameEn", "");
     setValue("proposerCeoName", "");
     setValue("proposerCeoPhone", "");
     setValue("proposerCeoEmail", "");
+    setProposerStamp(null);
+    setCorporationStamp(null);
+    setBizCertificate(null);
+    setCorporationCertificate(null);
+    setSmallMediumConfirm(null);
 
     setProposerKind(value);
   };
@@ -134,50 +142,74 @@ const Contents = () => {
       base64String: await base64String(selectedFile),
     };
 
-    if (target.name === "patent_file") {
+    if (target.name === "documentFile") {
       setDocument(fileData);
     }
 
-    if (target.name === "sign_file") {
-      setUserCertificate(fileData);
+    if (target.name === "proposerStampFile") {
+      setProposerStamp(fileData);
     }
 
-    if (target.name === "biz_file") {
+    if (target.name === "corporationStampFile") {
+      setCorporationStamp(fileData);
+    }
+
+    if (target.name === "bizCertificateFile") {
       setBizCertificate(fileData);
+    }
+
+    if (target.name === "corporationCertificateFile") {
+      setCorporationCertificate(fileData);
+    }
+
+    if (target.name === "smallMediumConfirmFile") {
+      setSmallMediumConfirm(fileData);
     }
   };
 
   const onSubmit = (data) => {
-    console.log(document, userCertificate, bizCertificate);
     if (document === null) {
-      setError("patent_file", {
+      setError("documentFile", {
         type: "manual",
         message: "문서를 업로드해 주세요.",
       });
       return;
     }
 
-    if (userCertificate === null) {
-      setError("sign_file", {
-        type: "manual",
-        message: "서명 이미지를 업로드해 주세요.",
-      });
-      return;
-    }
+    if (proposerKind == "개인") {
+      if (proposerStamp === null) {
+        setError("proposerStampFile", {
+          type: "manual",
+          message: "서명 이미지를 업로드해 주세요.",
+        });
+        return;
+      }
+    } else {
+      if (corporationStamp === null) {
+        setError("corporationStampFile", {
+          type: "manual",
+          message: "법인 인감 이미지를 업로드해 주세요.",
+        });
+        return;
+      }
 
-    // if (bizCertificate === null) {
-    //   setError("biz_file", {
-    //     type: "manual",
-    //     message: "사업자 등록증을 업로드해 주세요.",
-    //   });
-    //   return;
-    // }
+      if (bizCertificate === null) {
+        setError("bizCertificateFile", {
+          type: "manual",
+          message: "법인 사업자등록증을 업로드해 주세요.",
+        });
+        return;
+      }
+    }
 
     mutation.mutate({
       ...data,
       document: document,
-      userCertificate: userCertificate,
-      // bizCertificate: bizCertificate,
+      proposerStamp: proposerStamp,
+      corporationStamp: corporationStamp,
+      bizCertificate: bizCertificate,
+      corporationCertificate: corporationCertificate,
+      smallMediumConfirm: smallMediumConfirm,
     });
   };
 
@@ -251,13 +283,13 @@ const Contents = () => {
                       <div className="cuponForm">
                         <div className="file-box">
                           <Controller
-                            name="patent_file"
+                            name="documentFile"
                             control={control}
                             render={({ field }) => (
                               <input
                                 {...field}
                                 type="file"
-                                name="patent_file"
+                                name="documentFile"
                                 className="formInput radiusNone"
                                 onChange={(e) => onChangeFile(e)}
                                 accept=".PDF, .DOC, .DOCX, .PPT, .PPTX, .HWP, .JPG, .TIF"
@@ -266,7 +298,7 @@ const Contents = () => {
                           />
                         </div>
                       </div>
-                      <p className="required-field">{errors.patent_file ? errors.patent_file.message : ""}</p>
+                      <p className="required-field">{errors.documentFile ? errors.documentFile.message : ""}</p>
                       <p className="mt-3">
                         <span className="focus-field">
                           ① 출원할 내용과 도표 등 모든 자료가 통합된 1개의 문서를 업로드하세요.
@@ -469,8 +501,12 @@ const Contents = () => {
                                   }}
                                   inputProps={{
                                     maxLength: 6,
-                                    inputMode: "numeric",
-                                    pattern: "[0-9]*",
+                                  }}
+                                  onChange={(e) => {
+                                    const regex = /^[0-9\b]+$/;
+                                    if (e.target.value === "" || regex.test(e.target.value)) {
+                                      field.onChange(e.target.value);
+                                    }
                                   }}
                                 />
                               )}
@@ -495,8 +531,12 @@ const Contents = () => {
                                   }}
                                   inputProps={{
                                     maxLength: 7,
-                                    inputMode: "numeric",
-                                    pattern: "[0-9]*",
+                                  }}
+                                  onChange={(e) => {
+                                    const regex = /^[0-9\b]+$/;
+                                    if (e.target.value === "" || regex.test(e.target.value)) {
+                                      field.onChange(e.target.value);
+                                    }
                                   }}
                                 />
                               )}
@@ -521,9 +561,13 @@ const Contents = () => {
                                       shrink: true,
                                     }}
                                     inputProps={{
-                                      maxLength: 5,
-                                      inputMode: "numeric",
-                                      pattern: "[0-9]*",
+                                      maxLength: 6,
+                                    }}
+                                    onChange={(e) => {
+                                      const regex = /^[0-9\b]+$/;
+                                      if (e.target.value === "" || regex.test(e.target.value)) {
+                                        field.onChange(e.target.value);
+                                      }
                                     }}
                                   />
                                 )}
@@ -585,20 +629,22 @@ const Contents = () => {
                       <div className="cuponForm">
                         <div className="file-box">
                           <Controller
-                            name="sign_file"
+                            name="proposerStampFile"
                             control={control}
                             render={({ field }) => (
                               <input
                                 {...field}
                                 type="file"
-                                name="sign_file"
+                                name="proposerStampFile"
                                 className="formInput radiusNone"
                                 onChange={(e) => onChangeFile(e)}
                               />
                             )}
                           />
                         </div>
-                        <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                        <p className="required-field">
+                          {errors.proposerStampFile ? errors.proposerStampFile.message : ""}
+                        </p>
                       </div>
                     </Grid>
                   </Collapse>
@@ -609,7 +655,7 @@ const Contents = () => {
                         <Grid container spacing={3}>
                           <Grid item sm={6} xs={12}>
                             <Controller
-                              name="companyNameKr"
+                              name="proposerCompanyNameKr"
                               control={control}
                               defaultValue="" // 기본값을 설정할 수 있습니다.
                               rules={{ required: proposerKind != "개인" ? "법인 한글 이름을 입력해 주세요." : false }}
@@ -618,7 +664,7 @@ const Contents = () => {
                                   {...field}
                                   fullWidth
                                   type="text"
-                                  name="companyNameKr"
+                                  name="proposerCompanyNameKr"
                                   className="formInput radiusNone"
                                   placeholder="법인 한글 이름"
                                   label={
@@ -637,11 +683,13 @@ const Contents = () => {
                               )}
                             />
 
-                            <p className="required-field">{errors.companyNameKr ? errors.companyNameKr.message : ""}</p>
+                            <p className="required-field">
+                              {errors.proposerCompanyNameKr ? errors.proposerCompanyNameKr.message : ""}
+                            </p>
                           </Grid>
                           <Grid item sm={6} xs={12}>
                             <Controller
-                              name="companyNameEn"
+                              name="proposerCompanyNameEn"
                               control={control}
                               defaultValue="" // 기본값을 설정할 수 있습니다.
                               rules={{ required: proposerKind != "개인" ? "법인 영문 이름을 입력해 주세요." : false }}
@@ -650,7 +698,7 @@ const Contents = () => {
                                   {...field}
                                   fullWidth
                                   type="text"
-                                  name="companyNameEn"
+                                  name="proposerCompanyNameEn"
                                   className="formInput radiusNone"
                                   placeholder="법인 영문 이름"
                                   label={
@@ -669,7 +717,9 @@ const Contents = () => {
                               )}
                             />
 
-                            <p className="required-field">{errors.companyNameEn ? errors.companyNameEn.message : ""}</p>
+                            <p className="required-field">
+                              {errors.proposerCompanyNameEn ? errors.proposerCompanyNameEn.message : ""}
+                            </p>
                           </Grid>
                           <Grid item sm={6} xs={12}>
                             <Controller
@@ -747,20 +797,22 @@ const Contents = () => {
                             <div className="cuponForm">
                               <div className="file-box">
                                 <Controller
-                                  name="sign_file"
+                                  name="corporationStampFile"
                                   control={control}
                                   render={({ field }) => (
                                     <input
                                       {...field}
                                       type="file"
-                                      name="sign_file"
+                                      name="corporationStampFile"
                                       className="formInput radiusNone"
                                       onChange={(e) => onChangeFile(e)}
                                     />
                                   )}
                                 />
                               </div>
-                              <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                              <p className="required-field">
+                                {errors.corporationStampFile ? errors.corporationStampFile.message : ""}
+                              </p>
                             </div>
                           </Grid>
                           <Grid item xs={12}>
@@ -770,62 +822,87 @@ const Contents = () => {
                             <div className="cuponForm">
                               <div className="file-box">
                                 <Controller
-                                  name="sign_file"
+                                  name="bizCertificateFile"
                                   control={control}
                                   render={({ field }) => (
                                     <input
                                       {...field}
                                       type="file"
-                                      name="sign_file"
+                                      name="bizCertificateFile"
                                       className="formInput radiusNone"
                                       onChange={(e) => onChangeFile(e)}
                                     />
                                   )}
                                 />
                               </div>
-                              <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                              <p className="required-field">
+                                {errors.bizCertificateFile ? errors.bizCertificateFile.message : ""}
+                              </p>
                             </div>
                           </Grid>
                           <Grid item xs={12}>
                             <p className="mt-5">법인 인감증명서 업로드</p>
+                            <p>
+                              <span className="focus-field">※ 특허고객번호 발급을 위해 필요한 서류입니다.</span>
+                              <br />
+                              <span className="focus-field">
+                                ※ 법인의 특허고객번호가 있는 경우에는 제출하실 필요가 없습니다.
+                              </span>
+                            </p>
                             <div className="cuponForm">
                               <div className="file-box">
                                 <Controller
-                                  name="sign_file"
+                                  name="corporationCertificateFile"
                                   control={control}
                                   render={({ field }) => (
                                     <input
                                       {...field}
                                       type="file"
-                                      name="sign_file"
+                                      name="corporationCertificateFile"
                                       className="formInput radiusNone"
                                       onChange={(e) => onChangeFile(e)}
                                     />
                                   )}
                                 />
                               </div>
-                              <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                              <p className="required-field">
+                                {errors.corporationCertificateFile ? errors.corporationCertificateFile.message : ""}
+                              </p>
                             </div>
                           </Grid>
                           <Grid item xs={12}>
                             <p className="mt-5">법인 중소기업확인서 업로드</p>
+                            <p>
+                              <span className="focus-field">
+                                ※ 지금 법인 중소기업확인서가 없어도 출원은 가능합니다. 단, 약 1개월내에 제출해주셔야
+                                합니다.
+                              </span>
+                              <br />
+                              <span className="focus-field">※ 특허청 관납료 감면을 위해 필요한 서류입니다.</span>
+                              <br />
+                              <span className="focus-field">
+                                ※ 미제출시 감면금액을 추가로 납부하시거나, 납부하지 않을 경우 출원이 무효로 됩니다.
+                              </span>
+                            </p>
                             <div className="cuponForm">
                               <div className="file-box">
                                 <Controller
-                                  name="sign_file"
+                                  name="smallMediumConfirmFile"
                                   control={control}
                                   render={({ field }) => (
                                     <input
                                       {...field}
                                       type="file"
-                                      name="sign_file"
+                                      name="smallMediumConfirmFile"
                                       className="formInput radiusNone"
                                       onChange={(e) => onChangeFile(e)}
                                     />
                                   )}
                                 />
                               </div>
-                              <p className="required-field">{errors.sign_file ? errors.sign_file.message : ""}</p>
+                              <p className="required-field">
+                                {errors.smallMediumConfirmFile ? errors.smallMediumConfirmFile.message : ""}
+                              </p>
                             </div>
                           </Grid>
                         </Grid>
@@ -939,8 +1016,12 @@ const Contents = () => {
                                   }}
                                   inputProps={{
                                     maxLength: 6,
-                                    inputMode: "numeric",
-                                    pattern: "[0-9]*",
+                                  }}
+                                  onChange={(e) => {
+                                    const regex = /^[0-9\b]+$/;
+                                    if (e.target.value === "" || regex.test(e.target.value)) {
+                                      field.onChange(e.target.value);
+                                    }
                                   }}
                                 />
                               )}
@@ -965,8 +1046,12 @@ const Contents = () => {
                                   }}
                                   inputProps={{
                                     maxLength: 7,
-                                    inputMode: "numeric",
-                                    pattern: "[0-9]*",
+                                  }}
+                                  onChange={(e) => {
+                                    const regex = /^[0-9\b]+$/;
+                                    if (e.target.value === "" || regex.test(e.target.value)) {
+                                      field.onChange(e.target.value);
+                                    }
                                   }}
                                 />
                               )}
@@ -990,9 +1075,13 @@ const Contents = () => {
                                     shrink: true,
                                   }}
                                   inputProps={{
-                                    maxLength: 5,
-                                    inputMode: "numeric",
-                                    pattern: "[0-9]*",
+                                    maxLength: 6,
+                                  }}
+                                  onChange={(e) => {
+                                    const regex = /^[0-9\b]+$/;
+                                    if (e.target.value === "" || regex.test(e.target.value)) {
+                                      field.onChange(e.target.value);
+                                    }
                                   }}
                                 />
                               )}

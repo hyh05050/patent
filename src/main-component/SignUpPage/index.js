@@ -19,18 +19,17 @@ const SignUpPage = (props) => {
 
   const mutation = useMutation(
     async (data) => {
-      console.log(data);
-      return await getJoin(getValues());
+      return await getJoin(data);
     },
     {
       enabled: false,
       onSuccess: (res) => {
+        console.log(res);
         if (res.status === "success") {
           toast.success("회원가입이 되었습니다.");
-          console.log(res);
           props.history.push("/login");
         } else {
-          toast.success("로그인에 실패하였습니다.");
+          toast.warning(res.message);
         }
       },
       onError: () => {},
@@ -57,16 +56,20 @@ const SignUpPage = (props) => {
                 }}
                 render={({ field }) => (
                   <TextField
-                    className="inputOutline"
+                    {...field}
                     fullWidth
+                    type="text"
+                    name="name"
+                    className="inputOutline"
                     placeholder="이름"
                     variant="outlined"
-                    name="name"
                     label="이름"
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    {...field}
+                    inputProps={{
+                      maxLength: 20,
+                    }}
                   />
                 )}
               />
@@ -86,11 +89,12 @@ const SignUpPage = (props) => {
                 }}
                 render={({ field }) => (
                   <TextField
+                    type="text"
+                    name="email"
                     className="inputOutline"
                     fullWidth
                     placeholder="이메일"
                     variant="outlined"
-                    name="email"
                     label="이메일"
                     InputLabelProps={{
                       shrink: true,
@@ -115,17 +119,20 @@ const SignUpPage = (props) => {
                 }}
                 render={({ field }) => (
                   <TextField
-                    className="inputOutline"
+                    {...field}
                     fullWidth
+                    type="password"
+                    name="password"
+                    className="inputOutline"
                     placeholder="비밀번호"
                     variant="outlined"
-                    name="password"
-                    type="password"
                     label="비밀번호"
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    {...field}
+                    inputProps={{
+                      maxLength: 30,
+                    }}
                   />
                 )}
               />
