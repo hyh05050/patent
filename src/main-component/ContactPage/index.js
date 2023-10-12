@@ -5,6 +5,7 @@ import Contactpage from "../../components/Contactpage";
 import Footer from "../../components/footer";
 import Scrollbar from "../../components/scrollbar";
 import Logo from "../../images/header-logo.png";
+import LoadingModal from "../../components/modal/LoadingModal";
 
 const ContactPage = () => {
   return (
@@ -17,6 +18,7 @@ const ContactPage = () => {
       <Contactpage />
       <Footer />
       <Scrollbar />
+      <LoadingModal />
     </Fragment>
   );
 };

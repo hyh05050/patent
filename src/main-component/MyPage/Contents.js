@@ -18,7 +18,7 @@ const Contents = (props) => {
     {
       enabled: true,
       onSuccess: (res) => {
-        // console.log(res.data);
+        // console.log(res);
       },
       onError: () => {},
     },

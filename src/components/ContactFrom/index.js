@@ -3,8 +3,11 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { getContact } from "../../api/axios/common";
+import { useRecoilState } from "recoil";
+import { loadingModalAtom } from "../../model/Modal";
 
 const ContactForm = () => {
+  const [modal, setModal] = useRecoilState(loadingModalAtom);
   const {
     register,
     handleSubmit,
@@ -19,6 +22,10 @@ const ContactForm = () => {
     {
       enabled: false,
       onSuccess: (res) => {
+        setModal({
+          ...modal,
+          modalState: false,
+        });
         if (res.status === "success") {
           toast.success("문의 메일 전송에 성공하였습니다.");
         } else {
@@ -26,12 +33,20 @@ const ContactForm = () => {
         }
       },
       onError: () => {
+        setModal({
+          ...modal,
+          modalState: false,
+        });
         toast.error("문의 메일 전송에 실패하였습니다.");
       },
     },
   );
 
   const onSubmit = (data) => {
+    setModal({
+      ...modal,
+      modalState: true,
+    });
     mutation.mutate(data);
   };
 

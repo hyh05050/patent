@@ -23,3 +23,8 @@ export const myInfoModalAtom = atom({
   key: "myInfoModalAtom",
   default: defaultModal("MyInfoModal"),
 });
+
+export const loadingModalAtom = atom({
+  key: "loadingModalAtom",
+  default: defaultModal("LoadingModal"),
+});
