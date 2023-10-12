@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { useResetRecoilState, useRecoilValue } from "recoil";
 import { loadingModalAtom } from "../../model/Modal";
-import loading from "../../images/loading.gif";
 
 const LoadingModal = () => {
   const modal = useRecoilValue(loadingModalAtom);
