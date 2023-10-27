@@ -30,7 +30,7 @@ const priceList = [
     title: "Free",
     price: "0",
     priceUnit: "원",
-    priceBefore: 1000,
+    priceBefore: 50000,
     list: ["출원번호 확인", "정규출원 마감일 관리", "무료 상담 정보 안내<br/>ㅤ"],
     etc: "",
     link: "/pricing",

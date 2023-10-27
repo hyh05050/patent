@@ -1,11 +1,10 @@
-import axios from "axios";
-import axiosInstance from "./config";
+import axios from "./config";
 
 export default {
   async payment(params) {
     /* OK */
     try {
-      return await axiosInstance.post(`api/payment`, params);
+      return await axios.post(`api/payment`, params);
     } catch (error) {
       console.log(error);
       return {
@@ -17,11 +16,7 @@ export default {
   async prepare(params) {
     /* OK */
     try {
-      return await axios.post(`https://api.iamport.kr/payments/prepare`, params, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return await axios.post(`api/payment/prepare`, params);
     } catch (error) {
       console.log(error);
       return {
