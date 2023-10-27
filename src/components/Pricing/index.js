@@ -1,58 +1,8 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-
-const priceList = [
-  {
-    title: "Free",
-    price: "0",
-    priceUnit: "원",
-    priceBefore: "50,000",
-    list: ["출원번호 확인", "정규출원 마감일 관리", "무료 상담 정보 안내<br/>ㅤ"],
-    etc: "",
-    link: "/pricing",
-  },
-  {
-    title: "Basic",
-    price: "25",
-    priceUnit: "만원",
-    priceBefore: "300,000",
-    list: ["Free 서비스<br/>+", "변리사 직접 상담 1회", "임시출원 1건"],
-    etc: "",
-    link: "/pricing",
-  },
-  {
-    title: "Standard",
-    price: "35",
-    priceUnit: "만원",
-    priceBefore: "550,000",
-    list: ["Basic 서비스<br/>+", "기술문서 사전 검토 서비스", "맞춤형 IP 지원사업 안내 서비스"],
-    etc: "",
-    link: "/pricing",
-  },
-  {
-    title: "Standard Pro",
-    price: "175",
-    priceUnit: "만원",
-    priceBefore: "2,200,000",
-    list: ["Standard 서비스<br/>+", "임시출원 2건", "정규출원 1건", "ㅤ<br/>ㅤ"],
-    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
-    link: "/pricing",
-  },
-  {
-    title: "Premium",
-    price: "300",
-    priceUnit: "만원",
-    priceBefore: "3,750,000",
-    list: [
-      "Standard Pro 서비스<br/>+",
-      "임시출원 5건",
-      "정규출원 1건",
-      "우선심사 신청<br/>(정규 출원 이후 6개월 이내 등록)",
-    ],
-    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
-    link: "/pricing",
-  },
-];
+import { getPayment, getPaymentPrepare } from "../../api/axios/common";
+import { getAccount } from "../../common/loginInfo";
+import { toast } from "react-toastify";
 
 const PriceTitle = styled.h2`
   @media (max-width: 1439px) {
@@ -68,8 +18,106 @@ const PriceTitle = styled.h2`
   }
 `;
 
+const PurchaseButton = styled.button`
+  width: 100%;
+  @media (max-width: 1199px) {
+    width: calc(100% - 50px);
+  }
+`;
+
+const priceList = [
+  {
+    title: "Free",
+    price: "0",
+    priceUnit: "원",
+    priceBefore: 1000,
+    list: ["출원번호 확인", "정규출원 마감일 관리", "무료 상담 정보 안내<br/>ㅤ"],
+    etc: "",
+    link: "/pricing",
+  },
+  {
+    title: "Basic",
+    price: "25",
+    priceUnit: "만원",
+    priceBefore: 300000,
+    list: ["Free 서비스<br/>+", "변리사 직접 상담 1회", "임시출원 1건"],
+    etc: "",
+    link: "/pricing",
+  },
+  {
+    title: "Standard",
+    price: "35",
+    priceUnit: "만원",
+    priceBefore: 550000,
+    list: ["Basic 서비스<br/>+", "기술문서 사전 검토 서비스", "맞춤형 IP 지원사업 안내 서비스"],
+    etc: "",
+    link: "/pricing",
+  },
+  {
+    title: "Standard Pro",
+    price: "175",
+    priceUnit: "만원",
+    priceBefore: 2200000,
+    list: ["Standard 서비스<br/>+", "임시출원 2건", "정규출원 1건", "ㅤ<br/>ㅤ"],
+    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
+    link: "/pricing",
+  },
+  {
+    title: "Premium",
+    price: "300",
+    priceUnit: "만원",
+    priceBefore: 3750000,
+    list: [
+      "Standard Pro 서비스<br/>+",
+      "임시출원 5건",
+      "정규출원 1건",
+      "우선심사 신청<br/>(정규 출원 이후 6개월 이내 등록)",
+    ],
+    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
+    link: "/pricing",
+  },
+];
+
+const IMP = window.IMP;
+IMP.init("imp36555036");
+
 const Pricing = (props) => {
   const [activeGrid, setActiveGrid] = useState(null);
+  const isLogin = getAccount()?.isLogin;
+
+  const onClickPurchase = async (index) => {
+    // if (!isLogin) {
+    //   toast.warning("로그인 후 이용하실 수 있습니다.");
+    //   return;
+    // }
+
+    const params = {
+      pg: "nice_v2.iamport01m",
+      pay_method: "card",
+      merchant_uid: "UID" + getAccount().accountId + "_" + Date.now(),
+      name: "인디프로 " + priceList[index].title + " 서비스",
+      amount: priceList[index].priceBefore,
+    };
+
+    const response = await getPaymentPrepare(params);
+    console.log(response);
+    // IMP.request_pay(params, (response) => {
+    //   //callback
+    //   if (response.error_code != null) {
+    //     let msg = "결제에 실패하였습니다.";
+    //     if (response.error_code === "F400") {
+    //       msg = "결제가 취소되었습니다.";
+    //     } else if (response.error_code === "F500") {
+    //       msg = "결제 정보가 잘못되었습니다.";
+    //     }
+    //     toast.error(msg);
+    //     return;
+    //   }
+
+    //   //response : { imp_url:???, merchant_uid:??? }
+    //   getPayment(response);
+    // });
+  };
 
   return (
     <section className="wpo-pricing-section section-padding">
@@ -99,7 +147,7 @@ const Pricing = (props) => {
                     {value.price}
                     <span>{value.priceUnit}</span>
                   </h3>
-                  <p>{value.priceBefore}</p>
+                  <p>{value.priceBefore.toLocaleString()}</p>
                 </div>
               </div>
               <div className="pricing-body">
@@ -109,9 +157,9 @@ const Pricing = (props) => {
                   ))}
                 </ul>
                 {value.etc && <p dangerouslySetInnerHTML={{ __html: value.etc }}></p>}
-                {/* <Link to={value.link} className="get-started">
-                  Get Started
-                </Link> */}
+                <PurchaseButton className="get-started" onClick={() => onClickPurchase(index)}>
+                  서비스 신청
+                </PurchaseButton>
               </div>
             </div>
           ))}

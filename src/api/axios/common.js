@@ -1,5 +1,6 @@
 import AccountAPI from "./account";
 import PatentAPI from "./patent";
+import PaymentAPI from "./payment";
 import { getAccount, setAccessToken } from "./../../common/loginInfo";
 
 const isDev = false;
@@ -32,6 +33,9 @@ const dummyData = {
     status: "success",
   },
   changePassword: {
+    status: "success",
+  },
+  payment: {
     status: "success",
   },
 };
@@ -165,4 +169,27 @@ export const getChangePassword = async (data) => {
     password: data.password,
   };
   return AccountAPI.changePassword(params);
+};
+
+export const getPayment = async (data) => {
+  if (isDev) {
+    return dummyAPI("payment");
+  }
+
+  const params = {
+    password: data.password,
+  };
+  return PaymentAPI.payment(params);
+};
+
+export const getPaymentPrepare = async (data) => {
+  if (isDev) {
+    return dummyAPI("payment");
+  }
+
+  const params = {
+    merchant_uid: data.merchant_uid,
+    amount: data.amount,
+  };
+  return PaymentAPI.prepare(params);
 };
