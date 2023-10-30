@@ -177,7 +177,8 @@ export const getPayment = async (data) => {
   }
 
   const params = {
-    password: data.password,
+    imp_uid: data.imp_uid,
+    merchant_uid: data.merchant_uid,
   };
   return PaymentAPI.payment(params);
 };

@@ -28,45 +28,50 @@ const PurchaseButton = styled.button`
 const priceList = [
   {
     title: "Free",
-    price: "0",
-    priceUnit: "원",
+    price: 100,
     priceBefore: 50000,
+    priceText: "0",
+    priceUnit: "원",
     list: ["출원번호 확인", "정규출원 마감일 관리", "무료 상담 정보 안내<br/>ㅤ"],
     etc: "",
     link: "/pricing",
   },
   {
     title: "Basic",
-    price: "25",
-    priceUnit: "만원",
+    price: 250000,
     priceBefore: 300000,
+    priceText: "25",
+    priceUnit: "만원",
     list: ["Free 서비스<br/>+", "변리사 직접 상담 1회", "임시출원 1건"],
     etc: "",
     link: "/pricing",
   },
   {
     title: "Standard",
-    price: "35",
-    priceUnit: "만원",
+    price: 350000,
     priceBefore: 550000,
+    priceText: "35",
+    priceUnit: "만원",
     list: ["Basic 서비스<br/>+", "기술문서 사전 검토 서비스", "맞춤형 IP 지원사업 안내 서비스"],
     etc: "",
     link: "/pricing",
   },
   {
     title: "Standard Pro",
-    price: "175",
-    priceUnit: "만원",
+    price: 1750000,
     priceBefore: 2200000,
+    priceText: "175",
+    priceUnit: "만원",
     list: ["Standard 서비스<br/>+", "임시출원 2건", "정규출원 1건", "ㅤ<br/>ㅤ"],
     etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
     link: "/pricing",
   },
   {
     title: "Premium",
-    price: "300",
-    priceUnit: "만원",
+    price: 3000000,
     priceBefore: 3750000,
+    priceText: "300",
+    priceUnit: "만원",
     list: [
       "Standard Pro 서비스<br/>+",
       "임시출원 5건",
@@ -96,27 +101,32 @@ const Pricing = (props) => {
       pay_method: "card",
       merchant_uid: "UID" + getAccount().accountId + "_" + Date.now(),
       name: "인디프로 " + priceList[index].title + " 서비스",
-      amount: priceList[index].priceBefore,
+      amount: priceList[index].price,
     };
 
     const response = await getPaymentPrepare(params);
-    console.log(response);
-    // IMP.request_pay(params, (response) => {
-    //   //callback
-    //   if (response.error_code != null) {
-    //     let msg = "결제에 실패하였습니다.";
-    //     if (response.error_code === "F400") {
-    //       msg = "결제가 취소되었습니다.";
-    //     } else if (response.error_code === "F500") {
-    //       msg = "결제 정보가 잘못되었습니다.";
-    //     }
-    //     toast.error(msg);
-    //     return;
-    //   }
+    if (response.status === "fail") {
+      toast.error(response.message);
+      return;
+    }
 
-    //   //response : { imp_url:???, merchant_uid:??? }
-    //   getPayment(response);
-    // });
+    IMP.request_pay(params, (response) => {
+      //callback
+      if (response.error_code != null) {
+        let msg = "결제에 실패하였습니다.";
+        if (response.error_code === "F400") {
+          msg = "결제가 취소되었습니다.";
+        } else if (response.error_code === "F500") {
+          msg = "결제 정보가 잘못되었습니다.";
+        }
+        toast.error(msg);
+        return;
+      }
+
+      //response : { imp_uid:???, merchant_uid:??? }
+      console.log(response);
+      getPayment(response);
+    });
   };
 
   return (
@@ -144,7 +154,7 @@ const Pricing = (props) => {
               <div className="pricing-header">
                 <div>
                   <h3 className="price">
-                    {value.price}
+                    {value.priceText}
                     <span>{value.priceUnit}</span>
                   </h3>
                   <p>{value.priceBefore.toLocaleString()}</p>

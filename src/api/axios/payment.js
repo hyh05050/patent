@@ -4,7 +4,7 @@ export default {
   async payment(params) {
     /* OK */
     try {
-      return await axios.post(`api/payment`, params);
+      return await axios.post(`api/payments`, params);
     } catch (error) {
       console.log(error);
       return {
@@ -16,7 +16,7 @@ export default {
   async prepare(params) {
     /* OK */
     try {
-      return await axios.post(`api/payment/prepare`, params);
+      return await axios.post(`api/payments/prepare`, params);
     } catch (error) {
       console.log(error);
       return {
