@@ -3,8 +3,8 @@ import { getAccessToken } from "../../common/loginInfo";
 
 const instance = axios.create({
   // baseURL: "http://localhost:8084/",
-  // baseURL: "https://indieip.startlump.com/",
-  baseURL: "http://indieip-node.startlump.com/",
+  baseURL: "https://indieip.startlump.com/",
+  // baseURL: "http://indieip-node.startlump.com/",
 });
 
 instance.defaults.headers.common["content-type"] = "application/json; charset=utf-8";

@@ -167,9 +167,9 @@ const Pricing = (props) => {
                   ))}
                 </ul>
                 {value.etc && <p dangerouslySetInnerHTML={{ __html: value.etc }}></p>}
-                <PurchaseButton className="get-started" onClick={() => onClickPurchase(index)}>
+                {/* <PurchaseButton className="get-started" onClick={() => onClickPurchase(index)}>
                   서비스 신청
-                </PurchaseButton>
+                </PurchaseButton> */}
               </div>
             </div>
           ))}

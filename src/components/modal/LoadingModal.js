@@ -31,7 +31,7 @@ const LoadingModal = () => {
           position: "fixed",
           inset: 0,
           backgroundColor: "rgba(0, 0, 0, 0.75)",
-          zIndex: 9999, // 원하는 z-index 값
+          zIndex: 9998, // 원하는 z-index 값
           overflow: "auto",
         },
         content: {

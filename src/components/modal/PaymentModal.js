@@ -1,0 +1,235 @@
+import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
+import { styled } from "styled-components";
+import { getPayment, getPaymentPrepare } from "../../api/axios/common";
+import { getAccount } from "../../common/loginInfo";
+import { useResetRecoilState, useRecoilValue } from "recoil";
+import { paymentModalAtom } from "../../model/Modal";
+import { toast } from "react-toastify";
+
+const PriceTitle = styled.h2`
+  @media (max-width: 1439px) {
+    font-size: 1.88rem !important;
+  }
+
+  @media (max-width: 992px) {
+    font-size: 2rem !important;
+  }
+
+  @media (max-width: 650px) {
+    font-size: 1.7rem !important;
+  }
+`;
+
+const PurchaseButton = styled.button`
+  width: 100%;
+  @media (max-width: 1199px) {
+    width: calc(100% - 50px);
+  }
+`;
+
+const priceList = [
+  {
+    title: "Basic",
+    price: 250000,
+    priceBefore: 300000,
+    priceText: "25",
+    priceUnit: "만원",
+    list: ["Free 서비스<br/>+", "변리사 직접 상담 1회", "임시출원 1건"],
+    etc: "",
+    link: "/pricing",
+  },
+  {
+    title: "Standard",
+    price: 350000,
+    priceBefore: 550000,
+    priceText: "35",
+    priceUnit: "만원",
+    list: ["Basic 서비스<br/>+", "기술문서 사전 검토 서비스", "맞춤형 IP 지원사업 안내 서비스"],
+    etc: "",
+    link: "/pricing",
+  },
+  {
+    title: "Standard Pro",
+    price: 1750000,
+    priceBefore: 2200000,
+    priceText: "175",
+    priceUnit: "만원",
+    list: ["Standard 서비스<br/>+", "임시출원 2건", "정규출원 1건", "ㅤ<br/>ㅤ"],
+    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
+    link: "/pricing",
+  },
+  {
+    title: "Premium",
+    price: 3000000,
+    priceBefore: 3750000,
+    priceText: "300",
+    priceUnit: "만원",
+    list: [
+      "Standard Pro 서비스<br/>+",
+      "임시출원 5건",
+      "정규출원 1건",
+      "우선심사 신청<br/>(정규 출원 이후 6개월 이내 등록)",
+    ],
+    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
+    link: "/pricing",
+  },
+];
+
+const IMP = window.IMP;
+IMP.init("imp36555036");
+
+const PaymentModal = () => {
+  const modal = useRecoilValue(paymentModalAtom);
+  const resetModal = useResetRecoilState(paymentModalAtom);
+  const [activeGrid, setActiveGrid] = useState(null);
+  const isLogin = getAccount()?.isLogin;
+
+  useEffect(() => {
+    // 모달이 열릴 때 이벤트 처리
+    if (modal.modalState) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [modal.modalState]);
+
+  const closeModal = () => {
+    resetModal();
+  };
+
+  const onClickPurchase = async () => {
+    // if (!isLogin) {
+    //   toast.warning("로그인 후 이용하실 수 있습니다.");
+    //   return;
+    // }
+
+    if (activeGrid === null) {
+      toast.warning("플랜을 선택해주세요.");
+      return;
+    }
+
+    const params = {
+      pg: "nice_v2.iamport01m",
+      pay_method: "card",
+      merchant_uid: "UID" + getAccount().accountId + "_" + Date.now(),
+      name: "인디프로 " + priceList[activeGrid].title + " 서비스",
+      amount: priceList[activeGrid].price,
+    };
+
+    // const response = await getPaymentPrepare(params);
+    // if (response.status === "fail") {
+    //   toast.error(response.message);
+    //   return;
+    // }
+
+    IMP.request_pay(params, (response) => {
+      //callback
+      if (response.error_code != null) {
+        let msg = "결제에 실패하였습니다.";
+        if (response.error_code === "F400") {
+          msg = "결제가 취소되었습니다.";
+        } else if (response.error_code === "F500") {
+          msg = "결제 정보가 잘못되었습니다.";
+        }
+        toast.error(msg);
+        return;
+      }
+
+      //response : { imp_uid:???, merchant_uid:??? }
+      console.log(response);
+      toast.info("결제가 완료되었습니다.");
+      resetModal();
+      //getPayment(response);
+    });
+  };
+
+  return (
+    <Modal
+      className={"payment-modal"}
+      isOpen={modal.modalState}
+      onRequestClose={closeModal}
+      contentLabel="인디프로 플랜 선택"
+      style={{
+        overlay: {
+          position: "fixed",
+          inset: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.75)",
+          zIndex: 9998, // 원하는 z-index 값
+          overflow: "auto",
+        },
+        content: {
+          position: "absolute",
+          top: "40px",
+          bottom: "40px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          border: "1px solid rgb(204, 204, 204)",
+          background: "rgb(255, 255, 255)",
+          overflow: "auto",
+          borderRadius: "4px",
+          outline: "none",
+          padding: "20px",
+        },
+      }}
+    >
+      <section className="wpo-pricing-section">
+        <div className="container">
+          <div className="row align-items-center justify-content-center">
+            <div className="col-md-5 col-sm-7 mt-2">
+              <div className="wpo-section-title">
+                <PriceTitle>인디프로 플랜 선택</PriceTitle>
+              </div>
+              <div className="pricing-modal-close">
+                <button onClick={closeModal}>
+                  <i className="ti-close"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="pricing-grids clearfix">
+            <p className="pricing-etc">(VAT별도)</p>
+            {priceList.map((value, index) => (
+              <div
+                key={index}
+                className={`grid popup ${activeGrid === index ? "active" : ""}`}
+                onClick={() => setActiveGrid(activeGrid === index ? null : index)}
+              >
+                <div className="type">
+                  <h5 style={{ fontSize: "24px" }}>{value.title}</h5>
+                </div>
+                <div className="pricing-header">
+                  <div>
+                    <h3 className="price">
+                      {value.priceText}
+                      <span>{value.priceUnit}</span>
+                    </h3>
+                    <p>{value.priceBefore.toLocaleString()}</p>
+                  </div>
+                </div>
+                <div className="pricing-body">
+                  <ul>
+                    {value.list.map((item, index) => (
+                      <li key={index} dangerouslySetInnerHTML={{ __html: item }}></li>
+                    ))}
+                  </ul>
+                  {value.etc && <p dangerouslySetInnerHTML={{ __html: value.etc }}></p>}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="row align-items-center justify-content-center">
+            <div className="grid col-lg-4 col-md-8 col-sm-12 mt-5 mb-5">
+              <PurchaseButton className="get-started popup" onClick={() => onClickPurchase()}>
+                결제하기
+              </PurchaseButton>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Modal>
+  );
+};
+
+export default PaymentModal;

@@ -13,36 +13,34 @@
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
     position: relative;
-      z-index: 1;
+    z-index: 1;
 
-      .shape-img{
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 80%;
-        height: 80%;
-        z-index: -1;
-        opacity: .05;
-        transform: translate(-50%, -50%);
-        text-align: center;
+    .shape-img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 80%;
+      height: 80%;
+      z-index: -1;
+      opacity: 0.05;
+      transform: translate(-50%, -50%);
+      text-align: center;
 
-        .fi{
-          &:before{
-            font-size: 300px;
+      .fi {
+        &:before {
+          font-size: 300px;
 
-            @media(max-width:575px){
-               font-size: 200px;
-            }
+          @media (max-width: 575px) {
+            font-size: 200px;
           }
         }
       }
+    }
 
-    
-    @media(max-width:445px){
-      padding: 70px 15px!important;
+    @media (max-width: 445px) {
+      padding: 70px 15px !important;
       position: relative;
     }
-    
 
     > h2 {
       text-align: center;
@@ -58,7 +56,6 @@
     }
 
     form {
-      
       .inputOutline {
         label {
           font-size: 16px;
@@ -103,8 +100,8 @@
         span {
           font-size: 14px;
 
-          @media(max-width:575px){
-             font-size: 13px;
+          @media (max-width: 575px) {
+            font-size: 13px;
           }
 
           svg {
@@ -136,11 +133,9 @@
       width: 320px;
       margin: 20px auto 0;
 
-      @media(max-width:445px){
-        width: 185px!important;
+      @media (max-width: 445px) {
+        width: 185px !important;
       }
-
-     
 
       button {
         min-width: unset;
@@ -165,7 +160,7 @@
         }
 
         &.linkedin {
-          background: #0077B5;
+          background: #0077b5;
         }
       }
     }
@@ -189,16 +184,19 @@
   }
 
   .MuiInputLabel-outlined.MuiInputLabel-shrink {
-      transform: translate(14px, -10px) scale(0.75);
+    transform: translate(14px, -10px) scale(0.75);
   }
 }
 
 .cBtnTheme {
   background: #0a58ca;
-  background-color: #0a58ca!important;
-  color: #fff!important;
+  background-color: #0a58ca !important;
+  color: #fff !important;
 }
 
+.Toastify__toast-container {
+  z-index: 99999;
+}
 
 .Toastify__toast-body {
   font-size: 16px;

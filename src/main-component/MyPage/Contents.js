@@ -1,14 +1,16 @@
 import React from "react";
 import SideBar from "./SideBar";
 import { useRecoilState } from "recoil";
-import { patentModalAtom, patentFinishModalAtom } from "../../model/Modal";
+import { patentModalAtom, patentFinishModalAtom, paymentModalAtom } from "../../model/Modal";
 import { getMyPatentList } from "../../api/axios/common";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 
 const Contents = (props) => {
   const [activeStatus, setActiveStatus] = React.useState("R");
   const [patentModal, setPatentModal] = useRecoilState(patentModalAtom);
   const [patentFinishModal, setPatentFinishModal] = useRecoilState(patentFinishModalAtom);
+  const [paymentModal, setPaymentModal] = useRecoilState(paymentModalAtom);
 
   const { data: patents, isLoading } = useQuery(
     ["patent", "myPatentList"],
@@ -29,7 +31,7 @@ const Contents = (props) => {
   };
 
   const onClickPatentModal = (e, modalType, patentData) => {
-    if (!e.target.classList.contains("download-btn")) {
+    if (!e.target.classList.contains("download-btn") && !e.target.classList.contains("payment-btn")) {
       if (modalType === "temp") {
         setPatentModal({
           ...patentModal,
@@ -47,9 +49,19 @@ const Contents = (props) => {
   };
 
   const onClickDownload = (fileUrl) => {
+    if (!fileUrl) return toast.warning("기술문서가 없습니다.");
+
     const newWindow = window.open();
     newWindow.document.title = "인디프로 문서 다운로드";
     newWindow.location.href = fileUrl;
+  };
+
+  const onClickPaymentModal = (patentData) => {
+    setPaymentModal({
+      ...paymentModal,
+      modalState: true,
+      modalData: patentData,
+    });
   };
 
   if (isLoading) {
@@ -121,7 +133,10 @@ const Contents = (props) => {
                               className="download-btn"
                               onClick={() => onClickDownload(patent.document.fileUrl)}
                             >
-                              다운로드
+                              보기
+                            </button>
+                            <button type="button" className="payment-btn" onClick={() => onClickPaymentModal()}>
+                              결제
                             </button>
                           </td>
                         </tr>
@@ -160,7 +175,10 @@ const Contents = (props) => {
                               className="download-btn"
                               onClick={() => onClickDownload(patent.document.fileUrl)}
                             >
-                              다운로드
+                              보기
+                            </button>
+                            <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
+                              결제
                             </button>
                           </li>
                         </ul>
@@ -203,7 +221,10 @@ const Contents = (props) => {
                               className="download-btn"
                               onClick={() => onClickDownload(patent.document.fileUrl)}
                             >
-                              다운로드
+                              보기
+                            </button>
+                            <button type="button" className="payment-btn" onClick={() => onClickPaymentModal()}>
+                              결제
                             </button>
                           </td>
                         </tr>
@@ -242,7 +263,10 @@ const Contents = (props) => {
                               className="download-btn"
                               onClick={() => onClickDownload(patent.document.fileUrl)}
                             >
-                              다운로드
+                              보기
+                            </button>
+                            <button type="button" className="payment-btn" onClick={() => onClickPaymentModal()}>
+                              결제
                             </button>
                           </li>
                         </ul>

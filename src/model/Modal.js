@@ -24,6 +24,11 @@ export const myInfoModalAtom = atom({
   default: defaultModal("MyInfoModal"),
 });
 
+export const paymentModalAtom = atom({
+  key: "paymentModalAtom",
+  default: defaultModal("PaymentModal"),
+});
+
 export const loadingModalAtom = atom({
   key: "loadingModalAtom",
   default: defaultModal("LoadingModal"),
