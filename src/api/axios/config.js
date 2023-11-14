@@ -2,8 +2,8 @@ import axios from "axios";
 import { getAccessToken } from "../../common/loginInfo";
 
 const instance = axios.create({
-  // baseURL: "http://localhost:8084/",
-  baseURL: "https://indieip.startlump.com/",
+  baseURL: "http://localhost:8084/",
+  // baseURL: "https://indieip.startlump.com/",
   // baseURL: "http://indieip-node.startlump.com/",
 });
 

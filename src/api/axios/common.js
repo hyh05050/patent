@@ -1,6 +1,7 @@
 import AccountAPI from "./account";
 import PatentAPI from "./patent";
 import PaymentAPI from "./payment";
+import ProductAPI from "./product";
 import { getAccount, setAccessToken } from "./../../common/loginInfo";
 
 const isDev = false;
@@ -36,6 +37,9 @@ const dummyData = {
     status: "success",
   },
   payment: {
+    status: "success",
+  },
+  product: {
     status: "success",
   },
 };
@@ -193,4 +197,13 @@ export const getPaymentPrepare = async (data) => {
     amount: data.amount,
   };
   return PaymentAPI.prepare(params);
+};
+
+export const getProducts = async (data) => {
+  if (isDev) {
+    return dummyAPI("product");
+  }
+
+  const params = {};
+  return ProductAPI.productList(params);
 };

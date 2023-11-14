@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { styled } from "styled-components";
-import { getPayment, getPaymentPrepare } from "../../api/axios/common";
+import { getPayment, getPaymentPrepare, getProducts } from "../../api/axios/common";
 import { getAccount } from "../../common/loginInfo";
 import { useResetRecoilState, useRecoilValue } from "recoil";
 import { paymentModalAtom } from "../../model/Modal";
 import { toast } from "react-toastify";
+import { useQuery } from "react-query";
 
 const PriceTitle = styled.h2`
   @media (max-width: 1439px) {
@@ -94,6 +95,19 @@ const PaymentModal = () => {
     }
   }, [modal.modalState]);
 
+  const { data: productList, isLoading } = useQuery(
+    ["product", "getProducts"],
+    async () => {
+      return (await getProducts()).data;
+    },
+    {
+      onSuccess: (res) => {
+        console.log(res);
+      },
+      onError: () => {},
+    },
+  );
+
   const closeModal = () => {
     resetModal();
   };
@@ -113,8 +127,8 @@ const PaymentModal = () => {
       pg: "nice_v2.iamport01m",
       pay_method: "card",
       merchant_uid: "UID" + getAccount().accountId + "_" + Date.now(),
-      name: "인디프로 " + priceList[activeGrid].title + " 서비스",
-      amount: priceList[activeGrid].price,
+      name: "인디프로 " + productList[activeGrid].title + " 서비스",
+      amount: productList[activeGrid].price,
     };
 
     // const response = await getPaymentPrepare(params);
@@ -140,9 +154,14 @@ const PaymentModal = () => {
       console.log(response);
       toast.info("결제가 완료되었습니다.");
       resetModal();
-      //getPayment(response);
+
+      response.userId = getAccount().accountId;
+      response.productId = productList[activeGrid].productId;
+      getPayment(response);
     });
   };
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <Modal
@@ -189,34 +208,38 @@ const PaymentModal = () => {
           </div>
           <div className="pricing-grids clearfix">
             <p className="pricing-etc">(VAT별도)</p>
-            {priceList.map((value, index) => (
-              <div
-                key={index}
-                className={`grid popup ${activeGrid === index ? "active" : ""}`}
-                onClick={() => setActiveGrid(activeGrid === index ? null : index)}
-              >
-                <div className="type">
-                  <h5 style={{ fontSize: "24px" }}>{value.title}</h5>
-                </div>
-                <div className="pricing-header">
-                  <div>
-                    <h3 className="price">
-                      {value.priceText}
-                      <span>{value.priceUnit}</span>
-                    </h3>
-                    <p>{value.priceBefore.toLocaleString()}</p>
+            {productList?.map((product, index) => {
+              if (product.grade !== "Free") {
+                return (
+                  <div
+                    key={index}
+                    className={`grid popup ${activeGrid === index ? "active" : ""}`}
+                    onClick={() => setActiveGrid(activeGrid === index ? null : index)}
+                  >
+                    <div className="type">
+                      <h5 style={{ fontSize: "24px" }}>{product.grade}</h5>
+                    </div>
+                    <div className="pricing-header">
+                      <div>
+                        <h3 className="price">
+                          {product.priceText}
+                          <span>{product.priceTextUnit}</span>
+                        </h3>
+                        <p>{product.priceOriginal.toLocaleString()}</p>
+                      </div>
+                    </div>
+                    <div className="pricing-body">
+                      <ul>
+                        {JSON.parse(product.productInfoHtml).map((item, index) => (
+                          <li key={index} dangerouslySetInnerHTML={{ __html: item }}></li>
+                        ))}
+                      </ul>
+                      {product.etc && <p dangerouslySetInnerHTML={{ __html: product.etc }}></p>}
+                    </div>
                   </div>
-                </div>
-                <div className="pricing-body">
-                  <ul>
-                    {value.list.map((item, index) => (
-                      <li key={index} dangerouslySetInnerHTML={{ __html: item }}></li>
-                    ))}
-                  </ul>
-                  {value.etc && <p dangerouslySetInnerHTML={{ __html: value.etc }}></p>}
-                </div>
-              </div>
-            ))}
+                );
+              }
+            })}
           </div>
 
           <div className="row align-items-center justify-content-center">
