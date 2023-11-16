@@ -8,6 +8,7 @@ import { paymentModalAtom } from "../../model/Modal";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import { consoleLog } from "../../common";
+import { set } from "react-hook-form";
 
 const PriceTitle = styled.h2`
   @media (max-width: 1439px) {
@@ -60,6 +61,7 @@ const PaymentModal = () => {
   );
 
   const closeModal = () => {
+    setActiveGrid(null);
     resetModal();
   };
 
