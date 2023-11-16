@@ -137,7 +137,6 @@ export const getPatentApply = async (data) => {
     patentName: data.keyword,
     status: "R",
   };
-  console.log(params);
   return PatentAPI.patentApply(params);
 };
 
@@ -197,6 +196,17 @@ export const getPaymentPrepare = async (data) => {
     amount: data.amount,
   };
   return PaymentAPI.prepare(params);
+};
+
+export const getApplyCount = async (data) => {
+  if (isDev) {
+    return dummyAPI("payment");
+  }
+
+  const params = {
+    userId: getAccount().accountId,
+  };
+  return PaymentAPI.applyCount(params);
 };
 
 export const getProducts = async (data) => {

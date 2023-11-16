@@ -6,10 +6,9 @@ export default {
     try {
       return await axios.get(`api/product`);
     } catch (error) {
-      console.log(error);
       return {
         status: "fail",
-        message: "try login catch error",
+        message: "try product catch error",
       };
     }
   },
@@ -18,10 +17,9 @@ export default {
     try {
       return await axios.get(`api/product/` + params.productId);
     } catch (error) {
-      console.log(error);
       return {
         status: "fail",
-        message: "try login catch error",
+        message: "try product catch error",
       };
     }
   },

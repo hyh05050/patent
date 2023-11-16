@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import SideBar from "./SideBar";
 import { useRecoilState } from "recoil";
 import { patentModalAtom, patentFinishModalAtom, paymentModalAtom } from "../../model/Modal";
-import { getMyPatentList } from "../../api/axios/common";
+import { getApplyCount, getMyPatentList } from "../../api/axios/common";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
+import { consoleLog } from "../../common";
 
 const Contents = (props) => {
-  const [activeStatus, setActiveStatus] = React.useState("R");
+  const [activeStatus, setActiveStatus] = useState("R");
+  const [isPayment, setIsPayment] = useState(true);
   const [patentModal, setPatentModal] = useRecoilState(patentModalAtom);
   const [patentFinishModal, setPatentFinishModal] = useRecoilState(patentFinishModalAtom);
   const [paymentModal, setPaymentModal] = useRecoilState(paymentModalAtom);
@@ -20,11 +22,27 @@ const Contents = (props) => {
     {
       enabled: true,
       onSuccess: (res) => {
-        // console.log(res);
+        consoleLog(res);
       },
       onError: () => {},
     },
   );
+
+  // const { data: applyCount, isLoading: isLoadingApplyCount } = useQuery(
+  //   ["payment", "applyCount"],
+  //   async () => {
+  //     return await getApplyCount();
+  //   },
+  //   {
+  //     enabled: true,
+  //     onSuccess: (res) => {
+  //       if (res.status === "success") {
+  //         if (res.data?.totalTempApplyCount == 0) setIsPayment(true);
+  //       }
+  //     },
+  //     onError: () => {},
+  //   },
+  // );
 
   const onClickMenu = (status) => {
     setActiveStatus(status);
@@ -135,9 +153,11 @@ const Contents = (props) => {
                             >
                               보기
                             </button>
-                            <button type="button" className="payment-btn" onClick={() => onClickPaymentModal()}>
-                              결제
-                            </button>
+                            {isPayment && (
+                              <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
+                                결제
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -177,9 +197,11 @@ const Contents = (props) => {
                             >
                               보기
                             </button>
-                            <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
-                              결제
-                            </button>
+                            {isPayment && (
+                              <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
+                                결제
+                              </button>
+                            )}
                           </li>
                         </ul>
                       </div>
@@ -223,9 +245,11 @@ const Contents = (props) => {
                             >
                               보기
                             </button>
-                            <button type="button" className="payment-btn" onClick={() => onClickPaymentModal()}>
-                              결제
-                            </button>
+                            {isPayment && (
+                              <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
+                                결제
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -265,9 +289,11 @@ const Contents = (props) => {
                             >
                               보기
                             </button>
-                            <button type="button" className="payment-btn" onClick={() => onClickPaymentModal()}>
-                              결제
-                            </button>
+                            {isPayment && (
+                              <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
+                                결제
+                              </button>
+                            )}
                           </li>
                         </ul>
                       </div>

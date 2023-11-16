@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { getProducts } from "../../api/axios/common";
 import { getAccount } from "../../common/loginInfo";
 import { useQuery } from "react-query";
+import { consoleLog } from "../../common";
 
 const PriceTitle = styled.h2`
   @media (max-width: 1439px) {
@@ -29,7 +30,7 @@ const Pricing = (props) => {
     },
     {
       onSuccess: (res) => {
-        console.log(res);
+        consoleLog(res);
       },
       onError: () => {},
     },

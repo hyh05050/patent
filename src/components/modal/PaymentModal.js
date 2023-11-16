@@ -7,6 +7,7 @@ import { useResetRecoilState, useRecoilValue } from "recoil";
 import { paymentModalAtom } from "../../model/Modal";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
+import { consoleLog } from "../../common";
 
 const PriceTitle = styled.h2`
   @media (max-width: 1439px) {
@@ -28,54 +29,6 @@ const PurchaseButton = styled.button`
     width: calc(100% - 50px);
   }
 `;
-
-const priceList = [
-  {
-    title: "Basic",
-    price: 250000,
-    priceBefore: 300000,
-    priceText: "25",
-    priceUnit: "만원",
-    list: ["Free 서비스<br/>+", "변리사 직접 상담 1회", "임시출원 1건"],
-    etc: "",
-    link: "/pricing",
-  },
-  {
-    title: "Standard",
-    price: 350000,
-    priceBefore: 550000,
-    priceText: "35",
-    priceUnit: "만원",
-    list: ["Basic 서비스<br/>+", "기술문서 사전 검토 서비스", "맞춤형 IP 지원사업 안내 서비스"],
-    etc: "",
-    link: "/pricing",
-  },
-  {
-    title: "Standard Pro",
-    price: 1750000,
-    priceBefore: 2200000,
-    priceText: "175",
-    priceUnit: "만원",
-    list: ["Standard 서비스<br/>+", "임시출원 2건", "정규출원 1건", "ㅤ<br/>ㅤ"],
-    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
-    link: "/pricing",
-  },
-  {
-    title: "Premium",
-    price: 3000000,
-    priceBefore: 3750000,
-    priceText: "300",
-    priceUnit: "만원",
-    list: [
-      "Standard Pro 서비스<br/>+",
-      "임시출원 5건",
-      "정규출원 1건",
-      "우선심사 신청<br/>(정규 출원 이후 6개월 이내 등록)",
-    ],
-    etc: "정규출원 서비스 제공기간 - 최초 임시출원일로부터 <br/> 1년 중간사건, 등록비용 별도",
-    link: "/pricing",
-  },
-];
 
 const IMP = window.IMP;
 IMP.init("imp36555036");
@@ -101,9 +54,7 @@ const PaymentModal = () => {
       return (await getProducts()).data;
     },
     {
-      onSuccess: (res) => {
-        console.log(res);
-      },
+      onSuccess: (res) => {},
       onError: () => {},
     },
   );
@@ -124,10 +75,10 @@ const PaymentModal = () => {
     }
 
     const params = {
-      pg: "nice_v2.iamport01m",
+      pg: "nice_v2.IM0016038m",
       pay_method: "card",
       merchant_uid: "UID" + getAccount().accountId + "_" + Date.now(),
-      name: "인디프로 " + productList[activeGrid].title + " 서비스",
+      name: "인디프로 " + productList[activeGrid].grade + " 플랜",
       amount: productList[activeGrid].price,
     };
 
@@ -151,13 +102,13 @@ const PaymentModal = () => {
       }
 
       //response : { imp_uid:???, merchant_uid:??? }
-      console.log(response);
+      consoleLog(response);
       toast.info("결제가 완료되었습니다.");
       resetModal();
 
       response.userId = getAccount().accountId;
       response.productId = productList[activeGrid].productId;
-      getPayment(response);
+      // getPayment(response);
     });
   };
 

@@ -6,7 +6,6 @@ export default {
     try {
       return await axios.post(`api/login`, params);
     } catch (error) {
-      console.log(error);
       return {
         status: "fail",
         message: "try login catch error",
@@ -18,10 +17,9 @@ export default {
     try {
       return await axios.post(`api/join`, params);
     } catch (error) {
-      console.log(error);
       return {
         status: "fail",
-        message: "try login catch error",
+        message: "try join catch error",
       };
     }
   },
@@ -30,10 +28,9 @@ export default {
     try {
       return await axios.post(`api/account/forgotPassword`, params);
     } catch (error) {
-      console.log(error);
       return {
         status: "fail",
-        message: "try login catch error",
+        message: "try forgotPassword catch error",
       };
     }
   },
@@ -42,10 +39,9 @@ export default {
     try {
       return await axios.post(`api/attorney/contact`, params);
     } catch (error) {
-      console.log(error);
       return {
         status: "fail",
-        message: "try login catch error",
+        message: "try contact catch error",
       };
     }
   },
@@ -54,10 +50,9 @@ export default {
     try {
       return await axios.post(`api/account/password`, params);
     } catch (error) {
-      console.log(error);
       return {
         status: "fail",
-        message: "try login catch error",
+        message: "try password catch error",
       };
     }
   },

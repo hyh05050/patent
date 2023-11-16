@@ -7,6 +7,7 @@ import { Link, withRouter } from "react-router-dom";
 import { getJoin } from "../../api/axios/common";
 import { useMutation } from "react-query";
 import { Controller, useForm } from "react-hook-form";
+import { consoleLog } from "../../common";
 
 const SignUpPage = (props) => {
   const {
@@ -24,7 +25,7 @@ const SignUpPage = (props) => {
     {
       enabled: false,
       onSuccess: (res) => {
-        console.log(res);
+        consoleLog(res);
         if (res.status === "success") {
           toast.success("회원가입이 되었습니다.");
           props.history.push("/login");
@@ -39,6 +40,7 @@ const SignUpPage = (props) => {
   const onSubmit = (data) => {
     mutation.mutate(data);
   };
+
   return (
     <Grid className="loginWrapper">
       <Grid className="loginForm">
