@@ -26,6 +26,17 @@ const Footer = (props) => {
                                 <p style={{ wordBreak: "keep-all" }}>
                                     당신의 아이디어를 더 빛나게 해 줄<br />단 하나의 특허출원 솔루션, 인디프로
                                 </p>
+                                <br/>
+                                <p>
+                                    <Link to="/term" style={{ color: '#FFF' }} >
+                                        이용약관
+                                    </Link>
+                                </p>
+                                <p>
+                                    <Link to="privacy" style={{ color: '#FFF' }} >
+                                        개인정보처리방침
+                                    </Link>
+                                </p>
                             </div>
                         </div>
                         <div className="col col-lg-3 col-md-6 col-sm-12 col-12">

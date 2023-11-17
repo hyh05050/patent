@@ -1,16 +1,18 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
-import Homepage from "../HomePage";
 import AboutPage from "../AboutPage";
-import PricingPage from "../PricingPage";
 import ContactPage from "../ContactPage";
 import ErrorPage from "../ErrorPage";
+import ForgotPassword from "../ForgotPassword";
+import Homepage from "../HomePage";
 import LoginPage from "../LoginPage";
-import SignUpPage from "../SignUpPage";
 import MyPage from "../MyPage";
 import Apply from "../PatentApply";
-import ForgotPassword from "../ForgotPassword";
+import PricingPage from "../PricingPage";
+import PrivacyPage from "../PrivacyPage";
+import SignUpPage from "../SignUpPage";
+import TermPage from "../TermPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 const AllRoute = () => {
@@ -29,6 +31,8 @@ const AllRoute = () => {
           <Route path="/forgot-password" component={ForgotPassword} />
           <ProtectedRoute path="/mypage" component={MyPage} />
           <ProtectedRoute path="/apply" component={Apply} />
+          <Route path="/term" component={TermPage} />
+          <Route path="/privacy" component={PrivacyPage} />
         </Switch>
       </Router>
     </div>
