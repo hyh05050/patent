@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../images/footer-logo.png";
 import Services3 from "../../api/service3";
+import Logo from "../../images/footer-logo.png";
 
 import ins1 from "../../images/ft-icon/1.png";
 import ins2 from "../../images/ft-icon/2.png";
@@ -28,14 +28,14 @@ const Footer = (props) => {
                                 </p>
                                 <br/>
                                 <p>
-                                    <Link to="/term" style={{ color: '#FFF' }} >
+                                    <a href="https://indie-ip.notion.site/3ff1f410ecd04bb18801fd3f53ef2147?pvs=4" style={{ color: '#FFF' }} >
                                         이용약관
-                                    </Link>
+                                    </a>
                                 </p>
                                 <p>
-                                    <Link to="privacy" style={{ color: '#FFF' }} >
+                                    <a href="https://indie-ip.notion.site/0c10be6b331a4d73981521148680c6ed?pvs=4" style={{ color: '#FFF' }} >
                                         개인정보처리방침
-                                    </Link>
+                                    </a>
                                 </p>
                             </div>
                         </div>
