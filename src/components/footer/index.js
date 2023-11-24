@@ -58,7 +58,7 @@ const Footer = (props) => {
                                 </div>
                                 <div className="text-left">
                                     <p className="mb-0" style={{ fontSize: "15px" }}>
-                                        <strong>상호명 </strong>인디프로 <strong>대표 </strong>손보남
+                                        <strong>상호명 </strong>인디프 <strong>대표 </strong>손보남
                                         <br />
                                         <strong>사업자등록번호 </strong>507-53-00884
                                         <br />
