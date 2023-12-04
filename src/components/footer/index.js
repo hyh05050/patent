@@ -62,6 +62,8 @@ const Footer = (props) => {
                                         <br />
                                         <strong>사업자등록번호 </strong>507-53-00884
                                         <br />
+                                        <strong>통신판매업신고 </strong>2023-서울용산-1815
+                                        <br />
                                         <strong>주소 </strong> 서울 용산구 서빙고로 17 용산센트럴파크
                                         <br />
                                         공공시설동 4층 청년창업지원센터 17실
@@ -121,9 +123,9 @@ const Footer = (props) => {
                         <div className="col col-xs-12">
                             <p className="copyright">
                                 {" "}
-                                Copyright &copy; 2023 Indieipro by{" "}
+                                Copyright &copy; 2023 Indipro by{" "}
                                 <Link onClick={ClickHandler} to="/">
-                                    HeroMakers
+                                    Indip
                                 </Link>
                                 . All Rights Reserved.
                             </p>
