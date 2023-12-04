@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { styled } from "styled-components";
-import { getPayment, getPaymentPrepare, getProducts } from "../../api/axios/common";
-import { getAccount } from "../../common/loginInfo";
-import { useResetRecoilState, useRecoilValue } from "recoil";
-import { paymentModalAtom } from "../../model/Modal";
-import { toast } from "react-toastify";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
+import { useRecoilValue, useResetRecoilState } from "recoil";
+import { styled } from "styled-components";
+import { getProducts } from "../../api/axios/common";
 import { consoleLog } from "../../common";
-import { set } from "react-hook-form";
+import { getAccount } from "../../common/loginInfo";
+import { paymentModalAtom } from "../../model/Modal";
 
 const PriceTitle = styled.h2`
   @media (max-width: 1439px) {
@@ -77,11 +76,12 @@ const PaymentModal = () => {
     }
 
     const params = {
+      // pg:"nice_v2.iamport00m",
       pg: "nice_v2.IM0016038m",
       pay_method: "card",
       merchant_uid: "UID" + getAccount().accountId + "_" + Date.now(),
       name: "인디프로 " + productList[activeGrid].grade + " 플랜",
-      amount: productList[activeGrid].price,
+      amount: productList[activeGrid].price * 1.1,
     };
 
     // const response = await getPaymentPrepare(params);
