@@ -1,20 +1,20 @@
-import React, { Fragment, useState, useRef } from "react";
-import Grid from "@material-ui/core/Grid";
-import Collapse from "@material-ui/core/Collapse";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import RadioGroup from "@material-ui/core/RadioGroup";
+import Collapse from "@material-ui/core/Collapse";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import TextField from "@material-ui/core/TextField";
+import React, { Fragment, useState } from "react";
 
-import "./style.scss";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
-import { useForm, Controller, set } from "react-hook-form";
-import { getPatentApply } from "../../api/axios/common";
+import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import { toast } from "react-toastify";
+import { getPatentApply } from "../../api/axios/common";
 import { base64String } from "../../common/fileEncoder";
+import "./style.scss";
 
 const Contents = () => {
   const history = useHistory();
@@ -213,6 +213,7 @@ const Contents = () => {
     });
   };
 
+
   return (
     <Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -248,9 +249,10 @@ const Contents = () => {
                           control={control}
                           rules={{ required: "키워드를 입력해 주세요" }}
                           defaultValue={""}
-                          render={({ field }) => (
+                          render={({ field : {ref, ...field} }) => (
                             <TextField
                               {...field}
+                              inputRef={ref}
                               fullWidth
                               type="text"
                               name="keyword"
@@ -285,9 +287,10 @@ const Contents = () => {
                           <Controller
                             name="documentFile"
                             control={control}
-                            render={({ field }) => (
+                            render={({ field : {ref, ...field}}) => (
                               <input
                                 {...field}
+                                ref={ref}
                                 type="file"
                                 name="documentFile"
                                 className="formInput radiusNone"
@@ -454,9 +457,10 @@ const Contents = () => {
                               control={control}
                               defaultValue="" // 기본값을 설정할 수 있습니다.
                               rules={{ required: proposerKind == "개인" ? "영문 이름을 입력해 주세요." : false }}
-                              render={({ field }) => (
+                              render={({ field : {ref, ...field}}) => (
                                 <TextField
                                   {...field}
+                                  inputRef={ref}
                                   fullWidth
                                   type="text"
                                   name="proposerNameEn"
@@ -659,9 +663,10 @@ const Contents = () => {
                               control={control}
                               defaultValue="" // 기본값을 설정할 수 있습니다.
                               rules={{ required: proposerKind != "개인" ? "법인 한글 이름을 입력해 주세요." : false }}
-                              render={({ field }) => (
+                              render={({ field : {ref, ...field}}) => (
                                 <TextField
                                   {...field}
+                                  inputRef={ref}
                                   fullWidth
                                   type="text"
                                   name="proposerCompanyNameKr"
@@ -693,9 +698,10 @@ const Contents = () => {
                               control={control}
                               defaultValue="" // 기본값을 설정할 수 있습니다.
                               rules={{ required: proposerKind != "개인" ? "법인 영문 이름을 입력해 주세요." : false }}
-                              render={({ field }) => (
+                              render={({ field:{ref, ...field} }) => (
                                 <TextField
                                   {...field}
+                                  inputRef={ref}
                                   fullWidth
                                   type="text"
                                   name="proposerCompanyNameEn"
@@ -1168,9 +1174,10 @@ const Contents = () => {
                               control={control}
                               defaultValue=""
                               rules={{ required: "담당자 이름을 입력해 주세요." }}
-                              render={({ field }) => (
+                              render={({ field : {ref, ...field}}) => (
                                 <TextField
                                   {...field}
+                                  inputRef={ref}
                                   fullWidth
                                   type="text"
                                   name="managerName"
@@ -1199,9 +1206,10 @@ const Contents = () => {
                               control={control}
                               defaultValue=""
                               rules={{ required: "전화번호를 입력해 주세요." }}
-                              render={({ field }) => (
+                              render={({ field : {ref, ...field}}) => (
                                 <TextField
                                   {...field}
+                                  inputRef={ref}
                                   fullWidth
                                   type="text"
                                   name="managerPhone"
@@ -1230,9 +1238,10 @@ const Contents = () => {
                               control={control}
                               defaultValue=""
                               rules={{ required: "이메일 주소를 입력해 주세요." }}
-                              render={({ field }) => (
+                              render={({ field : {ref, ...field}}) => (
                                 <TextField
                                   {...field}
+                                  inputRef={ref}
                                   fullWidth
                                   type="text"
                                   name="managerEmail"
@@ -1485,10 +1494,10 @@ const Contents = () => {
                             required: true, // 필수 필드로 설정
                           }}
                           shouldUnregister={true}
-                          render={({ field }) => (
+                          render={({ field : {ref, ...field}}) => (
                             <FormControlLabel
                               className="checkBox"
-                              control={<Checkbox {...field} name="entrust_flag" color="primary" />}
+                              control={<Checkbox {...field} inputRef={ref} name="entrust_flag" color="primary" />}
                               label="위임 및 유의사항에 동의합니다."
                             />
                           )}
