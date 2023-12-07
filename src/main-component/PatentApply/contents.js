@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import TextField from "@material-ui/core/TextField";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { getPatentApply } from "../../api/axios/common";
 import { base64String } from "../../common/fileEncoder";
 import "./style.scss";
+const {daum} = window;
 
 const Contents = () => {
   const history = useHistory();
@@ -213,6 +214,26 @@ const Contents = () => {
     });
   };
 
+  const openSearchPostcode = (type) => {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        if (type === "proposer") {
+          setValue("proposerPostcode", data.zonecode);
+          setValue("proposerAddress1", data.address);
+          setValue("proposerAddress2", "");
+        } else {
+          setValue("inventorPostcode", data.zonecode);
+          setValue("inventorAddress1", data.address);
+          setValue("inventorAddress2", "");
+        }
+      }
+    }).open();
+  };
+
+  useEffect(() => {
+    // setValue("proposerPostcode", "test123")
+    // inventorPostcode
+  }, []);
 
   return (
     <Fragment>
@@ -576,6 +597,13 @@ const Contents = () => {
                                   />
                                 )}
                               />
+                              <Button
+                                variant="contained"
+                                title="우편번호 검색"
+                                label="우편번호 검색"
+                                onClick={() => {
+                                  openSearchPostcode("proposer");
+                                }}> 우편번호 검색</Button>
                             </Grid>
                           </Grid>
                           <Grid item md={6} xs={12}>
@@ -629,7 +657,7 @@ const Contents = () => {
                         </Grid>
                       </div>
 
-                      <p className="mt-5">도장 또는 서명 이미지 업로드</p>
+                      <p className="mt-5">도장 또는 서명 이미지 업로드 (파일형식 : JPG, JPEG, PNG)</p>
                       <div className="cuponForm">
                         <div className="file-box">
                           <Controller
@@ -642,6 +670,7 @@ const Contents = () => {
                                 name="proposerStampFile"
                                 className="formInput radiusNone"
                                 onChange={(e) => onChangeFile(e)}
+                                accept=".JPG, .PNG, .JPEG"
                               />
                             )}
                           />
@@ -798,7 +827,7 @@ const Contents = () => {
                           </Grid>
                           <Grid item xs={12}>
                             <p className="mt-5">
-                              법인 인감이미지 업로드 <span className="required-field m-1">*</span>
+                              법인 인감이미지 업로드 (파일형식 : JPG, JPEG, PNG)<span className="required-field m-1">*</span>
                             </p>
                             <div className="cuponForm">
                               <div className="file-box">
@@ -812,6 +841,7 @@ const Contents = () => {
                                       name="corporationStampFile"
                                       className="formInput radiusNone"
                                       onChange={(e) => onChangeFile(e)}
+                                      accept=".JPG, .PNG, .JPEG"
                                     />
                                   )}
                                 />
@@ -1092,6 +1122,13 @@ const Contents = () => {
                                 />
                               )}
                             />
+                            <Button
+                                variant="contained"
+                                title="우편번호 검색"
+                                label="우편번호 검색"
+                                onClick={() => {
+                                  openSearchPostcode("inventor");
+                                }}> 우편번호 검색</Button>
                           </Grid>
                           <Grid item xs={12}>
                             <Controller

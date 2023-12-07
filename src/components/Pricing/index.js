@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { useQuery } from "react-query";
 import { styled } from "styled-components";
 import { getProducts } from "../../api/axios/common";
-import { getAccount } from "../../common/loginInfo";
-import { useQuery } from "react-query";
 import { consoleLog } from "../../common";
+import { getAccount } from "../../common/loginInfo";
 
 const PriceTitle = styled.h2`
   @media (max-width: 1439px) {
@@ -49,13 +49,20 @@ const Pricing = (props) => {
           </div>
         </div>
         <div className="pricing-grids clearfix">
-          <p className="pricing-etc">(VAT별도)</p>
+          <p className="pricing-etc">(VAT별도, 관납료별도)</p>
           {productList.map((product, index) => (
             <div
               key={index}
               className={`grid ${activeGrid === product.productId ? "active" : ""}`}
               onMouseEnter={() => setActiveGrid(product.productId)}
               onMouseLeave={() => setActiveGrid(null)}
+              onClick={() => {
+                if(isLogin){
+                  window.location.href = '/apply';
+                } else {
+                  window.location.href = "/login";
+                }
+              } }
             >
               <div className="type">
                 <h5 style={{ fontSize: "24px" }}>{product.grade}</h5>
