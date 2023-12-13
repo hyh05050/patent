@@ -1,8 +1,8 @@
+import { getAccount, setAccessToken } from "./../../common/loginInfo";
 import AccountAPI from "./account";
 import PatentAPI from "./patent";
 import PaymentAPI from "./payment";
 import ProductAPI from "./product";
-import { getAccount, setAccessToken } from "./../../common/loginInfo";
 
 const isDev = false;
 
@@ -109,7 +109,7 @@ export const getContact = async (data) => {
   }
 
   const params = {
-    humanName: data.name,
+    humanName: "[INDIPRO 문의]" + data.name,
     email: data.email,
     phone: data.phone,
     subject: data.subject,
@@ -122,7 +122,7 @@ export const getPatentApply = async (data) => {
   if (isDev) {
     return dummyAPI("patentApply");
   }
-
+  
   const params = {
     ...data,
     registerId: getAccount().accountId || 0,
