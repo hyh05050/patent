@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import SideBar from "./SideBar";
-import { useRecoilState } from "recoil";
-import { patentModalAtom, patentFinishModalAtom, paymentModalAtom } from "../../model/Modal";
-import { getApplyCount, getMyPatentList } from "../../api/axios/common";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
+import { useRecoilState } from "recoil";
+import { getMyPatentList } from "../../api/axios/common";
 import { consoleLog } from "../../common";
+import { patentFinishModalAtom, patentModalAtom, paymentModalAtom } from "../../model/Modal";
+import SideBar from "./SideBar";
 
 const Contents = (props) => {
   const [activeStatus, setActiveStatus] = useState("R");
@@ -99,7 +99,7 @@ const Contents = (props) => {
                 >
                   <p>임시출원 준비중</p>
                   <h3 className="apply-count">
-                    {patents?.data?.filter((item) => item.status === "R").length}
+                    {patents?.data?.filter((item) => item.status === "R" || item.status === "P").length}
                     <span>건</span>
                   </h3>
                 </div>
@@ -131,7 +131,7 @@ const Contents = (props) => {
                   </thead>
                   <tbody>
                     {patents?.data
-                      ?.filter((patent) => patent.status === "R")
+                      ?.filter((patent) => patent.status === "R" || patent.status === "P")
                       .map((patent, index) => (
                         <tr
                           className="item"
@@ -153,7 +153,7 @@ const Contents = (props) => {
                             >
                               보기
                             </button>
-                            {isPayment && (
+                            {patent.status !== "P" && (
                               <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
                                 결제
                               </button>
@@ -167,7 +167,7 @@ const Contents = (props) => {
 
               <div className={`row mt-5 align-items-center  ${"R" === activeStatus ? "d-flex d-md-none" : "d-none"}`}>
                 {patents?.data
-                  ?.filter((patent) => patent.status === "R")
+                  ?.filter((patent) => patent.status === "R" || patent.status === "P")
                   .map((patent, index) => (
                     <div className="apply-list-temp col-lg-6" key={patent.patentId}>
                       <div className="apply-list-box" onClick={(e) => onClickPatentModal(e, "temp", patent)}>
@@ -197,7 +197,7 @@ const Contents = (props) => {
                             >
                               보기
                             </button>
-                            {isPayment && (
+                            {patent.status === "R" && (
                               <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
                                 결제
                               </button>
@@ -245,11 +245,11 @@ const Contents = (props) => {
                             >
                               보기
                             </button>
-                            {isPayment && (
+                            {/* {isPayment && (
                               <button type="button" className="payment-btn" onClick={() => onClickPaymentModal(patent)}>
                                 결제
                               </button>
-                            )}
+                            )} */}
                           </td>
                         </tr>
                       ))}

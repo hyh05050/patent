@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useQuery } from "react-query";
@@ -5,7 +6,6 @@ import { toast } from "react-toastify";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { getProducts } from "../../api/axios/common";
-import { consoleLog } from "../../common";
 import { getAccount } from "../../common/loginInfo";
 import { paymentModalAtom } from "../../model/Modal";
 
@@ -38,7 +38,7 @@ const PaymentModal = () => {
   const resetModal = useResetRecoilState(paymentModalAtom);
   const [activeGrid, setActiveGrid] = useState(null);
   const isLogin = getAccount()?.isLogin;
-
+  
   useEffect(() => {
     // 모달이 열릴 때 이벤트 처리
     if (modal.modalState) {
@@ -64,12 +64,11 @@ const PaymentModal = () => {
     resetModal();
   };
 
-  const onClickPurchase = async () => {
+  const onClickPurchase = async (modalData) => {
     // if (!isLogin) {
     //   toast.warning("로그인 후 이용하실 수 있습니다.");
     //   return;
     // }
-
     if (activeGrid === null) {
       toast.warning("플랜을 선택해주세요.");
       return;
@@ -104,13 +103,38 @@ const PaymentModal = () => {
       }
 
       //response : { imp_uid:???, merchant_uid:??? }
-      consoleLog(response);
-      toast.info("결제가 완료되었습니다.");
-      resetModal();
+      // consoleLog(response);
+      // toast.info("결제가 완료되었습니다.");
+      // resetModal();
 
       response.userId = getAccount().accountId;
       response.productId = productList[activeGrid].productId;
+
       // getPayment(response);
+      var patentData = {...modalData};
+
+      patentData.status="P";
+
+      let config = {
+        method: 'put',
+        maxBodyLength: Infinity,
+        url: 'https://indieip.startlump.com/api/prePatent',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : patentData
+      };
+      
+      axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        toast.info("결제가 완료되었습니다.");
+        resetModal();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     });
   };
 
@@ -197,7 +221,7 @@ const PaymentModal = () => {
 
           <div className="row align-items-center justify-content-center">
             <div className="grid col-lg-4 col-md-8 col-sm-12 mt-5 mb-5">
-              <PurchaseButton className="get-started popup" onClick={() => onClickPurchase()}>
+              <PurchaseButton className="get-started popup" onClick={() => onClickPurchase(modal.modalData)}>
                 결제하기
               </PurchaseButton>
             </div>
