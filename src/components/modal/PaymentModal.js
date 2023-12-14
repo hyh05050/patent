@@ -77,7 +77,7 @@ const PaymentModal = () => {
 
     const params = {
       // pg:"nice_v2.iamport00m",
-      pg: "nice_v2.IM0016038m",
+      pg: "nice_v2.IM0016037m",
       pay_method: "card",
       merchant_uid: "UID" + getAccount().accountId + "_" + Date.now(),
       name: "인디프로 " + productList[activeGrid].grade + " 플랜",
