@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
@@ -81,6 +81,12 @@ const Contents = (props) => {
       modalData: patentData,
     });
   };
+
+  useEffect(() => {
+    if (paymentModal.modalData?.status === "P" ) {
+      window.location.reload();
+    }
+  }, [paymentModal.modalState]);
 
   if (isLoading) {
     return <div>loading...</div>;

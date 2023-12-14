@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
-import { useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { getProducts } from "../../api/axios/common";
 import { getAccount } from "../../common/loginInfo";
@@ -36,6 +36,7 @@ IMP.init("imp36555036");
 const PaymentModal = () => {
   const modal = useRecoilValue(paymentModalAtom);
   const resetModal = useResetRecoilState(paymentModalAtom);
+  const [paymentModalData , setPaymentModalData] = useRecoilState(paymentModalAtom);
   const [activeGrid, setActiveGrid] = useState(null);
   const isLogin = getAccount()?.isLogin;
   
@@ -114,6 +115,7 @@ const PaymentModal = () => {
       var patentData = {...modalData};
 
       patentData.status="P";
+      patentData.paymentType = params.name;
 
       let config = {
         method: 'put',
@@ -127,13 +129,9 @@ const PaymentModal = () => {
       
       axios.request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
         toast.info("결제가 완료되었습니다.");
-        resetModal();
+        setPaymentModalData({...paymentModalData, modalState:false, modalData: patentData});
       })
-      .catch((error) => {
-        console.log(error);
-      });
 
     });
   };
