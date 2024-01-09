@@ -7,8 +7,11 @@ const instance = axios.create({
   // baseURL: "http://indieip-node.startlump.com/",
 });
 
+const accessToken = await getAccessToken();
+
 instance.defaults.headers.common["content-type"] = "application/json; charset=utf-8";
 instance.defaults.headers.common["X-AUTH-TOKEN"] = getAccessToken() ?? "";
+
 // instance.defaults.headers.common['content-type'] = 'application/x-www-form-urlencoded'
 
 instance.interceptors.response.use(

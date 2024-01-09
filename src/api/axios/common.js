@@ -72,8 +72,8 @@ export const getLogin = async (data) => {
     joinType: data.joinType,
     humanName: data.humanName,
   };
-  const result = AccountAPI.login(params);
-  setAccessToken(result["X-AUTH-TOKEN"]);
+  const result = await AccountAPI.login(params);
+  setAccessToken(result["authToken"]);
   return result;
 };
 
