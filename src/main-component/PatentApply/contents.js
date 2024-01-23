@@ -271,6 +271,7 @@ const Contents = () => {
                           rules={{ required: "키워드를 입력해 주세요" }}
                           defaultValue={""}
                           render={({ field : {ref, ...field} }) => (
+                            <>
                             <TextField
                               {...field}
                               inputRef={ref}
@@ -282,7 +283,17 @@ const Contents = () => {
                               inputProps={{
                                 maxLength: 100,
                               }}
+                              onChangeCapture={(e) => {
+                                if(e.target.value.length > 100){
+                                  e.target.value = e.target.value.slice(0, 100);
+                                }
+                              }}
                             />
+                            <label style={{
+                              display:"flex",
+                              justifyContent:"flex-end",
+                            }} htmlFor="keyword" >100자 이내, {field.value.length} / 100</label>
+                            </>
                           )}
                         />
                         <p className="required-field">{errors.keyword ? errors.keyword.message : ""}</p>
@@ -1331,6 +1342,7 @@ const Contents = () => {
                               control={control}
                               defaultValue=""
                               render={({ field }) => (
+                                <>
                                 <TextField
                                   {...field}
                                   fullWidth
@@ -1346,7 +1358,17 @@ const Contents = () => {
                                   inputProps={{
                                     maxLength: 150,
                                   }}
+                                  onChangeCapture={(e) => {
+                                    if(e.target.value.length > 150){
+                                      e.target.value = e.target.value.slice(0, 150);
+                                    }
+                                  }}
                                 />
+                                <label style={{
+                                  display:"flex",
+                                  justifyContent:"flex-end",
+                                }} htmlFor="keyword" >150자 이내, {field.value.length} / 150</label>
+                                </>
                               )}
                             />
                           </Grid>
