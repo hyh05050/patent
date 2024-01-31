@@ -12,8 +12,10 @@ import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import { toast } from "react-toastify";
+import { useRecoilState } from "recoil";
 import { getPatentApply } from "../../api/axios/common";
 import { base64String } from "../../common/fileEncoder";
+import { loadingModalAtom } from "../../model/Modal";
 import "./style.scss";
 const {daum} = window;
 
@@ -26,6 +28,7 @@ const Contents = () => {
     inventor: false,
     etc: false,
   });
+  const [modal, setModal] = useRecoilState(loadingModalAtom);
 
   const {
     handleSubmit,
@@ -56,13 +59,24 @@ const Contents = () => {
       onSuccess: (res) => {
         if (res.status === "success") {
           toast.success("임시출원을 신청하였습니다.");
+          alert("임시출원 신청완료 하였습니다\n마이페이지에서 결제를 진행해주세요.")
           history.push("/mypage");
         } else {
           toast.success("제출에 실패하였습니다.");
+          alert("임시출원 신청에 실패하였습니다.\n다시 시도해주세요.")
         }
+        setModal({
+          ...modal,
+          modalState: false,
+        });
       },
       onError: () => {
         toast.success("제출에 실패하였습니다.");
+        alert("임시출원 신청에 실패하였습니다.\n다시 시도해주세요.")
+        setModal({
+          ...modal,
+          modalState: false,
+        });
       },
     },
   );
@@ -202,7 +216,10 @@ const Contents = () => {
         return;
       }
     }
-
+    setModal({
+      ...modal,
+      modalState: true,
+    }),
     mutation.mutate({
       ...data,
       document: document,

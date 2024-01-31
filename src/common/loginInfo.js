@@ -27,21 +27,21 @@ export const setRefreshToken = (refreshToken) => {
 export const getAccessToken = () => {
   if (localStorage.getItem("X-AUTH-TOKEN") !== "undefined") {
     return JSON.parse(localStorage.getItem("X-AUTH-TOKEN"));
+  } else {
+    return null;
   }
-
-  return null;
 };
 
 export const getRefreshToken = () => {
   if (localStorage.getItem("X-REFRESH-TOKEN") !== "undefined") {
     return JSON.parse(localStorage.getItem("X-REFRESH-TOKEN"));
+  } else {
+    return null;
   }
-
-  return null;
 };
 
 export const checkAccessToken = async () => {
-  const accessToken = getAccessToken();
+  const accessToken = await getAccessToken();
   if (!accessToken) {
     return -1;
   }
@@ -53,9 +53,9 @@ export const checkAccessToken = async () => {
 };
 
 export const doRefreshToken = async () => {
-  const refreshToken = getRefreshToken();
+  const refreshToken = await getRefreshToken();
   if (!refreshToken) {
-    return false;
+    return -1;
   }
   return await axios.post("https://indieip.startlump.com/api/refresh", {
     refreshToken: refreshToken,

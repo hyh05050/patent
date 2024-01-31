@@ -131,6 +131,8 @@ const PaymentModal = () => {
       .then((response) => {
         toast.info("결제가 완료되었습니다.");
         setPaymentModalData({...paymentModalData, modalState:false, modalData: patentData});
+        alert("결제가 완료되었습니다.");
+        window.location.reload();
       })
 
     });
