@@ -1,4 +1,4 @@
-import { getAccount, setAccessToken } from "./../../common/loginInfo";
+import { getAccount, setAccessToken, setRefreshToken } from "./../../common/loginInfo";
 import AccountAPI from "./account";
 import PatentAPI from "./patent";
 import PaymentAPI from "./payment";
@@ -74,6 +74,7 @@ export const getLogin = async (data) => {
   };
   const result = await AccountAPI.login(params);
   setAccessToken(result["authToken"]);
+  setRefreshToken(result["refreshToken"]);
   return result;
 };
 

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { getProducts } from "../../api/axios/common";
-import { getAccount } from "../../common/loginInfo";
+import { getAccessToken, getAccount } from "../../common/loginInfo";
 import { paymentModalAtom } from "../../model/Modal";
 
 const PriceTitle = styled.h2`
@@ -116,13 +116,13 @@ const PaymentModal = () => {
 
       patentData.status="P";
       patentData.paymentType = params.name;
-
       let config = {
         method: 'put',
         maxBodyLength: Infinity,
         url: 'https://indieip.startlump.com/api/prePatent',
-        headers: { 
-          'Content-Type': 'application/json'
+        headers: {
+          'Content-Type': 'application/json',
+          'X-AUTH-TOKEN': getAccessToken(),
         },
         data : patentData
       };

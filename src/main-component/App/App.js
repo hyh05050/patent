@@ -1,17 +1,43 @@
-import React from "react";
-import AllRoute from "../router";
-import { ToastContainer } from "react-toastify";
+import React, { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ToastContainer } from "react-toastify";
 import { RecoilRoot } from "recoil";
 import MainProvider from "../../common/provider/MainProvider";
 import ModalProvider from "../../common/provider/ModalProvider";
+import AllRoute from "../router";
 
-import "react-toastify/dist/ReactToastify.css";
-import "../../sass/style.scss";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import "react-toastify/dist/ReactToastify.css";
+import { checkAccessToken, doRefreshToken, setAccessToken, setRefreshToken } from "../../common/loginInfo";
+import "../../sass/style.scss";
 
 const App = () => {
   const queryClient = new QueryClient();
+  useEffect(() => {
+    checkAccessToken().then((validation)=>{
+      console.log("check access token", validation);
+      if(validation !== -1 && !validation){
+        console.log("refresh token");
+        doRefreshToken().then((res)=>{
+          console.log("refresh token response", res);
+          if(!res) return;
+          if(res.data.status === "success"){
+            console.log("refresh token success");
+            setAccessToken(res.data.data.accessToken);
+            setRefreshToken(res.data.data.refreshToken);
+          }else{
+            console.log("refresh token fail");
+            localStorage.removeItem("X-AUTH-TOKEN");
+            localStorage.removeItem("X-REFRESH-TOKEN");
+          }
+        }).catch((e)=>{
+          console.log("Error on refresh token", e);
+        });
+      }
+    }).catch((e)=>{
+      console.log("Error on check access token", e);
+    });
+  }, []);
   return (
     <div className="App" id="scrool">
       <RecoilRoot>
