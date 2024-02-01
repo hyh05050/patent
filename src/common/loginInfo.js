@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setAxiosAccessToken } from "../api/axios/config";
 
 export const getAccount = () => {
   if (localStorage.getItem("ACCOUNT-INFO")) {
@@ -14,6 +15,9 @@ export const setAccount = (accountData) => {
 
 export const removeAccount = () => {
   localStorage.removeItem("ACCOUNT-INFO");
+  localStorage.removeItem("X-AUTH-TOKEN");
+  localStorage.removeItem("X-REFRESH-TOKEN");
+  setAxiosAccessToken("");
 };
 
 export const setAccessToken = (accessToken) => {
