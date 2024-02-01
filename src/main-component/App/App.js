@@ -25,11 +25,9 @@ const App = () => {
             console.log("refresh token success");
             setAccessToken(res.data.data.accessToken);
             setRefreshToken(res.data.data.refreshToken);
-          }else{
+          } else {
             console.log("refresh token fail");
             removeAccount();
-            alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-            window.location.href = "/login";
           }
         }).catch((e)=>{
           console.log("Error on refresh token", e);
